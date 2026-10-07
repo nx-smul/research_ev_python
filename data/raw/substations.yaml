@@ -1,0 +1,162 @@
+- sub_id: "DPDC-SS-01"
+  name: "Motijheel 33/11kV"
+  utility: "DPDC"
+  lon: 90.4190
+  lat: 23.7340
+  rated_mva: 50.0
+  base_load_mva: 41.5
+  voltage_kv: 33.0
+  zone: "Motijheel_Dilkusha"
+- sub_id: "DPDC-SS-02"
+  name: "Dhanmondi 33/11kV"
+  utility: "DPDC"
+  lon: 90.3730
+  lat: 23.7480
+  rated_mva: 40.0
+  base_load_mva: 32.0
+  voltage_kv: 33.0
+  zone: "Dhanmondi"
+- sub_id: "DPDC-SS-03"
+  name: "Tejgaon 33/11kV"
+  utility: "DPDC"
+  lon: 90.3970
+  lat: 23.7620
+  rated_mva: 50.0
+  base_load_mva: 39.0
+  voltage_kv: 33.0
+  zone: "Kawran_Bazar_Tejgaon"
+- sub_id: "DPDC-SS-04"
+  name: "Lalbagh 33/11kV"
+  utility: "DPDC"
+  lon: 90.3870
+  lat: 23.7170
+  rated_mva: 30.0
+  base_load_mva: 26.5
+  voltage_kv: 33.0
+  zone: "Old_Dhaka"
+- sub_id: "DPDC-SS-05"
+  name: "Jatrabari 33/11kV"
+  utility: "DPDC"
+  lon: 90.4320
+  lat: 23.7120
+  rated_mva: 40.0
+  base_load_mva: 31.0
+  voltage_kv: 33.0
+  zone: "Jatrabari_Sayedabad"
+- sub_id: "DPDC-SS-06"
+  name: "Sayedabad 33/11kV"
+  utility: "DPDC"
+  lon: 90.4260
+  lat: 23.7200
+  rated_mva: 35.0
+  base_load_mva: 28.0
+  voltage_kv: 33.0
+  zone: "Jatrabari_Sayedabad"
+- sub_id: "DPDC-SS-07"
+  name: "Kamalapur 33/11kV"
+  utility: "DPDC"
+  lon: 90.4230
+  lat: 23.7310
+  rated_mva: 35.0
+  base_load_mva: 27.5
+  voltage_kv: 33.0
+  zone: "Motijheel_Dilkusha"
+- sub_id: "DPDC-SS-08"
+  name: "Kawran Bazar 33/11kV"
+  utility: "DPDC"
+  lon: 90.3910
+  lat: 23.7515
+  rated_mva: 45.0
+  base_load_mva: 38.0
+  voltage_kv: 33.0
+  zone: "Kawran_Bazar_Tejgaon"
+- sub_id: "DESCO-SS-01"
+  name: "Gulshan-1 33/11kV"
+  utility: "DESCO"
+  lon: 90.4160
+  lat: 23.7810
+  rated_mva: 50.0
+  base_load_mva: 38.5
+  voltage_kv: 33.0
+  zone: "Gulshan_Banani"
+- sub_id: "DESCO-SS-02"
+  name: "Gulshan-2 33/11kV"
+  utility: "DESCO"
+  lon: 90.4140
+  lat: 23.7940
+  rated_mva: 50.0
+  base_load_mva: 39.0
+  voltage_kv: 33.0
+  zone: "Gulshan_Banani"
+- sub_id: "DESCO-SS-03"
+  name: "Banani 33/11kV"
+  utility: "DESCO"
+  lon: 90.4030
+  lat: 23.7950
+  rated_mva: 40.0
+  base_load_mva: 31.0
+  voltage_kv: 33.0
+  zone: "Gulshan_Banani"
+- sub_id: "DESCO-SS-04"
+  name: "Uttara-1 33/11kV"
+  utility: "DESCO"
+  lon: 90.3970
+  lat: 23.8650
+  rated_mva: 45.0
+  base_load_mva: 33.0
+  voltage_kv: 33.0
+  zone: "Uttara"
+- sub_id: "DESCO-SS-05"
+  name: "Uttara-2 33/11kV"
+  utility: "DESCO"
+  lon: 90.3860
+  lat: 23.8760
+  rated_mva: 40.0
+  base_load_mva: 29.5
+  voltage_kv: 33.0
+  zone: "Uttara"
+- sub_id: "DESCO-SS-06"
+  name: "Mirpur-10 33/11kV"
+  utility: "DESCO"
+  lon: 90.3670
+  lat: 23.8080
+  rated_mva: 45.0
+  base_load_mva: 36.0
+  voltage_kv: 33.0
+  zone: "Mirpur"
+- sub_id: "DESCO-SS-07"
+  name: "Mirpur-1 33/11kV"
+  utility: "DESCO"
+  lon: 90.3530
+  lat: 23.7960
+  rated_mva: 35.0
+  base_load_mva: 27.0
+  voltage_kv: 33.0
+  zone: "Mirpur"
+- sub_id: "DESCO-SS-08"
+  name: "Mohakhali 33/11kV"
+  utility: "DESCO"
+  lon: 90.4020
+  lat: 23.7790
+  rated_mva: 50.0
+  base_load_mva: 40.0
+  voltage_kv: 33.0
+  zone: "Badda_Mohakhali"
+- sub_id: "DESCO-SS-09"
+  name: "Baridhara 33/11kV"
+  utility: "DESCO"
+  lon: 90.4220
+  lat: 23.8010
+  rated_mva: 35.0
+  base_load_mva: 24.0
+  voltage_kv: 33.0
+  zone: "Gulshan_Banani"
+- sub_id: "DESCO-SS-10"
+  name: "Purbachal 33/11kV"
+  utility: "DESCO"
+  lon: 90.4520
+  lat: 23.8240
+  rated_mva: 40.0
+  base_load_mva: 18.0
+  voltage_kv: 33.0
+  zone: "Purbachal_Suburbs"

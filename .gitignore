@@ -1,0 +1,48 @@
+# Python & Virtual Environment
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.cover
+*.py,cover
+.hypothesis/
+
+# Jupyter & Notebooks
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# Distribution / Packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary & Output Scratches
+*.tmp
+*.log
+*.bak
+test_results*.txt
+*_hashes.txt
+
+# OS-specific
+.DS_Store
+Thumbs.db

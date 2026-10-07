@@ -1,0 +1,1398 @@
+{
+  "type": "FeatureCollection",
+  "name": "candidate_sites_filtered",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-01",
+        "site_name": "Airport_Hub_Site_1",
+        "zone_name": "Uttara",
+        "land_cost_bdt_sqm": 110000.0,
+        "nearest_substation_id": "DESCO-SS-04",
+        "distance_to_substation_m": 2071.4,
+        "substation_headroom_mva": 12.0,
+        "traffic_density_score": 0.825,
+        "poi_score": 0.955,
+        "parking_score": 0.71,
+        "ahp_suitability_score": 0.741,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40074473113181,
+          23.846718287767583
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-02",
+        "site_name": "Airport_Hub_Site_2",
+        "zone_name": "Uttara",
+        "land_cost_bdt_sqm": 110000.0,
+        "nearest_substation_id": "DESCO-SS-04",
+        "distance_to_substation_m": 2781.7,
+        "substation_headroom_mva": 12.0,
+        "traffic_density_score": 0.947,
+        "poi_score": 0.933,
+        "parking_score": 0.807,
+        "ahp_suitability_score": 0.763,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39663655942866,
+          23.83994265797931
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-03",
+        "site_name": "Uttara_Sec3_Site_1",
+        "zone_name": "Uttara",
+        "land_cost_bdt_sqm": 110000.0,
+        "nearest_substation_id": "DESCO-SS-04",
+        "distance_to_substation_m": 824.2,
+        "substation_headroom_mva": 12.0,
+        "traffic_density_score": 0.871,
+        "poi_score": 0.959,
+        "parking_score": 0.782,
+        "ahp_suitability_score": 0.804,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39418830484124,
+          23.87187200540813
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-04",
+        "site_name": "Uttara_Sec3_Site_2",
+        "zone_name": "Uttara",
+        "land_cost_bdt_sqm": 110000.0,
+        "nearest_substation_id": "DESCO-SS-04",
+        "distance_to_substation_m": 420.6,
+        "substation_headroom_mva": 12.0,
+        "traffic_density_score": 0.854,
+        "poi_score": 0.947,
+        "parking_score": 0.801,
+        "ahp_suitability_score": 0.812,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39436944429426,
+          23.867726797856694
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-05",
+        "site_name": "Uttara_Sec11_Site_1",
+        "zone_name": "Uttara",
+        "land_cost_bdt_sqm": 110000.0,
+        "nearest_substation_id": "DESCO-SS-05",
+        "distance_to_substation_m": 312.5,
+        "substation_headroom_mva": 10.5,
+        "traffic_density_score": 0.607,
+        "poi_score": 0.613,
+        "parking_score": 0.922,
+        "ahp_suitability_score": 0.7,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.38452212695148,
+          23.878395745732746
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-06",
+        "site_name": "Uttara_Sec11_Site_2",
+        "zone_name": "Uttara",
+        "land_cost_bdt_sqm": 110000.0,
+        "nearest_substation_id": "DESCO-SS-05",
+        "distance_to_substation_m": 661.0,
+        "substation_headroom_mva": 10.5,
+        "traffic_density_score": 0.763,
+        "poi_score": 0.638,
+        "parking_score": 0.75,
+        "ahp_suitability_score": 0.703,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.38844237995914,
+          23.870568980407086
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-07",
+        "site_name": "Purbachal_300ft_Site_1",
+        "zone_name": "Purbachal_Suburbs",
+        "land_cost_bdt_sqm": 50000.0,
+        "nearest_substation_id": "DESCO-SS-10",
+        "distance_to_substation_m": 124.2,
+        "substation_headroom_mva": 22.0,
+        "traffic_density_score": 0.912,
+        "poi_score": 0.61,
+        "parking_score": 0.918,
+        "ahp_suitability_score": 0.874,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.45139272072663,
+          23.824940251892702
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-08",
+        "site_name": "Purbachal_300ft_Site_2",
+        "zone_name": "Purbachal_Suburbs",
+        "land_cost_bdt_sqm": 50000.0,
+        "nearest_substation_id": "DESCO-SS-10",
+        "distance_to_substation_m": 892.9,
+        "substation_headroom_mva": 22.0,
+        "traffic_density_score": 0.856,
+        "poi_score": 0.525,
+        "parking_score": 0.873,
+        "ahp_suitability_score": 0.811,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.45788597211224,
+          23.818516748797325
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-09",
+        "site_name": "Baridhara_Diplomatic_Site_1",
+        "zone_name": "Gulshan_Banani",
+        "land_cost_bdt_sqm": 250000.0,
+        "nearest_substation_id": "DESCO-SS-09",
+        "distance_to_substation_m": 645.2,
+        "substation_headroom_mva": 11.0,
+        "traffic_density_score": 0.937,
+        "poi_score": 0.969,
+        "parking_score": 0.753,
+        "ahp_suitability_score": 0.76,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41633532434736,
+          23.799698896848714
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-10",
+        "site_name": "Baridhara_Diplomatic_Site_2",
+        "zone_name": "Gulshan_Banani",
+        "land_cost_bdt_sqm": 250000.0,
+        "nearest_substation_id": "DESCO-SS-09",
+        "distance_to_substation_m": 698.8,
+        "substation_headroom_mva": 11.0,
+        "traffic_density_score": 0.952,
+        "poi_score": 0.842,
+        "parking_score": 0.769,
+        "ahp_suitability_score": 0.74,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42421257304673,
+          23.79510631736955
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-11",
+        "site_name": "Gulshan_2_Site_1",
+        "zone_name": "Gulshan_Banani",
+        "land_cost_bdt_sqm": 250000.0,
+        "nearest_substation_id": "DESCO-SS-02",
+        "distance_to_substation_m": 708.9,
+        "substation_headroom_mva": 11.0,
+        "traffic_density_score": 0.841,
+        "poi_score": 0.943,
+        "parking_score": 0.866,
+        "ahp_suitability_score": 0.749,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.4179729536578,
+          23.78899917427349
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-12",
+        "site_name": "Gulshan_2_Site_2",
+        "zone_name": "Gulshan_Banani",
+        "land_cost_bdt_sqm": 250000.0,
+        "nearest_substation_id": "DESCO-SS-02",
+        "distance_to_substation_m": 272.1,
+        "substation_headroom_mva": 11.0,
+        "traffic_density_score": 0.898,
+        "poi_score": 0.863,
+        "parking_score": 0.754,
+        "ahp_suitability_score": 0.741,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41641147632886,
+          23.79443948444467
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-13",
+        "site_name": "Gulshan_1_Site_1",
+        "zone_name": "Gulshan_Banani",
+        "land_cost_bdt_sqm": 250000.0,
+        "nearest_substation_id": "DESCO-SS-01",
+        "distance_to_substation_m": 439.6,
+        "substation_headroom_mva": 11.5,
+        "traffic_density_score": 0.905,
+        "poi_score": 0.888,
+        "parking_score": 0.789,
+        "ahp_suitability_score": 0.752,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41351597716802,
+          23.784084505613336
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-14",
+        "site_name": "Gulshan_1_Site_2",
+        "zone_name": "Gulshan_Banani",
+        "land_cost_bdt_sqm": 250000.0,
+        "nearest_substation_id": "DESCO-SS-01",
+        "distance_to_substation_m": 758.6,
+        "substation_headroom_mva": 11.5,
+        "traffic_density_score": 0.906,
+        "poi_score": 0.906,
+        "parking_score": 0.833,
+        "ahp_suitability_score": 0.754,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42117283339613,
+          23.77653351403116
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-15",
+        "site_name": "Banani_11_Site_1",
+        "zone_name": "Gulshan_Banani",
+        "land_cost_bdt_sqm": 250000.0,
+        "nearest_substation_id": "DESCO-SS-03",
+        "distance_to_substation_m": 477.2,
+        "substation_headroom_mva": 9.0,
+        "traffic_density_score": 0.968,
+        "poi_score": 0.916,
+        "parking_score": 0.859,
+        "ahp_suitability_score": 0.77,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39938110183822,
+          23.79732123908944
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-16",
+        "site_name": "Banani_11_Site_2",
+        "zone_name": "Gulshan_Banani",
+        "land_cost_bdt_sqm": 250000.0,
+        "nearest_substation_id": "DESCO-SS-03",
+        "distance_to_substation_m": 606.8,
+        "substation_headroom_mva": 9.0,
+        "traffic_density_score": 0.827,
+        "poi_score": 0.918,
+        "parking_score": 0.832,
+        "ahp_suitability_score": 0.726,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40842499381178,
+          23.795672386343135
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-17",
+        "site_name": "Mohakhali_Terminal_Site_1",
+        "zone_name": "Badda_Mohakhali",
+        "land_cost_bdt_sqm": 140000.0,
+        "nearest_substation_id": "DESCO-SS-08",
+        "distance_to_substation_m": 237.4,
+        "substation_headroom_mva": 10.0,
+        "traffic_density_score": 0.968,
+        "poi_score": 0.977,
+        "parking_score": 0.785,
+        "ahp_suitability_score": 0.826,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40044130671302,
+          23.780464442356244
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-18",
+        "site_name": "Mohakhali_Terminal_Site_2",
+        "zone_name": "Badda_Mohakhali",
+        "land_cost_bdt_sqm": 140000.0,
+        "nearest_substation_id": "DESCO-SS-08",
+        "distance_to_substation_m": 678.6,
+        "substation_headroom_mva": 10.0,
+        "traffic_density_score": 0.951,
+        "poi_score": 0.841,
+        "parking_score": 0.926,
+        "ahp_suitability_score": 0.806,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39733238045841,
+          23.782948411989622
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-19",
+        "site_name": "Badda_Pragati_Sarani_Site_1",
+        "zone_name": "Badda_Mohakhali",
+        "land_cost_bdt_sqm": 140000.0,
+        "nearest_substation_id": "DESCO-SS-01",
+        "distance_to_substation_m": 1550.2,
+        "substation_headroom_mva": 11.5,
+        "traffic_density_score": 0.666,
+        "poi_score": 0.57,
+        "parking_score": 0.666,
+        "ahp_suitability_score": 0.617,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42869896362062,
+          23.775188380571258
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-20",
+        "site_name": "Badda_Pragati_Sarani_Site_2",
+        "zone_name": "Badda_Mohakhali",
+        "land_cost_bdt_sqm": 140000.0,
+        "nearest_substation_id": "DESCO-SS-01",
+        "distance_to_substation_m": 880.2,
+        "substation_headroom_mva": 11.5,
+        "traffic_density_score": 0.501,
+        "poi_score": 0.55,
+        "parking_score": 0.769,
+        "ahp_suitability_score": 0.61,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42335197241646,
+          23.77802853448598
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-21",
+        "site_name": "Hatirjheel_North_Site_1",
+        "zone_name": "Badda_Mohakhali",
+        "land_cost_bdt_sqm": 140000.0,
+        "nearest_substation_id": "DESCO-SS-08",
+        "distance_to_substation_m": 885.8,
+        "substation_headroom_mva": 10.0,
+        "traffic_density_score": 0.862,
+        "poi_score": 0.879,
+        "parking_score": 0.871,
+        "ahp_suitability_score": 0.776,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40837395602938,
+          23.774198556164126
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-22",
+        "site_name": "Hatirjheel_North_Site_2",
+        "zone_name": "Badda_Mohakhali",
+        "land_cost_bdt_sqm": 140000.0,
+        "nearest_substation_id": "DPDC-SS-03",
+        "distance_to_substation_m": 1305.1,
+        "substation_headroom_mva": 11.0,
+        "traffic_density_score": 0.881,
+        "poi_score": 0.844,
+        "parking_score": 0.703,
+        "ahp_suitability_score": 0.736,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.4075221794089,
+          23.7672460482294
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-23",
+        "site_name": "Tejgaon_Industrial_Site_1",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "land_cost_bdt_sqm": 150000.0,
+        "nearest_substation_id": "DPDC-SS-03",
+        "distance_to_substation_m": 343.0,
+        "substation_headroom_mva": 11.0,
+        "traffic_density_score": 0.756,
+        "poi_score": 0.559,
+        "parking_score": 0.824,
+        "ahp_suitability_score": 0.695,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.3982836777274,
+          23.75918925449505
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-24",
+        "site_name": "Tejgaon_Industrial_Site_2",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "land_cost_bdt_sqm": 150000.0,
+        "nearest_substation_id": "DPDC-SS-03",
+        "distance_to_substation_m": 816.1,
+        "substation_headroom_mva": 11.0,
+        "traffic_density_score": 0.686,
+        "poi_score": 0.503,
+        "parking_score": 0.938,
+        "ahp_suitability_score": 0.672,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39962264287921,
+          23.755130944565884
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-25",
+        "site_name": "Kawran_Bazar_CBD_Site_1",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "land_cost_bdt_sqm": 150000.0,
+        "nearest_substation_id": "DPDC-SS-08",
+        "distance_to_substation_m": 309.3,
+        "substation_headroom_mva": 7.0,
+        "traffic_density_score": 0.815,
+        "poi_score": 0.989,
+        "parking_score": 0.801,
+        "ahp_suitability_score": 0.768,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.38868662727754,
+          23.74994624123727
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-26",
+        "site_name": "Kawran_Bazar_CBD_Site_2",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "land_cost_bdt_sqm": 150000.0,
+        "nearest_substation_id": "DPDC-SS-08",
+        "distance_to_substation_m": 607.3,
+        "substation_headroom_mva": 7.0,
+        "traffic_density_score": 0.935,
+        "poi_score": 0.856,
+        "parking_score": 0.919,
+        "ahp_suitability_score": 0.784,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.3931538501732,
+          23.746470764773886
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-27",
+        "site_name": "Farmgate_Hub_Site_1",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "land_cost_bdt_sqm": 150000.0,
+        "nearest_substation_id": "DPDC-SS-08",
+        "distance_to_substation_m": 710.8,
+        "substation_headroom_mva": 7.0,
+        "traffic_density_score": 0.807,
+        "poi_score": 0.9,
+        "parking_score": 0.819,
+        "ahp_suitability_score": 0.74,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.38515139640481,
+          23.754106877206638
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-28",
+        "site_name": "Farmgate_Hub_Site_2",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "land_cost_bdt_sqm": 150000.0,
+        "nearest_substation_id": "DPDC-SS-08",
+        "distance_to_substation_m": 1235.8,
+        "substation_headroom_mva": 7.0,
+        "traffic_density_score": 0.882,
+        "poi_score": 0.909,
+        "parking_score": 0.782,
+        "ahp_suitability_score": 0.738,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.38375708639428,
+          23.759955276166952
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-29",
+        "site_name": "Dhanmondi_27_Site_1",
+        "zone_name": "Dhanmondi",
+        "land_cost_bdt_sqm": 180000.0,
+        "nearest_substation_id": "DPDC-SS-02",
+        "distance_to_substation_m": 522.3,
+        "substation_headroom_mva": 8.0,
+        "traffic_density_score": 0.828,
+        "poi_score": 0.851,
+        "parking_score": 0.909,
+        "ahp_suitability_score": 0.751,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.37400763060876,
+          23.75259640331308
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-30",
+        "site_name": "Dhanmondi_27_Site_2",
+        "zone_name": "Dhanmondi",
+        "land_cost_bdt_sqm": 180000.0,
+        "nearest_substation_id": "DPDC-SS-02",
+        "distance_to_substation_m": 778.7,
+        "substation_headroom_mva": 8.0,
+        "traffic_density_score": 0.849,
+        "poi_score": 0.929,
+        "parking_score": 0.773,
+        "ahp_suitability_score": 0.74,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.37946115462134,
+          23.750733093162797
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-31",
+        "site_name": "Dhanmondi_8A_Site_1",
+        "zone_name": "Dhanmondi",
+        "land_cost_bdt_sqm": 180000.0,
+        "nearest_substation_id": "DPDC-SS-02",
+        "distance_to_substation_m": 666.4,
+        "substation_headroom_mva": 8.0,
+        "traffic_density_score": 0.7,
+        "poi_score": 0.648,
+        "parking_score": 0.658,
+        "ahp_suitability_score": 0.629,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.3702538635566,
+          23.74266152597366
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-32",
+        "site_name": "Dhanmondi_8A_Site_2",
+        "zone_name": "Dhanmondi",
+        "land_cost_bdt_sqm": 180000.0,
+        "nearest_substation_id": "DPDC-SS-02",
+        "distance_to_substation_m": 516.7,
+        "substation_headroom_mva": 8.0,
+        "traffic_density_score": 0.688,
+        "poi_score": 0.456,
+        "parking_score": 0.681,
+        "ahp_suitability_score": 0.596,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.37221972161933,
+          23.74341074796588
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-33",
+        "site_name": "Shyamoli_Square_Site_1",
+        "zone_name": "Mirpur",
+        "land_cost_bdt_sqm": 95000.0,
+        "nearest_substation_id": "DPDC-SS-02",
+        "distance_to_substation_m": 2472.2,
+        "substation_headroom_mva": 8.0,
+        "traffic_density_score": 0.683,
+        "poi_score": 0.521,
+        "parking_score": 0.68,
+        "ahp_suitability_score": 0.583,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.36499916085373,
+          23.76878544662054
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-34",
+        "site_name": "Shyamoli_Square_Site_2",
+        "zone_name": "Mirpur",
+        "land_cost_bdt_sqm": 95000.0,
+        "nearest_substation_id": "DESCO-SS-07",
+        "distance_to_substation_m": 2520.5,
+        "substation_headroom_mva": 8.0,
+        "traffic_density_score": 0.74,
+        "poi_score": 0.699,
+        "parking_score": 0.769,
+        "ahp_suitability_score": 0.648,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.35943172190998,
+          23.774222669318554
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-35",
+        "site_name": "Mohammadpur_Townhall_Site_1",
+        "zone_name": "Dhanmondi",
+        "land_cost_bdt_sqm": 180000.0,
+        "nearest_substation_id": "DPDC-SS-02",
+        "distance_to_substation_m": 1387.2,
+        "substation_headroom_mva": 8.0,
+        "traffic_density_score": 0.582,
+        "poi_score": 0.719,
+        "parking_score": 0.654,
+        "ahp_suitability_score": 0.591,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.36268085136571,
+          23.755049842954158
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-36",
+        "site_name": "Mohammadpur_Townhall_Site_2",
+        "zone_name": "Dhanmondi",
+        "land_cost_bdt_sqm": 180000.0,
+        "nearest_substation_id": "DPDC-SS-02",
+        "distance_to_substation_m": 1956.8,
+        "substation_headroom_mva": 8.0,
+        "traffic_density_score": 0.507,
+        "poi_score": 0.504,
+        "parking_score": 0.825,
+        "ahp_suitability_score": 0.543,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.35685508530855,
+          23.75507886255146
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-37",
+        "site_name": "Mirpur_1_Site_1",
+        "zone_name": "Mirpur",
+        "land_cost_bdt_sqm": 95000.0,
+        "nearest_substation_id": "DESCO-SS-07",
+        "distance_to_substation_m": 328.1,
+        "substation_headroom_mva": 8.0,
+        "traffic_density_score": 0.947,
+        "poi_score": 0.878,
+        "parking_score": 0.728,
+        "ahp_suitability_score": 0.794,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.35341424550593,
+          23.79892671711077
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-38",
+        "site_name": "Mirpur_1_Site_2",
+        "zone_name": "Mirpur",
+        "land_cost_bdt_sqm": 95000.0,
+        "nearest_substation_id": "DESCO-SS-07",
+        "distance_to_substation_m": 10.8,
+        "substation_headroom_mva": 8.0,
+        "traffic_density_score": 0.848,
+        "poi_score": 0.926,
+        "parking_score": 0.773,
+        "ahp_suitability_score": 0.796,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.35299692408168,
+          23.795902949425148
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-39",
+        "site_name": "Mirpur_10_Circle_Site_1",
+        "zone_name": "Mirpur",
+        "land_cost_bdt_sqm": 95000.0,
+        "nearest_substation_id": "DESCO-SS-06",
+        "distance_to_substation_m": 290.8,
+        "substation_headroom_mva": 9.0,
+        "traffic_density_score": 0.853,
+        "poi_score": 0.981,
+        "parking_score": 0.879,
+        "ahp_suitability_score": 0.825,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.36912047180851,
+          23.80646126529135
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-40",
+        "site_name": "Mirpur_10_Circle_Site_2",
+        "zone_name": "Mirpur",
+        "land_cost_bdt_sqm": 95000.0,
+        "nearest_substation_id": "DESCO-SS-06",
+        "distance_to_substation_m": 380.5,
+        "substation_headroom_mva": 9.0,
+        "traffic_density_score": 0.888,
+        "poi_score": 0.972,
+        "parking_score": 0.89,
+        "ahp_suitability_score": 0.831,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.36500113175767,
+          23.810784679758978
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-41",
+        "site_name": "Mirpur_12_Site_1",
+        "zone_name": "Mirpur",
+        "land_cost_bdt_sqm": 95000.0,
+        "nearest_substation_id": "DESCO-SS-06",
+        "distance_to_substation_m": 1321.5,
+        "substation_headroom_mva": 9.0,
+        "traffic_density_score": 0.575,
+        "poi_score": 0.612,
+        "parking_score": 0.84,
+        "ahp_suitability_score": 0.644,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.3636521350447,
+          23.819424693083203
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-42",
+        "site_name": "Mirpur_12_Site_2",
+        "zone_name": "Mirpur",
+        "land_cost_bdt_sqm": 95000.0,
+        "nearest_substation_id": "DESCO-SS-06",
+        "distance_to_substation_m": 1504.9,
+        "substation_headroom_mva": 9.0,
+        "traffic_density_score": 0.734,
+        "poi_score": 0.745,
+        "parking_score": 0.808,
+        "ahp_suitability_score": 0.699,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.36197887685434,
+          23.82059356074073
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-43",
+        "site_name": "Gabtoli_Terminal_Site_1",
+        "zone_name": "Mirpur",
+        "land_cost_bdt_sqm": 95000.0,
+        "nearest_substation_id": "DESCO-SS-07",
+        "distance_to_substation_m": 1934.0,
+        "substation_headroom_mva": 8.0,
+        "traffic_density_score": 0.803,
+        "poi_score": 0.975,
+        "parking_score": 0.685,
+        "ahp_suitability_score": 0.721,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.34171679285848,
+          23.782723073265196
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-44",
+        "site_name": "Gabtoli_Terminal_Site_2",
+        "zone_name": "Mirpur",
+        "land_cost_bdt_sqm": 95000.0,
+        "nearest_substation_id": "DESCO-SS-07",
+        "distance_to_substation_m": 1676.6,
+        "substation_headroom_mva": 8.0,
+        "traffic_density_score": 0.9,
+        "poi_score": 0.931,
+        "parking_score": 0.899,
+        "ahp_suitability_score": 0.783,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.34576516475514,
+          23.78274055220687
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-45",
+        "site_name": "Shahbagh_Square_Site_1",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "land_cost_bdt_sqm": 150000.0,
+        "nearest_substation_id": "DPDC-SS-04",
+        "distance_to_substation_m": 1977.0,
+        "substation_headroom_mva": 3.5,
+        "traffic_density_score": 0.825,
+        "poi_score": 0.973,
+        "parking_score": 0.912,
+        "ahp_suitability_score": 0.717,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39316421271761,
+          23.733709958286585
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-46",
+        "site_name": "Shahbagh_Square_Site_2",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "land_cost_bdt_sqm": 150000.0,
+        "nearest_substation_id": "DPDC-SS-08",
+        "distance_to_substation_m": 1482.5,
+        "substation_headroom_mva": 7.0,
+        "traffic_density_score": 0.92,
+        "poi_score": 0.85,
+        "parking_score": 0.924,
+        "ahp_suitability_score": 0.754,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39707413102171,
+          23.73960516860434
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-47",
+        "site_name": "Motijheel_CBD_Site_1",
+        "zone_name": "Motijheel_Dilkusha",
+        "land_cost_bdt_sqm": 220000.0,
+        "nearest_substation_id": "DPDC-SS-01",
+        "distance_to_substation_m": 284.4,
+        "substation_headroom_mva": 8.5,
+        "traffic_density_score": 0.893,
+        "poi_score": 0.828,
+        "parking_score": 0.7,
+        "ahp_suitability_score": 0.719,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41748770524892,
+          23.731931385282497
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-48",
+        "site_name": "Motijheel_CBD_Site_2",
+        "zone_name": "Motijheel_Dilkusha",
+        "land_cost_bdt_sqm": 220000.0,
+        "nearest_substation_id": "DPDC-SS-07",
+        "distance_to_substation_m": 345.2,
+        "substation_headroom_mva": 7.5,
+        "traffic_density_score": 0.909,
+        "poi_score": 0.862,
+        "parking_score": 0.767,
+        "ahp_suitability_score": 0.734,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42068033616427,
+          23.728927986679253
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-49",
+        "site_name": "Kamalapur_Railway_Site_1",
+        "zone_name": "Motijheel_Dilkusha",
+        "land_cost_bdt_sqm": 220000.0,
+        "nearest_substation_id": "DPDC-SS-07",
+        "distance_to_substation_m": 50.8,
+        "substation_headroom_mva": 7.5,
+        "traffic_density_score": 0.929,
+        "poi_score": 0.871,
+        "parking_score": 0.82,
+        "ahp_suitability_score": 0.76,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.4228869373677,
+          23.73055672716465
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-50",
+        "site_name": "Kamalapur_Railway_Site_2",
+        "zone_name": "Motijheel_Dilkusha",
+        "land_cost_bdt_sqm": 220000.0,
+        "nearest_substation_id": "DPDC-SS-07",
+        "distance_to_substation_m": 351.9,
+        "substation_headroom_mva": 7.5,
+        "traffic_density_score": 0.969,
+        "poi_score": 0.945,
+        "parking_score": 0.714,
+        "ahp_suitability_score": 0.756,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42476050402199,
+          23.733636711653627
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-51",
+        "site_name": "Old_Dhaka_Lalbagh_Site_1",
+        "zone_name": "Old_Dhaka",
+        "land_cost_bdt_sqm": 130000.0,
+        "nearest_substation_id": "DPDC-SS-04",
+        "distance_to_substation_m": 411.5,
+        "substation_headroom_mva": 3.5,
+        "traffic_density_score": 0.667,
+        "poi_score": 0.465,
+        "parking_score": 0.799,
+        "ahp_suitability_score": 0.61,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.38331183135062,
+          23.716622640443
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-52",
+        "site_name": "Old_Dhaka_Lalbagh_Site_2",
+        "zone_name": "Old_Dhaka",
+        "land_cost_bdt_sqm": 130000.0,
+        "nearest_substation_id": "DPDC-SS-04",
+        "distance_to_substation_m": 221.8,
+        "substation_headroom_mva": 3.5,
+        "traffic_density_score": 0.716,
+        "poi_score": 0.482,
+        "parking_score": 0.673,
+        "ahp_suitability_score": 0.609,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.38896842848918,
+          23.717342438908172
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-53",
+        "site_name": "Old_Dhaka_Sadarghat_Site_1",
+        "zone_name": "Old_Dhaka",
+        "land_cost_bdt_sqm": 130000.0,
+        "nearest_substation_id": "DPDC-SS-06",
+        "distance_to_substation_m": 2260.0,
+        "substation_headroom_mva": 7.0,
+        "traffic_density_score": 0.924,
+        "poi_score": 0.894,
+        "parking_score": 0.724,
+        "ahp_suitability_score": 0.712,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41228188756203,
+          23.70495491316206
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-54",
+        "site_name": "Old_Dhaka_Sadarghat_Site_2",
+        "zone_name": "Old_Dhaka",
+        "land_cost_bdt_sqm": 130000.0,
+        "nearest_substation_id": "DPDC-SS-06",
+        "distance_to_substation_m": 1948.7,
+        "substation_headroom_mva": 7.0,
+        "traffic_density_score": 0.925,
+        "poi_score": 0.866,
+        "parking_score": 0.827,
+        "ahp_suitability_score": 0.735,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41319102317674,
+          23.70799415878969
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-55",
+        "site_name": "Sayedabad_Terminal_Site_1",
+        "zone_name": "Jatrabari_Sayedabad",
+        "land_cost_bdt_sqm": 85000.0,
+        "nearest_substation_id": "DPDC-SS-06",
+        "distance_to_substation_m": 613.8,
+        "substation_headroom_mva": 7.0,
+        "traffic_density_score": 0.965,
+        "poi_score": 0.843,
+        "parking_score": 0.935,
+        "ahp_suitability_score": 0.818,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42670973896941,
+          23.714515820733265
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-56",
+        "site_name": "Sayedabad_Terminal_Site_2",
+        "zone_name": "Jatrabari_Sayedabad",
+        "land_cost_bdt_sqm": 85000.0,
+        "nearest_substation_id": "DPDC-SS-06",
+        "distance_to_substation_m": 533.8,
+        "substation_headroom_mva": 7.0,
+        "traffic_density_score": 0.898,
+        "poi_score": 0.968,
+        "parking_score": 0.87,
+        "ahp_suitability_score": 0.817,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42756005772958,
+          23.715451329288385
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-57",
+        "site_name": "Jatrabari_Flyover_Hub_Site_1",
+        "zone_name": "Jatrabari_Sayedabad",
+        "land_cost_bdt_sqm": 85000.0,
+        "nearest_substation_id": "DPDC-SS-05",
+        "distance_to_substation_m": 677.6,
+        "substation_headroom_mva": 9.0,
+        "traffic_density_score": 0.925,
+        "poi_score": 0.964,
+        "parking_score": 0.725,
+        "ahp_suitability_score": 0.804,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.43806561147862,
+          23.712687833667104
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "candidate_id": "CS-58",
+        "site_name": "Jatrabari_Flyover_Hub_Site_2",
+        "zone_name": "Jatrabari_Sayedabad",
+        "land_cost_bdt_sqm": 85000.0,
+        "nearest_substation_id": "DPDC-SS-05",
+        "distance_to_substation_m": 520.4,
+        "substation_headroom_mva": 9.0,
+        "traffic_density_score": 0.978,
+        "poi_score": 0.98,
+        "parking_score": 0.662,
+        "ahp_suitability_score": 0.814,
+        "is_flood_safe": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.43489424963643,
+          23.708312094418194
+        ]
+      }
+    }
+  ]
+}

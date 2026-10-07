@@ -1,0 +1,195 @@
+# Optimal EVCS Placement Configuration for Dhaka (2030 High-Adoption Target Scenario)
+
+project:
+  name: "dhaka-evcs-2030-target"
+  study_area: "Dhaka Metropolitan Area (DNCC & DSCC)"
+  base_year: 2026
+  target_year: 2030
+  crs_geographic: "EPSG:4326"
+  crs_projected: "EPSG:32646"
+
+spatial:
+  grid_resolution_meters: 100
+  bounding_box:
+    min_lon: 90.3200
+    max_lon: 90.4600
+    min_lat: 23.6800
+    max_lat: 23.9000
+  exclusion_buffers:
+    waterbodies_m: 30.0
+    heritage_sites_m: 50.0
+    flood_hazard_threshold: 0.7
+  candidate_site_generation:
+    min_suitability_score: 0.40
+    min_spacing_m: 300.0
+    max_candidate_sites: 65
+
+ahp_mcdm:
+  criteria:
+    traffic_density:
+      weight: 0.22
+      preference: "max"
+      description: "Proximity to primary and secondary arterial road corridors"
+    poi_density:
+      weight: 0.18
+      preference: "max"
+      description: "Proximity to commercial, educational, and business activity clusters"
+    parking_availability:
+      weight: 0.16
+      preference: "max"
+      description: "Co-location feasibility with existing parking lots & fuel stations"
+    substation_proximity:
+      weight: 0.15
+      preference: "min_distance"
+      description: "Distance to 33/11kV DPDC & DESCO substations"
+    substation_headroom:
+      weight: 0.12
+      preference: "max"
+      description: "Available spare transformer capacity at nearest substation"
+    land_value_index:
+      weight: 0.09
+      preference: "min_cost"
+      description: "Land acquisition / rental expenditure minimization"
+    flood_inundation_risk:
+      weight: 0.08
+      preference: "min_risk"
+      description: "Exclusion of monsoon waterlogging and flood vulnerability zones"
+  pairwise_matrix:
+    - [1.000, 1.250, 1.400, 1.500, 1.850, 2.450, 2.750]
+    - [0.800, 1.000, 1.150, 1.250, 1.500, 2.000, 2.250]
+    - [0.714, 0.870, 1.000, 1.100, 1.350, 1.800, 2.000]
+    - [0.667, 0.800, 0.909, 1.000, 1.250, 1.650, 1.850]
+    - [0.541, 0.667, 0.741, 0.800, 1.000, 1.350, 1.500]
+    - [0.408, 0.500, 0.556, 0.606, 0.741, 1.000, 1.150]
+    - [0.364, 0.444, 0.500, 0.541, 0.667, 0.870, 1.000]
+
+economic:
+  discount_rate: 0.08
+  project_lifetime_years: 10
+  vot_bdt_per_hour: 280.0
+  alpha_delay_weight: 0.65
+  currency_usd_to_bdt: 115.0
+  land_acquisition_base_sqm: 150.0
+  land_sqm_per_charger: 30.0
+  land_costs_bdt_per_sqm:
+    Gulshan_Banani: 280000.0
+    Motijheel_Dilkusha: 240000.0
+    Dhanmondi: 200000.0
+    Kawran_Bazar_Tejgaon: 170000.0
+    Badda_Mohakhali: 160000.0
+    Old_Dhaka: 140000.0
+    Uttara: 130000.0
+    Mirpur: 110000.0
+    Jatrabari_Sayedabad: 95000.0
+    Purbachal_Suburbs: 65000.0
+    Default_Zone: 120000.0
+  grid_connection_cost_per_kw: 4200.0
+  grid_distance_penalty_bdt_per_m: 1100.0
+
+chargers:
+  Type_1_AC_22kW:
+    type_id: 1
+    name: "Level 2 AC (22kW)"
+    power_kw: 22.0
+    cap_cost_bdt: 320000.0
+    inst_cost_bdt: 75000.0
+    annual_om_bdt: 22000.0
+    efficiency: 0.93
+    daily_energy_kwh: 176.0
+    suitable_fleet: ["E2W", "E3W_EasyBike", "Private_4W"]
+  Type_2_DC_60kW:
+    type_id: 2
+    name: "DC Fast Charger (60kW)"
+    power_kw: 60.0
+    cap_cost_bdt: 1600000.0
+    inst_cost_bdt: 320000.0
+    annual_om_bdt: 80000.0
+    efficiency: 0.91
+    daily_energy_kwh: 480.0
+    suitable_fleet: ["Private_4W", "Fleet_Taxi", "E3W_EasyBike"]
+  Type_3_DC_150kW:
+    type_id: 3
+    name: "DC Ultra-Fast Charger (150kW)"
+    power_kw: 150.0
+    cap_cost_bdt: 4000000.0
+    inst_cost_bdt: 750000.0
+    annual_om_bdt: 190000.0
+    efficiency: 0.90
+    daily_energy_kwh: 1200.0
+    suitable_fleet: ["Private_4W", "Fleet_Taxi", "E_Bus"]
+  Type_4_Swap_Depot:
+    type_id: 4
+    name: "Battery Swapping Depot (100kW)"
+    power_kw: 100.0
+    cap_cost_bdt: 2700000.0
+    inst_cost_bdt: 550000.0
+    annual_om_bdt: 160000.0
+    efficiency: 0.92
+    daily_energy_kwh: 800.0
+    suitable_fleet: ["E2W", "E3W_EasyBike"]
+
+fleet:
+  E2W:
+    count: 250000
+    battery_kwh: 3.5
+    daily_km: 40.0
+    kwh_per_km: 0.035
+    fast_charge_share: 0.35
+    swap_share: 0.50
+    ac_share: 0.15
+  E3W_EasyBike:
+    count: 140000
+    battery_kwh: 6.0
+    daily_km: 95.0
+    kwh_per_km: 0.065
+    fast_charge_share: 0.15
+    swap_share: 0.70
+    ac_share: 0.15
+  Private_4W:
+    count: 45000
+    battery_kwh: 55.0
+    daily_km: 45.0
+    kwh_per_km: 0.170
+    fast_charge_share: 0.70
+    swap_share: 0.00
+    ac_share: 0.30
+  Fleet_Taxi:
+    count: 25000
+    battery_kwh: 50.0
+    daily_km: 180.0
+    kwh_per_km: 0.160
+    fast_charge_share: 0.90
+    swap_share: 0.00
+    ac_share: 0.10
+  E_Bus:
+    count: 4500
+    battery_kwh: 280.0
+    daily_km: 200.0
+    kwh_per_km: 1.100
+    fast_charge_share: 0.98
+    swap_share: 0.00
+    ac_share: 0.02
+
+optimization:
+  lambda_impedance: 0.00040
+  service_radius_rmax_m: 4500.0
+  min_chargers_per_station: 2
+  max_chargers_per_station: 16
+  nsga2:
+    population_size: 100
+    generations: 250
+    crossover_probability: 0.85
+    mutation_probability: 0.15
+    tournament_size: 3
+    random_seed: 42
+  budget_cap_bdt: 4000000000.0
+
+grid:
+  v_min_pu: 0.95
+  v_max_pu: 1.05
+  max_line_loading_pct: 100.0
+  max_transformer_loading_pct: 100.0
+  power_factor: 0.95
+  thd_v_limit_pct: 5.0
+  tx_upgrade_cost_bdt_per_mva: 3500000.0
+  feeder_reconductoring_cost_bdt_per_km: 2200000.0

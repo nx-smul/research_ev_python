@@ -1,0 +1,2517 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_a307fde4ddf5bcd3fe06bdf638cdf4ed {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/gh/python-visualization/folium@main/folium/templates/leaflet_heat.min.js"></script>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_a307fde4ddf5bcd3fe06bdf638cdf4ed" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_a307fde4ddf5bcd3fe06bdf638cdf4ed = L.map(
+                "map_a307fde4ddf5bcd3fe06bdf638cdf4ed",
+                {
+                    center: [23.78, 90.4],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_3d0918c3b6706473bbb53054dca998de = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_3d0918c3b6706473bbb53054dca998de.addTo(map_a307fde4ddf5bcd3fe06bdf638cdf4ed);
+        
+    
+            var feature_group_8f42441505cf34bcee74573b5010e0d7 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_82fe7e32cf9a7482774d15ee6e7f502d = L.marker(
+                [23.734, 90.419],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_f8dc98bbfbd3d832b31b851581ada388 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6b4dc9f66b50a4c561b143dd67c0d229 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8dcaf7fdaa706607e7f063e95a917eba = $(`<div id="html_8dcaf7fdaa706607e7f063e95a917eba" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Motijheel 33/11kV</h4>                 <b>Utility:</b> DPDC<br>                 <b>Rated Capacity:</b> 50.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>8.5 MVA</span><br>             </div>             </div>`)[0];
+                popup_6b4dc9f66b50a4c561b143dd67c0d229.setContent(html_8dcaf7fdaa706607e7f063e95a917eba);
+            
+        
+
+        marker_82fe7e32cf9a7482774d15ee6e7f502d.bindPopup(popup_6b4dc9f66b50a4c561b143dd67c0d229)
+        ;
+
+        
+    
+    
+            marker_82fe7e32cf9a7482774d15ee6e7f502d.bindTooltip(
+                `<div>
+                     Substation: Motijheel 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_82fe7e32cf9a7482774d15ee6e7f502d.setIcon(icon_f8dc98bbfbd3d832b31b851581ada388);
+            
+    
+            var marker_1d8bd48c7b86a44e455a532d5f0fbfe2 = L.marker(
+                [23.748, 90.373],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_8960d610bcf3602f09a5f7a1816ed148 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_153bc798aa4aa260068ac1ef98a99dcc = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d1b95947fa2ff4d5c8671211665815eb = $(`<div id="html_d1b95947fa2ff4d5c8671211665815eb" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Dhanmondi 33/11kV</h4>                 <b>Utility:</b> DPDC<br>                 <b>Rated Capacity:</b> 40.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>8.0 MVA</span><br>             </div>             </div>`)[0];
+                popup_153bc798aa4aa260068ac1ef98a99dcc.setContent(html_d1b95947fa2ff4d5c8671211665815eb);
+            
+        
+
+        marker_1d8bd48c7b86a44e455a532d5f0fbfe2.bindPopup(popup_153bc798aa4aa260068ac1ef98a99dcc)
+        ;
+
+        
+    
+    
+            marker_1d8bd48c7b86a44e455a532d5f0fbfe2.bindTooltip(
+                `<div>
+                     Substation: Dhanmondi 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1d8bd48c7b86a44e455a532d5f0fbfe2.setIcon(icon_8960d610bcf3602f09a5f7a1816ed148);
+            
+    
+            var marker_e17c080503190b30645e51d43d6c9489 = L.marker(
+                [23.762, 90.397],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_ce764716406f50dc9d22a029ac89a69b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f4a38040b8be6dfc3b67baaea0555a12 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_dd4c356871d8b9abae27439341c71266 = $(`<div id="html_dd4c356871d8b9abae27439341c71266" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Tejgaon 33/11kV</h4>                 <b>Utility:</b> DPDC<br>                 <b>Rated Capacity:</b> 50.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>11.0 MVA</span><br>             </div>             </div>`)[0];
+                popup_f4a38040b8be6dfc3b67baaea0555a12.setContent(html_dd4c356871d8b9abae27439341c71266);
+            
+        
+
+        marker_e17c080503190b30645e51d43d6c9489.bindPopup(popup_f4a38040b8be6dfc3b67baaea0555a12)
+        ;
+
+        
+    
+    
+            marker_e17c080503190b30645e51d43d6c9489.bindTooltip(
+                `<div>
+                     Substation: Tejgaon 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e17c080503190b30645e51d43d6c9489.setIcon(icon_ce764716406f50dc9d22a029ac89a69b);
+            
+    
+            var marker_f158d2c4c9f08b3fec7cbbff12af398c = L.marker(
+                [23.717, 90.387],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_01796f8b2224c0f5b76abbbfabf576da = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b17de926c9a8db4f27bd107ff837ae8f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_090f0745add8b7d06c282e9c2a2d26e1 = $(`<div id="html_090f0745add8b7d06c282e9c2a2d26e1" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Lalbagh 33/11kV</h4>                 <b>Utility:</b> DPDC<br>                 <b>Rated Capacity:</b> 30.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>3.5 MVA</span><br>             </div>             </div>`)[0];
+                popup_b17de926c9a8db4f27bd107ff837ae8f.setContent(html_090f0745add8b7d06c282e9c2a2d26e1);
+            
+        
+
+        marker_f158d2c4c9f08b3fec7cbbff12af398c.bindPopup(popup_b17de926c9a8db4f27bd107ff837ae8f)
+        ;
+
+        
+    
+    
+            marker_f158d2c4c9f08b3fec7cbbff12af398c.bindTooltip(
+                `<div>
+                     Substation: Lalbagh 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f158d2c4c9f08b3fec7cbbff12af398c.setIcon(icon_01796f8b2224c0f5b76abbbfabf576da);
+            
+    
+            var marker_60062f9d29e8cfc40445ee69551230bf = L.marker(
+                [23.712, 90.432],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_d059d39534e1c32781ff9ec1349e86f7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6915b030cd127e304fd6d2a6bacc77c2 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5fdfd5aff98b3d18e3cf139cfc47c36d = $(`<div id="html_5fdfd5aff98b3d18e3cf139cfc47c36d" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Jatrabari 33/11kV</h4>                 <b>Utility:</b> DPDC<br>                 <b>Rated Capacity:</b> 40.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>9.0 MVA</span><br>             </div>             </div>`)[0];
+                popup_6915b030cd127e304fd6d2a6bacc77c2.setContent(html_5fdfd5aff98b3d18e3cf139cfc47c36d);
+            
+        
+
+        marker_60062f9d29e8cfc40445ee69551230bf.bindPopup(popup_6915b030cd127e304fd6d2a6bacc77c2)
+        ;
+
+        
+    
+    
+            marker_60062f9d29e8cfc40445ee69551230bf.bindTooltip(
+                `<div>
+                     Substation: Jatrabari 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_60062f9d29e8cfc40445ee69551230bf.setIcon(icon_d059d39534e1c32781ff9ec1349e86f7);
+            
+    
+            var marker_29b6729cf06cfae3d8599788407df560 = L.marker(
+                [23.72, 90.426],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_a2b075f208e080f9322791b7ac3f3963 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e8f5e958c8b0bccfec1f69afcd15f6bd = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5b728edec8aa84619bea879a333b720f = $(`<div id="html_5b728edec8aa84619bea879a333b720f" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Sayedabad 33/11kV</h4>                 <b>Utility:</b> DPDC<br>                 <b>Rated Capacity:</b> 35.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>7.0 MVA</span><br>             </div>             </div>`)[0];
+                popup_e8f5e958c8b0bccfec1f69afcd15f6bd.setContent(html_5b728edec8aa84619bea879a333b720f);
+            
+        
+
+        marker_29b6729cf06cfae3d8599788407df560.bindPopup(popup_e8f5e958c8b0bccfec1f69afcd15f6bd)
+        ;
+
+        
+    
+    
+            marker_29b6729cf06cfae3d8599788407df560.bindTooltip(
+                `<div>
+                     Substation: Sayedabad 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_29b6729cf06cfae3d8599788407df560.setIcon(icon_a2b075f208e080f9322791b7ac3f3963);
+            
+    
+            var marker_84e85928392da9384605af1911cb74ca = L.marker(
+                [23.731, 90.423],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_31f6e64646dbe32fb24aa3e7d91d09d5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2e5636045e9a419d4badcc2c8183bfdb = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9fd16fb6d7d8d3c5c1868d11d092552e = $(`<div id="html_9fd16fb6d7d8d3c5c1868d11d092552e" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Kamalapur 33/11kV</h4>                 <b>Utility:</b> DPDC<br>                 <b>Rated Capacity:</b> 35.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>7.5 MVA</span><br>             </div>             </div>`)[0];
+                popup_2e5636045e9a419d4badcc2c8183bfdb.setContent(html_9fd16fb6d7d8d3c5c1868d11d092552e);
+            
+        
+
+        marker_84e85928392da9384605af1911cb74ca.bindPopup(popup_2e5636045e9a419d4badcc2c8183bfdb)
+        ;
+
+        
+    
+    
+            marker_84e85928392da9384605af1911cb74ca.bindTooltip(
+                `<div>
+                     Substation: Kamalapur 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_84e85928392da9384605af1911cb74ca.setIcon(icon_31f6e64646dbe32fb24aa3e7d91d09d5);
+            
+    
+            var marker_3b9d66e12bd381b0f65b5e51c7848f3e = L.marker(
+                [23.7515, 90.391],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_3c74227bd14d64c63f4b7e3b0b76580a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_3ed0288b49ff7e43070c18768ff97a5a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3c2685ec591365fceb05cd354f98f154 = $(`<div id="html_3c2685ec591365fceb05cd354f98f154" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Kawran Bazar 33/11kV</h4>                 <b>Utility:</b> DPDC<br>                 <b>Rated Capacity:</b> 45.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>7.0 MVA</span><br>             </div>             </div>`)[0];
+                popup_3ed0288b49ff7e43070c18768ff97a5a.setContent(html_3c2685ec591365fceb05cd354f98f154);
+            
+        
+
+        marker_3b9d66e12bd381b0f65b5e51c7848f3e.bindPopup(popup_3ed0288b49ff7e43070c18768ff97a5a)
+        ;
+
+        
+    
+    
+            marker_3b9d66e12bd381b0f65b5e51c7848f3e.bindTooltip(
+                `<div>
+                     Substation: Kawran Bazar 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3b9d66e12bd381b0f65b5e51c7848f3e.setIcon(icon_3c74227bd14d64c63f4b7e3b0b76580a);
+            
+    
+            var marker_82afd8375515896988e9a4d0b96c3df1 = L.marker(
+                [23.781, 90.416],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_718e92878769987f1690b5b4af89b6b3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8cdcea9b6bc08243891cc01100a7f980 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b99e67f084481c07782fb399fc48673f = $(`<div id="html_b99e67f084481c07782fb399fc48673f" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Gulshan-1 33/11kV</h4>                 <b>Utility:</b> DESCO<br>                 <b>Rated Capacity:</b> 50.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>11.5 MVA</span><br>             </div>             </div>`)[0];
+                popup_8cdcea9b6bc08243891cc01100a7f980.setContent(html_b99e67f084481c07782fb399fc48673f);
+            
+        
+
+        marker_82afd8375515896988e9a4d0b96c3df1.bindPopup(popup_8cdcea9b6bc08243891cc01100a7f980)
+        ;
+
+        
+    
+    
+            marker_82afd8375515896988e9a4d0b96c3df1.bindTooltip(
+                `<div>
+                     Substation: Gulshan-1 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_82afd8375515896988e9a4d0b96c3df1.setIcon(icon_718e92878769987f1690b5b4af89b6b3);
+            
+    
+            var marker_dd3fe17ad6adebad32a5cd33fbf22596 = L.marker(
+                [23.794, 90.414],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_efd8dde9e13f91c10c496feadbc115be = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e87119860b5fed49434c2bddc5b97939 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9685fdb9b0c9ddb59bc7bc7f2fc7e139 = $(`<div id="html_9685fdb9b0c9ddb59bc7bc7f2fc7e139" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Gulshan-2 33/11kV</h4>                 <b>Utility:</b> DESCO<br>                 <b>Rated Capacity:</b> 50.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>11.0 MVA</span><br>             </div>             </div>`)[0];
+                popup_e87119860b5fed49434c2bddc5b97939.setContent(html_9685fdb9b0c9ddb59bc7bc7f2fc7e139);
+            
+        
+
+        marker_dd3fe17ad6adebad32a5cd33fbf22596.bindPopup(popup_e87119860b5fed49434c2bddc5b97939)
+        ;
+
+        
+    
+    
+            marker_dd3fe17ad6adebad32a5cd33fbf22596.bindTooltip(
+                `<div>
+                     Substation: Gulshan-2 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_dd3fe17ad6adebad32a5cd33fbf22596.setIcon(icon_efd8dde9e13f91c10c496feadbc115be);
+            
+    
+            var marker_7144f92c1ea7dced1c49cbe842b73d23 = L.marker(
+                [23.795, 90.403],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_364f2202c0b2d67393d80f2344b43797 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_46ee679334a342f902e2df565ce88822 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3c9af367548452da3b8cf38a5d181d44 = $(`<div id="html_3c9af367548452da3b8cf38a5d181d44" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Banani 33/11kV</h4>                 <b>Utility:</b> DESCO<br>                 <b>Rated Capacity:</b> 40.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>9.0 MVA</span><br>             </div>             </div>`)[0];
+                popup_46ee679334a342f902e2df565ce88822.setContent(html_3c9af367548452da3b8cf38a5d181d44);
+            
+        
+
+        marker_7144f92c1ea7dced1c49cbe842b73d23.bindPopup(popup_46ee679334a342f902e2df565ce88822)
+        ;
+
+        
+    
+    
+            marker_7144f92c1ea7dced1c49cbe842b73d23.bindTooltip(
+                `<div>
+                     Substation: Banani 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7144f92c1ea7dced1c49cbe842b73d23.setIcon(icon_364f2202c0b2d67393d80f2344b43797);
+            
+    
+            var marker_29a64670159e3aa711cd5978d6f47872 = L.marker(
+                [23.865, 90.397],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_d45c1b40b0d0a48490ad3c16ed6fbc5f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_28d7bb8e8799fdf1849e072629da8ffd = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1be2ca2685f1e16e0d0b505776170482 = $(`<div id="html_1be2ca2685f1e16e0d0b505776170482" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Uttara-1 33/11kV</h4>                 <b>Utility:</b> DESCO<br>                 <b>Rated Capacity:</b> 45.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>12.0 MVA</span><br>             </div>             </div>`)[0];
+                popup_28d7bb8e8799fdf1849e072629da8ffd.setContent(html_1be2ca2685f1e16e0d0b505776170482);
+            
+        
+
+        marker_29a64670159e3aa711cd5978d6f47872.bindPopup(popup_28d7bb8e8799fdf1849e072629da8ffd)
+        ;
+
+        
+    
+    
+            marker_29a64670159e3aa711cd5978d6f47872.bindTooltip(
+                `<div>
+                     Substation: Uttara-1 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_29a64670159e3aa711cd5978d6f47872.setIcon(icon_d45c1b40b0d0a48490ad3c16ed6fbc5f);
+            
+    
+            var marker_8a8f31d3fae18d324ca1ec0722b7e6db = L.marker(
+                [23.876, 90.386],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_1f7a9e48a1115e73b2eb3b80c5b60c3e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e903927590c6c0b443170a7a5816c3d9 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f32e03d458868e62d8d7e41ef7b610ce = $(`<div id="html_f32e03d458868e62d8d7e41ef7b610ce" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Uttara-2 33/11kV</h4>                 <b>Utility:</b> DESCO<br>                 <b>Rated Capacity:</b> 40.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>10.5 MVA</span><br>             </div>             </div>`)[0];
+                popup_e903927590c6c0b443170a7a5816c3d9.setContent(html_f32e03d458868e62d8d7e41ef7b610ce);
+            
+        
+
+        marker_8a8f31d3fae18d324ca1ec0722b7e6db.bindPopup(popup_e903927590c6c0b443170a7a5816c3d9)
+        ;
+
+        
+    
+    
+            marker_8a8f31d3fae18d324ca1ec0722b7e6db.bindTooltip(
+                `<div>
+                     Substation: Uttara-2 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8a8f31d3fae18d324ca1ec0722b7e6db.setIcon(icon_1f7a9e48a1115e73b2eb3b80c5b60c3e);
+            
+    
+            var marker_d4f467d3f7f73f1a729b64ac9f574348 = L.marker(
+                [23.808, 90.367],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_2e3f1bdee4173f2a1f380137fdcebac4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_bcc5cbfb41993777a3560f06b88e24e1 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d12eb13212bce540262c925fbe0ee691 = $(`<div id="html_d12eb13212bce540262c925fbe0ee691" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Mirpur-10 33/11kV</h4>                 <b>Utility:</b> DESCO<br>                 <b>Rated Capacity:</b> 45.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>9.0 MVA</span><br>             </div>             </div>`)[0];
+                popup_bcc5cbfb41993777a3560f06b88e24e1.setContent(html_d12eb13212bce540262c925fbe0ee691);
+            
+        
+
+        marker_d4f467d3f7f73f1a729b64ac9f574348.bindPopup(popup_bcc5cbfb41993777a3560f06b88e24e1)
+        ;
+
+        
+    
+    
+            marker_d4f467d3f7f73f1a729b64ac9f574348.bindTooltip(
+                `<div>
+                     Substation: Mirpur-10 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d4f467d3f7f73f1a729b64ac9f574348.setIcon(icon_2e3f1bdee4173f2a1f380137fdcebac4);
+            
+    
+            var marker_c5bf46370d95f5a6bf8485c80ec4ba22 = L.marker(
+                [23.796, 90.353],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_16b5b42b9ca769a2e3537702133762d9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_63327d511bc019ee0c0075c62cc7e042 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b5c7abce22aef5e6a4feda366c374bb4 = $(`<div id="html_b5c7abce22aef5e6a4feda366c374bb4" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Mirpur-1 33/11kV</h4>                 <b>Utility:</b> DESCO<br>                 <b>Rated Capacity:</b> 35.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>8.0 MVA</span><br>             </div>             </div>`)[0];
+                popup_63327d511bc019ee0c0075c62cc7e042.setContent(html_b5c7abce22aef5e6a4feda366c374bb4);
+            
+        
+
+        marker_c5bf46370d95f5a6bf8485c80ec4ba22.bindPopup(popup_63327d511bc019ee0c0075c62cc7e042)
+        ;
+
+        
+    
+    
+            marker_c5bf46370d95f5a6bf8485c80ec4ba22.bindTooltip(
+                `<div>
+                     Substation: Mirpur-1 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c5bf46370d95f5a6bf8485c80ec4ba22.setIcon(icon_16b5b42b9ca769a2e3537702133762d9);
+            
+    
+            var marker_2117496c93d4a4e0601220bb39bf2ea8 = L.marker(
+                [23.779, 90.402],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_c2d4d8799c428a299b3a3390bbd79c64 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d5931facd7e8aa7355a40fb16e801db8 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d11501bacf7bb9c158064e4cd98a1fdd = $(`<div id="html_d11501bacf7bb9c158064e4cd98a1fdd" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Mohakhali 33/11kV</h4>                 <b>Utility:</b> DESCO<br>                 <b>Rated Capacity:</b> 50.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>10.0 MVA</span><br>             </div>             </div>`)[0];
+                popup_d5931facd7e8aa7355a40fb16e801db8.setContent(html_d11501bacf7bb9c158064e4cd98a1fdd);
+            
+        
+
+        marker_2117496c93d4a4e0601220bb39bf2ea8.bindPopup(popup_d5931facd7e8aa7355a40fb16e801db8)
+        ;
+
+        
+    
+    
+            marker_2117496c93d4a4e0601220bb39bf2ea8.bindTooltip(
+                `<div>
+                     Substation: Mohakhali 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2117496c93d4a4e0601220bb39bf2ea8.setIcon(icon_c2d4d8799c428a299b3a3390bbd79c64);
+            
+    
+            var marker_525466f732d6096ba523f23bb3603814 = L.marker(
+                [23.801, 90.422],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_af772c5d815bbc60cfef69370a0de3bd = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c00b85b8a78094a5f637fa6d2028b6ea = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_737f5774ecdfd122996507d515ebbbd0 = $(`<div id="html_737f5774ecdfd122996507d515ebbbd0" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Baridhara 33/11kV</h4>                 <b>Utility:</b> DESCO<br>                 <b>Rated Capacity:</b> 35.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>11.0 MVA</span><br>             </div>             </div>`)[0];
+                popup_c00b85b8a78094a5f637fa6d2028b6ea.setContent(html_737f5774ecdfd122996507d515ebbbd0);
+            
+        
+
+        marker_525466f732d6096ba523f23bb3603814.bindPopup(popup_c00b85b8a78094a5f637fa6d2028b6ea)
+        ;
+
+        
+    
+    
+            marker_525466f732d6096ba523f23bb3603814.bindTooltip(
+                `<div>
+                     Substation: Baridhara 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_525466f732d6096ba523f23bb3603814.setIcon(icon_af772c5d815bbc60cfef69370a0de3bd);
+            
+    
+            var marker_eb698cccd515a1542cf283e48a97e394 = L.marker(
+                [23.824, 90.452],
+                {
+}
+            ).addTo(feature_group_8f42441505cf34bcee74573b5010e0d7);
+        
+    
+            var icon_2e9855969a20b13c9a405aa991a1e1b5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "bolt",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b5bdcdf9b9d7a52fc40fc6a76f7b9010 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ae74049bc59c6124984b554be2527862 = $(`<div id="html_ae74049bc59c6124984b554be2527862" style="width: 100.0%; height: 100.0%;">             <div style='font-family: sans-serif; min-width: 180px;'>                 <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ Purbachal 33/11kV</h4>                 <b>Utility:</b> DESCO<br>                 <b>Rated Capacity:</b> 40.0 MVA<br>                 <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>22.0 MVA</span><br>             </div>             </div>`)[0];
+                popup_b5bdcdf9b9d7a52fc40fc6a76f7b9010.setContent(html_ae74049bc59c6124984b554be2527862);
+            
+        
+
+        marker_eb698cccd515a1542cf283e48a97e394.bindPopup(popup_b5bdcdf9b9d7a52fc40fc6a76f7b9010)
+        ;
+
+        
+    
+    
+            marker_eb698cccd515a1542cf283e48a97e394.bindTooltip(
+                `<div>
+                     Substation: Purbachal 33/11kV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_eb698cccd515a1542cf283e48a97e394.setIcon(icon_2e9855969a20b13c9a405aa991a1e1b5);
+            
+    
+            feature_group_8f42441505cf34bcee74573b5010e0d7.addTo(map_a307fde4ddf5bcd3fe06bdf638cdf4ed);
+        
+    
+            var feature_group_adc757c4e7eb81e32f021328ecc40449 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_c5271725a0083a918359b3f85e1d8d88 = L.marker(
+                [23.867726797856694, 90.39436944429426],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_5f34c0656465b78ecc68e6f874a0ea2b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0532f7d64fd937974e8a3bf652f274ea = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_3256b372fbc878860184c0534c439628 = $(`<div id="html_3256b372fbc878860184c0534c439628" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Uttara_Sec3_Site_2</h4>             <b>Candidate ID:</b> CS-04<br>             <b>Zone:</b> Uttara<br>             <b>AHP Suitability Score:</b> 0.812<br>             <b>Land Valuation:</b> BDT 110,000/m²<br>             <b>Nearest Substation Dist:</b> 421 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_0532f7d64fd937974e8a3bf652f274ea.setContent(html_3256b372fbc878860184c0534c439628);
+            
+        
+
+        marker_c5271725a0083a918359b3f85e1d8d88.bindPopup(popup_0532f7d64fd937974e8a3bf652f274ea)
+        ;
+
+        
+    
+    
+            marker_c5271725a0083a918359b3f85e1d8d88.bindTooltip(
+                `<div>
+                     Selected EVCS: Uttara_Sec3_Site_2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c5271725a0083a918359b3f85e1d8d88.setIcon(icon_5f34c0656465b78ecc68e6f874a0ea2b);
+            
+    
+            var marker_865afcdd27122f8ac96f7ae370097a10 = L.marker(
+                [23.824940251892702, 90.45139272072663],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_40e411cbae1c385acd2da86b5ab10b35 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b720fef9ddc0d49fd2354dae24373fd8 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_ecb9a792e44907552accad5d9903a628 = $(`<div id="html_ecb9a792e44907552accad5d9903a628" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Purbachal_300ft_Site_1</h4>             <b>Candidate ID:</b> CS-07<br>             <b>Zone:</b> Purbachal_Suburbs<br>             <b>AHP Suitability Score:</b> 0.874<br>             <b>Land Valuation:</b> BDT 50,000/m²<br>             <b>Nearest Substation Dist:</b> 124 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_b720fef9ddc0d49fd2354dae24373fd8.setContent(html_ecb9a792e44907552accad5d9903a628);
+            
+        
+
+        marker_865afcdd27122f8ac96f7ae370097a10.bindPopup(popup_b720fef9ddc0d49fd2354dae24373fd8)
+        ;
+
+        
+    
+    
+            marker_865afcdd27122f8ac96f7ae370097a10.bindTooltip(
+                `<div>
+                     Selected EVCS: Purbachal_300ft_Site_1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_865afcdd27122f8ac96f7ae370097a10.setIcon(icon_40e411cbae1c385acd2da86b5ab10b35);
+            
+    
+            var marker_1d6ef1df7361e7b0a2adbdff6c046a8c = L.marker(
+                [23.818516748797325, 90.45788597211224],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_a2469dc6dd89a38a20dcf618aa7fbd12 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e022751035dcb1c5874bc73ed6956979 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_95a64650458c138cb13373e5bc9720b7 = $(`<div id="html_95a64650458c138cb13373e5bc9720b7" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Purbachal_300ft_Site_2</h4>             <b>Candidate ID:</b> CS-08<br>             <b>Zone:</b> Purbachal_Suburbs<br>             <b>AHP Suitability Score:</b> 0.811<br>             <b>Land Valuation:</b> BDT 50,000/m²<br>             <b>Nearest Substation Dist:</b> 893 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_e022751035dcb1c5874bc73ed6956979.setContent(html_95a64650458c138cb13373e5bc9720b7);
+            
+        
+
+        marker_1d6ef1df7361e7b0a2adbdff6c046a8c.bindPopup(popup_e022751035dcb1c5874bc73ed6956979)
+        ;
+
+        
+    
+    
+            marker_1d6ef1df7361e7b0a2adbdff6c046a8c.bindTooltip(
+                `<div>
+                     Selected EVCS: Purbachal_300ft_Site_2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1d6ef1df7361e7b0a2adbdff6c046a8c.setIcon(icon_a2469dc6dd89a38a20dcf618aa7fbd12);
+            
+    
+            var marker_d5d730bdf0c925fe57ad4252191969ce = L.marker(
+                [23.79510631736955, 90.42421257304673],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_c56433cf37cf7f222aedf707fe96f04b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_71ee183f35327a14950e07b65b04bd78 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_56fb42f340f723ea18964f99cca5f021 = $(`<div id="html_56fb42f340f723ea18964f99cca5f021" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Baridhara_Diplomatic_Site_2</h4>             <b>Candidate ID:</b> CS-10<br>             <b>Zone:</b> Gulshan_Banani<br>             <b>AHP Suitability Score:</b> 0.740<br>             <b>Land Valuation:</b> BDT 250,000/m²<br>             <b>Nearest Substation Dist:</b> 699 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_71ee183f35327a14950e07b65b04bd78.setContent(html_56fb42f340f723ea18964f99cca5f021);
+            
+        
+
+        marker_d5d730bdf0c925fe57ad4252191969ce.bindPopup(popup_71ee183f35327a14950e07b65b04bd78)
+        ;
+
+        
+    
+    
+            marker_d5d730bdf0c925fe57ad4252191969ce.bindTooltip(
+                `<div>
+                     Selected EVCS: Baridhara_Diplomatic_Site_2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d5d730bdf0c925fe57ad4252191969ce.setIcon(icon_c56433cf37cf7f222aedf707fe96f04b);
+            
+    
+            var marker_02646c2d4cbef668a5e2b595846c42ae = L.marker(
+                [23.78899917427349, 90.4179729536578],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_6ec874f737fb903a0860c83bfcd5151e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_af0dbe48bd1c27cd383fc25587067306 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_2b9fcf1baef25d67833625bc2e87e4b1 = $(`<div id="html_2b9fcf1baef25d67833625bc2e87e4b1" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Gulshan_2_Site_1</h4>             <b>Candidate ID:</b> CS-11<br>             <b>Zone:</b> Gulshan_Banani<br>             <b>AHP Suitability Score:</b> 0.749<br>             <b>Land Valuation:</b> BDT 250,000/m²<br>             <b>Nearest Substation Dist:</b> 709 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_af0dbe48bd1c27cd383fc25587067306.setContent(html_2b9fcf1baef25d67833625bc2e87e4b1);
+            
+        
+
+        marker_02646c2d4cbef668a5e2b595846c42ae.bindPopup(popup_af0dbe48bd1c27cd383fc25587067306)
+        ;
+
+        
+    
+    
+            marker_02646c2d4cbef668a5e2b595846c42ae.bindTooltip(
+                `<div>
+                     Selected EVCS: Gulshan_2_Site_1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_02646c2d4cbef668a5e2b595846c42ae.setIcon(icon_6ec874f737fb903a0860c83bfcd5151e);
+            
+    
+            var marker_99a7dd3dcd47e2aaa6b598bbc80d2672 = L.marker(
+                [23.784084505613336, 90.41351597716802],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_d5b216533b02143c9d293513fcc173e2 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_690ccb3445501e99dd3fa52c6dde627e = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_0732ebd1a559a61c608fee4a91932b40 = $(`<div id="html_0732ebd1a559a61c608fee4a91932b40" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Gulshan_1_Site_1</h4>             <b>Candidate ID:</b> CS-13<br>             <b>Zone:</b> Gulshan_Banani<br>             <b>AHP Suitability Score:</b> 0.752<br>             <b>Land Valuation:</b> BDT 250,000/m²<br>             <b>Nearest Substation Dist:</b> 440 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_690ccb3445501e99dd3fa52c6dde627e.setContent(html_0732ebd1a559a61c608fee4a91932b40);
+            
+        
+
+        marker_99a7dd3dcd47e2aaa6b598bbc80d2672.bindPopup(popup_690ccb3445501e99dd3fa52c6dde627e)
+        ;
+
+        
+    
+    
+            marker_99a7dd3dcd47e2aaa6b598bbc80d2672.bindTooltip(
+                `<div>
+                     Selected EVCS: Gulshan_1_Site_1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_99a7dd3dcd47e2aaa6b598bbc80d2672.setIcon(icon_d5b216533b02143c9d293513fcc173e2);
+            
+    
+            var marker_15ae23c77206b6ccde4514d468d75a8a = L.marker(
+                [23.77653351403116, 90.42117283339613],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_c80a0e90ac0630d7f747a0ab32d65827 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_7f90f1c621770f8138415149092d6f56 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_f399a754da75354ec40d4af84eb2fd47 = $(`<div id="html_f399a754da75354ec40d4af84eb2fd47" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Gulshan_1_Site_2</h4>             <b>Candidate ID:</b> CS-14<br>             <b>Zone:</b> Gulshan_Banani<br>             <b>AHP Suitability Score:</b> 0.754<br>             <b>Land Valuation:</b> BDT 250,000/m²<br>             <b>Nearest Substation Dist:</b> 759 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_7f90f1c621770f8138415149092d6f56.setContent(html_f399a754da75354ec40d4af84eb2fd47);
+            
+        
+
+        marker_15ae23c77206b6ccde4514d468d75a8a.bindPopup(popup_7f90f1c621770f8138415149092d6f56)
+        ;
+
+        
+    
+    
+            marker_15ae23c77206b6ccde4514d468d75a8a.bindTooltip(
+                `<div>
+                     Selected EVCS: Gulshan_1_Site_2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_15ae23c77206b6ccde4514d468d75a8a.setIcon(icon_c80a0e90ac0630d7f747a0ab32d65827);
+            
+    
+            var marker_aa2d20febf9d90522410ec13873800bd = L.marker(
+                [23.79732123908944, 90.39938110183822],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_90a63132f7ab9c040ae0273831145cf8 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_49adce3a91cc84de42514aa2af1b381c = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_9cbf141f040b6dbcffe1b3b19ff748b8 = $(`<div id="html_9cbf141f040b6dbcffe1b3b19ff748b8" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Banani_11_Site_1</h4>             <b>Candidate ID:</b> CS-15<br>             <b>Zone:</b> Gulshan_Banani<br>             <b>AHP Suitability Score:</b> 0.770<br>             <b>Land Valuation:</b> BDT 250,000/m²<br>             <b>Nearest Substation Dist:</b> 477 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_49adce3a91cc84de42514aa2af1b381c.setContent(html_9cbf141f040b6dbcffe1b3b19ff748b8);
+            
+        
+
+        marker_aa2d20febf9d90522410ec13873800bd.bindPopup(popup_49adce3a91cc84de42514aa2af1b381c)
+        ;
+
+        
+    
+    
+            marker_aa2d20febf9d90522410ec13873800bd.bindTooltip(
+                `<div>
+                     Selected EVCS: Banani_11_Site_1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_aa2d20febf9d90522410ec13873800bd.setIcon(icon_90a63132f7ab9c040ae0273831145cf8);
+            
+    
+            var marker_290b87e77972fd5dae0f2da503796ac9 = L.marker(
+                [23.795672386343135, 90.40842499381178],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_505340f8fe03c469c14793d654fc39e3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_41cef080301f194689775027f061b742 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_1ff86de99946ed0c8aeea0c54f93e8a5 = $(`<div id="html_1ff86de99946ed0c8aeea0c54f93e8a5" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Banani_11_Site_2</h4>             <b>Candidate ID:</b> CS-16<br>             <b>Zone:</b> Gulshan_Banani<br>             <b>AHP Suitability Score:</b> 0.726<br>             <b>Land Valuation:</b> BDT 250,000/m²<br>             <b>Nearest Substation Dist:</b> 607 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_41cef080301f194689775027f061b742.setContent(html_1ff86de99946ed0c8aeea0c54f93e8a5);
+            
+        
+
+        marker_290b87e77972fd5dae0f2da503796ac9.bindPopup(popup_41cef080301f194689775027f061b742)
+        ;
+
+        
+    
+    
+            marker_290b87e77972fd5dae0f2da503796ac9.bindTooltip(
+                `<div>
+                     Selected EVCS: Banani_11_Site_2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_290b87e77972fd5dae0f2da503796ac9.setIcon(icon_505340f8fe03c469c14793d654fc39e3);
+            
+    
+            var marker_bde4b1a4440916fee14c9ed726ec9a1e = L.marker(
+                [23.782948411989622, 90.39733238045841],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_b4ab5d791fd3ac37a1deeac5098be338 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_166290371925f0f5f6cc3571fc079eef = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_460f33180af5f3718b5da6e34bdd1eeb = $(`<div id="html_460f33180af5f3718b5da6e34bdd1eeb" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Mohakhali_Terminal_Site_2</h4>             <b>Candidate ID:</b> CS-18<br>             <b>Zone:</b> Badda_Mohakhali<br>             <b>AHP Suitability Score:</b> 0.806<br>             <b>Land Valuation:</b> BDT 140,000/m²<br>             <b>Nearest Substation Dist:</b> 679 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_166290371925f0f5f6cc3571fc079eef.setContent(html_460f33180af5f3718b5da6e34bdd1eeb);
+            
+        
+
+        marker_bde4b1a4440916fee14c9ed726ec9a1e.bindPopup(popup_166290371925f0f5f6cc3571fc079eef)
+        ;
+
+        
+    
+    
+            marker_bde4b1a4440916fee14c9ed726ec9a1e.bindTooltip(
+                `<div>
+                     Selected EVCS: Mohakhali_Terminal_Site_2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_bde4b1a4440916fee14c9ed726ec9a1e.setIcon(icon_b4ab5d791fd3ac37a1deeac5098be338);
+            
+    
+            var marker_4e2a314f241a41a1830db5b521953768 = L.marker(
+                [23.775188380571258, 90.42869896362062],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_5c206a251e169caafe56cb46fe857121 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c84beba103c34cc6c0de3399e1101ac9 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_0d68d346b9456c2d5a9236024d4919f4 = $(`<div id="html_0d68d346b9456c2d5a9236024d4919f4" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Badda_Pragati_Sarani_Site_1</h4>             <b>Candidate ID:</b> CS-19<br>             <b>Zone:</b> Badda_Mohakhali<br>             <b>AHP Suitability Score:</b> 0.617<br>             <b>Land Valuation:</b> BDT 140,000/m²<br>             <b>Nearest Substation Dist:</b> 1550 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_c84beba103c34cc6c0de3399e1101ac9.setContent(html_0d68d346b9456c2d5a9236024d4919f4);
+            
+        
+
+        marker_4e2a314f241a41a1830db5b521953768.bindPopup(popup_c84beba103c34cc6c0de3399e1101ac9)
+        ;
+
+        
+    
+    
+            marker_4e2a314f241a41a1830db5b521953768.bindTooltip(
+                `<div>
+                     Selected EVCS: Badda_Pragati_Sarani_Site_1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4e2a314f241a41a1830db5b521953768.setIcon(icon_5c206a251e169caafe56cb46fe857121);
+            
+    
+            var marker_c4b21aba1bd888e34f7b39c963fac3c3 = L.marker(
+                [23.774198556164126, 90.40837395602938],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_7fa29950ad05222e4add1a4c53ff67ec = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6b77e3acefa1f847403ab840c8e4101c = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_1df08637ab334755c8f774ca0b6feae5 = $(`<div id="html_1df08637ab334755c8f774ca0b6feae5" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Hatirjheel_North_Site_1</h4>             <b>Candidate ID:</b> CS-21<br>             <b>Zone:</b> Badda_Mohakhali<br>             <b>AHP Suitability Score:</b> 0.776<br>             <b>Land Valuation:</b> BDT 140,000/m²<br>             <b>Nearest Substation Dist:</b> 886 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_6b77e3acefa1f847403ab840c8e4101c.setContent(html_1df08637ab334755c8f774ca0b6feae5);
+            
+        
+
+        marker_c4b21aba1bd888e34f7b39c963fac3c3.bindPopup(popup_6b77e3acefa1f847403ab840c8e4101c)
+        ;
+
+        
+    
+    
+            marker_c4b21aba1bd888e34f7b39c963fac3c3.bindTooltip(
+                `<div>
+                     Selected EVCS: Hatirjheel_North_Site_1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c4b21aba1bd888e34f7b39c963fac3c3.setIcon(icon_7fa29950ad05222e4add1a4c53ff67ec);
+            
+    
+            var marker_ed1e9b91f90e1c18c33e8a4ef2e21e52 = L.marker(
+                [23.75918925449505, 90.3982836777274],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_2b89deaf0a854bed9e945adc02b4d13d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4b54cd15d73defa3dc11c88ac0fdbc57 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_f790c21b0be8859def86606e20e0a9da = $(`<div id="html_f790c21b0be8859def86606e20e0a9da" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Tejgaon_Industrial_Site_1</h4>             <b>Candidate ID:</b> CS-23<br>             <b>Zone:</b> Kawran_Bazar_Tejgaon<br>             <b>AHP Suitability Score:</b> 0.695<br>             <b>Land Valuation:</b> BDT 150,000/m²<br>             <b>Nearest Substation Dist:</b> 343 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_4b54cd15d73defa3dc11c88ac0fdbc57.setContent(html_f790c21b0be8859def86606e20e0a9da);
+            
+        
+
+        marker_ed1e9b91f90e1c18c33e8a4ef2e21e52.bindPopup(popup_4b54cd15d73defa3dc11c88ac0fdbc57)
+        ;
+
+        
+    
+    
+            marker_ed1e9b91f90e1c18c33e8a4ef2e21e52.bindTooltip(
+                `<div>
+                     Selected EVCS: Tejgaon_Industrial_Site_1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ed1e9b91f90e1c18c33e8a4ef2e21e52.setIcon(icon_2b89deaf0a854bed9e945adc02b4d13d);
+            
+    
+            var marker_e0e99c0c8c657ddf0e1cfe1e74d54f4d = L.marker(
+                [23.755130944565884, 90.39962264287921],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_85b095793306bb929a4a998d01e05a98 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0cb5f38603613cf9501c00463dc86218 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_b8866e628cbbeba5ac07867678293902 = $(`<div id="html_b8866e628cbbeba5ac07867678293902" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Tejgaon_Industrial_Site_2</h4>             <b>Candidate ID:</b> CS-24<br>             <b>Zone:</b> Kawran_Bazar_Tejgaon<br>             <b>AHP Suitability Score:</b> 0.672<br>             <b>Land Valuation:</b> BDT 150,000/m²<br>             <b>Nearest Substation Dist:</b> 816 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_0cb5f38603613cf9501c00463dc86218.setContent(html_b8866e628cbbeba5ac07867678293902);
+            
+        
+
+        marker_e0e99c0c8c657ddf0e1cfe1e74d54f4d.bindPopup(popup_0cb5f38603613cf9501c00463dc86218)
+        ;
+
+        
+    
+    
+            marker_e0e99c0c8c657ddf0e1cfe1e74d54f4d.bindTooltip(
+                `<div>
+                     Selected EVCS: Tejgaon_Industrial_Site_2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e0e99c0c8c657ddf0e1cfe1e74d54f4d.setIcon(icon_85b095793306bb929a4a998d01e05a98);
+            
+    
+            var marker_900fd5a8a26aa81e421dc1dcc3fa13af = L.marker(
+                [23.754106877206638, 90.38515139640481],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_191b6770c040ccbf871c64f3680e5df7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2bbbc55371f34472840ff9834b1b1f78 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_fa6e10ddc176c3e2128b8340498087e7 = $(`<div id="html_fa6e10ddc176c3e2128b8340498087e7" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Farmgate_Hub_Site_1</h4>             <b>Candidate ID:</b> CS-27<br>             <b>Zone:</b> Kawran_Bazar_Tejgaon<br>             <b>AHP Suitability Score:</b> 0.740<br>             <b>Land Valuation:</b> BDT 150,000/m²<br>             <b>Nearest Substation Dist:</b> 711 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_2bbbc55371f34472840ff9834b1b1f78.setContent(html_fa6e10ddc176c3e2128b8340498087e7);
+            
+        
+
+        marker_900fd5a8a26aa81e421dc1dcc3fa13af.bindPopup(popup_2bbbc55371f34472840ff9834b1b1f78)
+        ;
+
+        
+    
+    
+            marker_900fd5a8a26aa81e421dc1dcc3fa13af.bindTooltip(
+                `<div>
+                     Selected EVCS: Farmgate_Hub_Site_1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_900fd5a8a26aa81e421dc1dcc3fa13af.setIcon(icon_191b6770c040ccbf871c64f3680e5df7);
+            
+    
+            var marker_b8b8e31f77bac10b099484b01d8d139f = L.marker(
+                [23.759955276166952, 90.38375708639428],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_b8f88f6dd1d18981748cc6712edc1cdd = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_91b50888e55bc278533cc5b51bae5a37 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_3685423036b61775773e0503d74c3722 = $(`<div id="html_3685423036b61775773e0503d74c3722" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Farmgate_Hub_Site_2</h4>             <b>Candidate ID:</b> CS-28<br>             <b>Zone:</b> Kawran_Bazar_Tejgaon<br>             <b>AHP Suitability Score:</b> 0.738<br>             <b>Land Valuation:</b> BDT 150,000/m²<br>             <b>Nearest Substation Dist:</b> 1236 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_91b50888e55bc278533cc5b51bae5a37.setContent(html_3685423036b61775773e0503d74c3722);
+            
+        
+
+        marker_b8b8e31f77bac10b099484b01d8d139f.bindPopup(popup_91b50888e55bc278533cc5b51bae5a37)
+        ;
+
+        
+    
+    
+            marker_b8b8e31f77bac10b099484b01d8d139f.bindTooltip(
+                `<div>
+                     Selected EVCS: Farmgate_Hub_Site_2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b8b8e31f77bac10b099484b01d8d139f.setIcon(icon_b8f88f6dd1d18981748cc6712edc1cdd);
+            
+    
+            var marker_00a61da0a9960e98cb31d8e6a20c64d4 = L.marker(
+                [23.75259640331308, 90.37400763060876],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_5f5f0f738f4b264ba6d0350657e0c54c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0039fd734c8ed9ea5bb29e0639f6bfb5 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_03623262257438f5a402ba135debebfa = $(`<div id="html_03623262257438f5a402ba135debebfa" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Dhanmondi_27_Site_1</h4>             <b>Candidate ID:</b> CS-29<br>             <b>Zone:</b> Dhanmondi<br>             <b>AHP Suitability Score:</b> 0.751<br>             <b>Land Valuation:</b> BDT 180,000/m²<br>             <b>Nearest Substation Dist:</b> 522 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_0039fd734c8ed9ea5bb29e0639f6bfb5.setContent(html_03623262257438f5a402ba135debebfa);
+            
+        
+
+        marker_00a61da0a9960e98cb31d8e6a20c64d4.bindPopup(popup_0039fd734c8ed9ea5bb29e0639f6bfb5)
+        ;
+
+        
+    
+    
+            marker_00a61da0a9960e98cb31d8e6a20c64d4.bindTooltip(
+                `<div>
+                     Selected EVCS: Dhanmondi_27_Site_1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_00a61da0a9960e98cb31d8e6a20c64d4.setIcon(icon_5f5f0f738f4b264ba6d0350657e0c54c);
+            
+    
+            var marker_7f219eab9732058739815e6b1dc18dde = L.marker(
+                [23.74266152597366, 90.3702538635566],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_7957c06a85ab825198f077ba1210a560 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_afb1b9c6946720d5c36c931bbe9703bb = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_881e946a311de96aca2f9c4adc137454 = $(`<div id="html_881e946a311de96aca2f9c4adc137454" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Dhanmondi_8A_Site_1</h4>             <b>Candidate ID:</b> CS-31<br>             <b>Zone:</b> Dhanmondi<br>             <b>AHP Suitability Score:</b> 0.629<br>             <b>Land Valuation:</b> BDT 180,000/m²<br>             <b>Nearest Substation Dist:</b> 666 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_afb1b9c6946720d5c36c931bbe9703bb.setContent(html_881e946a311de96aca2f9c4adc137454);
+            
+        
+
+        marker_7f219eab9732058739815e6b1dc18dde.bindPopup(popup_afb1b9c6946720d5c36c931bbe9703bb)
+        ;
+
+        
+    
+    
+            marker_7f219eab9732058739815e6b1dc18dde.bindTooltip(
+                `<div>
+                     Selected EVCS: Dhanmondi_8A_Site_1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7f219eab9732058739815e6b1dc18dde.setIcon(icon_7957c06a85ab825198f077ba1210a560);
+            
+    
+            var marker_725cec18391d6d2946c33cb7df611341 = L.marker(
+                [23.74341074796588, 90.37221972161933],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_019a1b1077afefbefb6a20ddde8b39a9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6ba375b05d9201dd36c1cc7d91406688 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_d07c51229a15794f1c4a20fa9f78575e = $(`<div id="html_d07c51229a15794f1c4a20fa9f78575e" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Dhanmondi_8A_Site_2</h4>             <b>Candidate ID:</b> CS-32<br>             <b>Zone:</b> Dhanmondi<br>             <b>AHP Suitability Score:</b> 0.596<br>             <b>Land Valuation:</b> BDT 180,000/m²<br>             <b>Nearest Substation Dist:</b> 517 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_6ba375b05d9201dd36c1cc7d91406688.setContent(html_d07c51229a15794f1c4a20fa9f78575e);
+            
+        
+
+        marker_725cec18391d6d2946c33cb7df611341.bindPopup(popup_6ba375b05d9201dd36c1cc7d91406688)
+        ;
+
+        
+    
+    
+            marker_725cec18391d6d2946c33cb7df611341.bindTooltip(
+                `<div>
+                     Selected EVCS: Dhanmondi_8A_Site_2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_725cec18391d6d2946c33cb7df611341.setIcon(icon_019a1b1077afefbefb6a20ddde8b39a9);
+            
+    
+            var marker_e8ffbca92593c8a818af7ff73bf69df8 = L.marker(
+                [23.755049842954158, 90.36268085136571],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_ff5a2cdcf3c0e93832869392b6a68d14 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_42c72dbca5d65e90af0ddd4da35b2022 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_ac96d15bbc11011dbf8fe1807abac786 = $(`<div id="html_ac96d15bbc11011dbf8fe1807abac786" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Mohammadpur_Townhall_Site_1</h4>             <b>Candidate ID:</b> CS-35<br>             <b>Zone:</b> Dhanmondi<br>             <b>AHP Suitability Score:</b> 0.591<br>             <b>Land Valuation:</b> BDT 180,000/m²<br>             <b>Nearest Substation Dist:</b> 1387 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_42c72dbca5d65e90af0ddd4da35b2022.setContent(html_ac96d15bbc11011dbf8fe1807abac786);
+            
+        
+
+        marker_e8ffbca92593c8a818af7ff73bf69df8.bindPopup(popup_42c72dbca5d65e90af0ddd4da35b2022)
+        ;
+
+        
+    
+    
+            marker_e8ffbca92593c8a818af7ff73bf69df8.bindTooltip(
+                `<div>
+                     Selected EVCS: Mohammadpur_Townhall_Site_1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e8ffbca92593c8a818af7ff73bf69df8.setIcon(icon_ff5a2cdcf3c0e93832869392b6a68d14);
+            
+    
+            var marker_5597aff54564880368f74f303b60f005 = L.marker(
+                [23.795902949425148, 90.35299692408168],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_47af0ba5fce07e99717da798400c82e7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4abbc0fef12b29c94fe4087644b39d9b = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_256deeabc9866d912b06933606beb8d5 = $(`<div id="html_256deeabc9866d912b06933606beb8d5" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Mirpur_1_Site_2</h4>             <b>Candidate ID:</b> CS-38<br>             <b>Zone:</b> Mirpur<br>             <b>AHP Suitability Score:</b> 0.796<br>             <b>Land Valuation:</b> BDT 95,000/m²<br>             <b>Nearest Substation Dist:</b> 11 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_4abbc0fef12b29c94fe4087644b39d9b.setContent(html_256deeabc9866d912b06933606beb8d5);
+            
+        
+
+        marker_5597aff54564880368f74f303b60f005.bindPopup(popup_4abbc0fef12b29c94fe4087644b39d9b)
+        ;
+
+        
+    
+    
+            marker_5597aff54564880368f74f303b60f005.bindTooltip(
+                `<div>
+                     Selected EVCS: Mirpur_1_Site_2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5597aff54564880368f74f303b60f005.setIcon(icon_47af0ba5fce07e99717da798400c82e7);
+            
+    
+            var marker_533171dadf478e241141e130eb6b2ddb = L.marker(
+                [23.80646126529135, 90.36912047180851],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_6b2dbbccb743dd26a67bec264fcfea95 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4e80a207c352a196c0d1afe2c03e5bcc = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_0cda083636cf94c90424ec5d8b4d08bb = $(`<div id="html_0cda083636cf94c90424ec5d8b4d08bb" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Mirpur_10_Circle_Site_1</h4>             <b>Candidate ID:</b> CS-39<br>             <b>Zone:</b> Mirpur<br>             <b>AHP Suitability Score:</b> 0.825<br>             <b>Land Valuation:</b> BDT 95,000/m²<br>             <b>Nearest Substation Dist:</b> 291 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_4e80a207c352a196c0d1afe2c03e5bcc.setContent(html_0cda083636cf94c90424ec5d8b4d08bb);
+            
+        
+
+        marker_533171dadf478e241141e130eb6b2ddb.bindPopup(popup_4e80a207c352a196c0d1afe2c03e5bcc)
+        ;
+
+        
+    
+    
+            marker_533171dadf478e241141e130eb6b2ddb.bindTooltip(
+                `<div>
+                     Selected EVCS: Mirpur_10_Circle_Site_1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_533171dadf478e241141e130eb6b2ddb.setIcon(icon_6b2dbbccb743dd26a67bec264fcfea95);
+            
+    
+            var marker_80137c164fdbdfdafb9d5ac91cbf0d57 = L.marker(
+                [23.810784679758978, 90.36500113175767],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_4523be71c9cdf59491b7cc0e2b15b19d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_cb8b6b9bda4940e1c3d8897befa9062b = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_25b739dd3e4c076d729c5f473edfcd9e = $(`<div id="html_25b739dd3e4c076d729c5f473edfcd9e" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Mirpur_10_Circle_Site_2</h4>             <b>Candidate ID:</b> CS-40<br>             <b>Zone:</b> Mirpur<br>             <b>AHP Suitability Score:</b> 0.831<br>             <b>Land Valuation:</b> BDT 95,000/m²<br>             <b>Nearest Substation Dist:</b> 380 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_cb8b6b9bda4940e1c3d8897befa9062b.setContent(html_25b739dd3e4c076d729c5f473edfcd9e);
+            
+        
+
+        marker_80137c164fdbdfdafb9d5ac91cbf0d57.bindPopup(popup_cb8b6b9bda4940e1c3d8897befa9062b)
+        ;
+
+        
+    
+    
+            marker_80137c164fdbdfdafb9d5ac91cbf0d57.bindTooltip(
+                `<div>
+                     Selected EVCS: Mirpur_10_Circle_Site_2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_80137c164fdbdfdafb9d5ac91cbf0d57.setIcon(icon_4523be71c9cdf59491b7cc0e2b15b19d);
+            
+    
+            var marker_6b99b1c7cdcb26acd5a5d49450e6fbc1 = L.marker(
+                [23.73960516860434, 90.39707413102171],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_1fb6425405cc929d278446e91ad6e3c6 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_743b8ea1aa781dfd63ed81ecb54a8ad0 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_ff1528895cdbeef89cf1f965acbe9ad1 = $(`<div id="html_ff1528895cdbeef89cf1f965acbe9ad1" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Shahbagh_Square_Site_2</h4>             <b>Candidate ID:</b> CS-46<br>             <b>Zone:</b> Kawran_Bazar_Tejgaon<br>             <b>AHP Suitability Score:</b> 0.754<br>             <b>Land Valuation:</b> BDT 150,000/m²<br>             <b>Nearest Substation Dist:</b> 1482 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_743b8ea1aa781dfd63ed81ecb54a8ad0.setContent(html_ff1528895cdbeef89cf1f965acbe9ad1);
+            
+        
+
+        marker_6b99b1c7cdcb26acd5a5d49450e6fbc1.bindPopup(popup_743b8ea1aa781dfd63ed81ecb54a8ad0)
+        ;
+
+        
+    
+    
+            marker_6b99b1c7cdcb26acd5a5d49450e6fbc1.bindTooltip(
+                `<div>
+                     Selected EVCS: Shahbagh_Square_Site_2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_6b99b1c7cdcb26acd5a5d49450e6fbc1.setIcon(icon_1fb6425405cc929d278446e91ad6e3c6);
+            
+    
+            var marker_235b649cad9194bc6b8804d7734a0fd1 = L.marker(
+                [23.716622640443, 90.38331183135062],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_a04e67842ea5a18e8af967ac0ad66f9f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0f4dc32bcb69a8789fd48dc6412cea32 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_6087da49bc77d80ee3012a095c0f3682 = $(`<div id="html_6087da49bc77d80ee3012a095c0f3682" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Old_Dhaka_Lalbagh_Site_1</h4>             <b>Candidate ID:</b> CS-51<br>             <b>Zone:</b> Old_Dhaka<br>             <b>AHP Suitability Score:</b> 0.610<br>             <b>Land Valuation:</b> BDT 130,000/m²<br>             <b>Nearest Substation Dist:</b> 412 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_0f4dc32bcb69a8789fd48dc6412cea32.setContent(html_6087da49bc77d80ee3012a095c0f3682);
+            
+        
+
+        marker_235b649cad9194bc6b8804d7734a0fd1.bindPopup(popup_0f4dc32bcb69a8789fd48dc6412cea32)
+        ;
+
+        
+    
+    
+            marker_235b649cad9194bc6b8804d7734a0fd1.bindTooltip(
+                `<div>
+                     Selected EVCS: Old_Dhaka_Lalbagh_Site_1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_235b649cad9194bc6b8804d7734a0fd1.setIcon(icon_a04e67842ea5a18e8af967ac0ad66f9f);
+            
+    
+            var marker_d0253fb69f3beb90394bd8b2476e23bb = L.marker(
+                [23.717342438908172, 90.38896842848918],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_c1b68368351c0faf7fe29be6cb8f24db = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1aa14db154a5a6d47543d72fd8c2a4d5 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_81b30c2c80889b0b16c1c4e97a985342 = $(`<div id="html_81b30c2c80889b0b16c1c4e97a985342" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Old_Dhaka_Lalbagh_Site_2</h4>             <b>Candidate ID:</b> CS-52<br>             <b>Zone:</b> Old_Dhaka<br>             <b>AHP Suitability Score:</b> 0.609<br>             <b>Land Valuation:</b> BDT 130,000/m²<br>             <b>Nearest Substation Dist:</b> 222 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_1aa14db154a5a6d47543d72fd8c2a4d5.setContent(html_81b30c2c80889b0b16c1c4e97a985342);
+            
+        
+
+        marker_d0253fb69f3beb90394bd8b2476e23bb.bindPopup(popup_1aa14db154a5a6d47543d72fd8c2a4d5)
+        ;
+
+        
+    
+    
+            marker_d0253fb69f3beb90394bd8b2476e23bb.bindTooltip(
+                `<div>
+                     Selected EVCS: Old_Dhaka_Lalbagh_Site_2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d0253fb69f3beb90394bd8b2476e23bb.setIcon(icon_c1b68368351c0faf7fe29be6cb8f24db);
+            
+    
+            var marker_014cb44eb910e09ab2fe553de4bb8e51 = L.marker(
+                [23.70495491316206, 90.41228188756203],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_bb6132b31ad4ca6c59eca9903819b9b3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_89c78a1570ea3cc74d1aa5efb167fbda = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_d74cad1ca73b6dddda2a93fe7a1eab12 = $(`<div id="html_d74cad1ca73b6dddda2a93fe7a1eab12" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Old_Dhaka_Sadarghat_Site_1</h4>             <b>Candidate ID:</b> CS-53<br>             <b>Zone:</b> Old_Dhaka<br>             <b>AHP Suitability Score:</b> 0.712<br>             <b>Land Valuation:</b> BDT 130,000/m²<br>             <b>Nearest Substation Dist:</b> 2260 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_89c78a1570ea3cc74d1aa5efb167fbda.setContent(html_d74cad1ca73b6dddda2a93fe7a1eab12);
+            
+        
+
+        marker_014cb44eb910e09ab2fe553de4bb8e51.bindPopup(popup_89c78a1570ea3cc74d1aa5efb167fbda)
+        ;
+
+        
+    
+    
+            marker_014cb44eb910e09ab2fe553de4bb8e51.bindTooltip(
+                `<div>
+                     Selected EVCS: Old_Dhaka_Sadarghat_Site_1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_014cb44eb910e09ab2fe553de4bb8e51.setIcon(icon_bb6132b31ad4ca6c59eca9903819b9b3);
+            
+    
+            var marker_18e7cc19a1842c483c901a9a88a87045 = L.marker(
+                [23.70799415878969, 90.41319102317674],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_83092b91d3a72b26a83d376a38e2a994 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_3780edeedc3f6f61516fd31aa9349239 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_f6e1496f8cafc486829979609d58ef76 = $(`<div id="html_f6e1496f8cafc486829979609d58ef76" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Old_Dhaka_Sadarghat_Site_2</h4>             <b>Candidate ID:</b> CS-54<br>             <b>Zone:</b> Old_Dhaka<br>             <b>AHP Suitability Score:</b> 0.735<br>             <b>Land Valuation:</b> BDT 130,000/m²<br>             <b>Nearest Substation Dist:</b> 1949 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_3780edeedc3f6f61516fd31aa9349239.setContent(html_f6e1496f8cafc486829979609d58ef76);
+            
+        
+
+        marker_18e7cc19a1842c483c901a9a88a87045.bindPopup(popup_3780edeedc3f6f61516fd31aa9349239)
+        ;
+
+        
+    
+    
+            marker_18e7cc19a1842c483c901a9a88a87045.bindTooltip(
+                `<div>
+                     Selected EVCS: Old_Dhaka_Sadarghat_Site_2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_18e7cc19a1842c483c901a9a88a87045.setIcon(icon_83092b91d3a72b26a83d376a38e2a994);
+            
+    
+            var marker_fa03909f32c4f12a63f9f3fbe7a60bb3 = L.marker(
+                [23.714515820733265, 90.42670973896941],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_19275537f9a8f61fdd5941e5547b985b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e3d1544bb3e26be445beba552706f95e = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_98cdafe96e3d399bab915916c8df27ca = $(`<div id="html_98cdafe96e3d399bab915916c8df27ca" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Sayedabad_Terminal_Site_1</h4>             <b>Candidate ID:</b> CS-55<br>             <b>Zone:</b> Jatrabari_Sayedabad<br>             <b>AHP Suitability Score:</b> 0.818<br>             <b>Land Valuation:</b> BDT 85,000/m²<br>             <b>Nearest Substation Dist:</b> 614 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_e3d1544bb3e26be445beba552706f95e.setContent(html_98cdafe96e3d399bab915916c8df27ca);
+            
+        
+
+        marker_fa03909f32c4f12a63f9f3fbe7a60bb3.bindPopup(popup_e3d1544bb3e26be445beba552706f95e)
+        ;
+
+        
+    
+    
+            marker_fa03909f32c4f12a63f9f3fbe7a60bb3.bindTooltip(
+                `<div>
+                     Selected EVCS: Sayedabad_Terminal_Site_1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_fa03909f32c4f12a63f9f3fbe7a60bb3.setIcon(icon_19275537f9a8f61fdd5941e5547b985b);
+            
+    
+            var marker_5639b38510cedb1ba62caf7703a110f2 = L.marker(
+                [23.712687833667104, 90.43806561147862],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_bf74857f4482d142bfef08600bccd14e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9a0648516e1749a253ae7f508e24e8b2 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_03c0b75000ad9f72f78c8d02db8f5ad2 = $(`<div id="html_03c0b75000ad9f72f78c8d02db8f5ad2" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Jatrabari_Flyover_Hub_Site_1</h4>             <b>Candidate ID:</b> CS-57<br>             <b>Zone:</b> Jatrabari_Sayedabad<br>             <b>AHP Suitability Score:</b> 0.804<br>             <b>Land Valuation:</b> BDT 85,000/m²<br>             <b>Nearest Substation Dist:</b> 678 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_9a0648516e1749a253ae7f508e24e8b2.setContent(html_03c0b75000ad9f72f78c8d02db8f5ad2);
+            
+        
+
+        marker_5639b38510cedb1ba62caf7703a110f2.bindPopup(popup_9a0648516e1749a253ae7f508e24e8b2)
+        ;
+
+        
+    
+    
+            marker_5639b38510cedb1ba62caf7703a110f2.bindTooltip(
+                `<div>
+                     Selected EVCS: Jatrabari_Flyover_Hub_Site_1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5639b38510cedb1ba62caf7703a110f2.setIcon(icon_bf74857f4482d142bfef08600bccd14e);
+            
+    
+            var marker_d5f76aa3fa6f2b3780c2981da859ca6c = L.marker(
+                [23.708312094418194, 90.43489424963643],
+                {
+}
+            ).addTo(feature_group_adc757c4e7eb81e32f021328ecc40449);
+        
+    
+            var icon_21862c281b0625d29d03a0735e43ad98 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plug",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f263699f69d81878630b1c75b6f39c43 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_b9616b6f53c19659be6135b822882bdd = $(`<div id="html_b9616b6f53c19659be6135b822882bdd" style="width: 100.0%; height: 100.0%;">         <div style='font-family: sans-serif; min-width: 220px;'>             <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: Jatrabari_Flyover_Hub_Site_2</h4>             <b>Candidate ID:</b> CS-58<br>             <b>Zone:</b> Jatrabari_Sayedabad<br>             <b>AHP Suitability Score:</b> 0.814<br>             <b>Land Valuation:</b> BDT 85,000/m²<br>             <b>Nearest Substation Dist:</b> 520 m<br>             <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>         </div>         </div>`)[0];
+                popup_f263699f69d81878630b1c75b6f39c43.setContent(html_b9616b6f53c19659be6135b822882bdd);
+            
+        
+
+        marker_d5f76aa3fa6f2b3780c2981da859ca6c.bindPopup(popup_f263699f69d81878630b1c75b6f39c43)
+        ;
+
+        
+    
+    
+            marker_d5f76aa3fa6f2b3780c2981da859ca6c.bindTooltip(
+                `<div>
+                     Selected EVCS: Jatrabari_Flyover_Hub_Site_2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d5f76aa3fa6f2b3780c2981da859ca6c.setIcon(icon_21862c281b0625d29d03a0735e43ad98);
+            
+    
+            feature_group_adc757c4e7eb81e32f021328ecc40449.addTo(map_a307fde4ddf5bcd3fe06bdf638cdf4ed);
+        
+    
+            var feature_group_2cda773e460b7b2df9a13d00e31cbea5 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var heat_map_722ce47b14c892e29029efa6ae659507 = L.heatLayer(
+                [[23.846718287767583, 90.40074473113181, 0.741], [23.83994265797931, 90.39663655942866, 0.763], [23.87187200540813, 90.39418830484124, 0.804], [23.867726797856694, 90.39436944429426, 0.812], [23.878395745732746, 90.38452212695148, 0.7], [23.870568980407086, 90.38844237995914, 0.703], [23.824940251892702, 90.45139272072663, 0.874], [23.818516748797325, 90.45788597211224, 0.811], [23.799698896848714, 90.41633532434736, 0.76], [23.79510631736955, 90.42421257304673, 0.74], [23.78899917427349, 90.4179729536578, 0.749], [23.79443948444467, 90.41641147632886, 0.741], [23.784084505613336, 90.41351597716802, 0.752], [23.77653351403116, 90.42117283339613, 0.754], [23.79732123908944, 90.39938110183822, 0.77], [23.795672386343135, 90.40842499381178, 0.726], [23.780464442356244, 90.40044130671302, 0.826], [23.782948411989622, 90.39733238045841, 0.806], [23.775188380571258, 90.42869896362062, 0.617], [23.77802853448598, 90.42335197241646, 0.61], [23.774198556164126, 90.40837395602938, 0.776], [23.7672460482294, 90.4075221794089, 0.736], [23.75918925449505, 90.3982836777274, 0.695], [23.755130944565884, 90.39962264287921, 0.672], [23.74994624123727, 90.38868662727754, 0.768], [23.746470764773886, 90.3931538501732, 0.784], [23.754106877206638, 90.38515139640481, 0.74], [23.759955276166952, 90.38375708639428, 0.738], [23.75259640331308, 90.37400763060876, 0.751], [23.750733093162797, 90.37946115462134, 0.74], [23.74266152597366, 90.3702538635566, 0.629], [23.74341074796588, 90.37221972161933, 0.596], [23.76878544662054, 90.36499916085373, 0.583], [23.774222669318554, 90.35943172190998, 0.648], [23.755049842954158, 90.36268085136571, 0.591], [23.75507886255146, 90.35685508530855, 0.543], [23.79892671711077, 90.35341424550593, 0.794], [23.795902949425148, 90.35299692408168, 0.796], [23.80646126529135, 90.36912047180851, 0.825], [23.810784679758978, 90.36500113175767, 0.831], [23.819424693083203, 90.3636521350447, 0.644], [23.82059356074073, 90.36197887685434, 0.699], [23.782723073265196, 90.34171679285848, 0.721], [23.78274055220687, 90.34576516475514, 0.783], [23.733709958286585, 90.39316421271761, 0.717], [23.73960516860434, 90.39707413102171, 0.754], [23.731931385282497, 90.41748770524892, 0.719], [23.728927986679253, 90.42068033616427, 0.734], [23.73055672716465, 90.4228869373677, 0.76], [23.733636711653627, 90.42476050402199, 0.756], [23.716622640443, 90.38331183135062, 0.61], [23.717342438908172, 90.38896842848918, 0.609], [23.70495491316206, 90.41228188756203, 0.712], [23.70799415878969, 90.41319102317674, 0.735], [23.714515820733265, 90.42670973896941, 0.818], [23.715451329288385, 90.42756005772958, 0.817], [23.712687833667104, 90.43806561147862, 0.804], [23.708312094418194, 90.43489424963643, 0.814]],
+                {
+  "minOpacity": 0.5,
+  "maxZoom": 13,
+  "radius": 25,
+  "blur": 15,
+}
+            );
+        
+    
+            heat_map_722ce47b14c892e29029efa6ae659507.addTo(feature_group_2cda773e460b7b2df9a13d00e31cbea5);
+        
+    
+            feature_group_2cda773e460b7b2df9a13d00e31cbea5.addTo(map_a307fde4ddf5bcd3fe06bdf638cdf4ed);
+        
+    
+            var layer_control_4755d1f42bf26ad3bec9353397dee7a0_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_3d0918c3b6706473bbb53054dca998de,
+                },
+                overlays :  {
+                    "DPDC \u0026 DESCO 33/11kV Substations" : feature_group_8f42441505cf34bcee74573b5010e0d7,
+                    "Optimal EV Charging Stations (EVCS)" : feature_group_adc757c4e7eb81e32f021328ecc40449,
+                    "AHP Suitability Intensity Heatmap" : feature_group_2cda773e460b7b2df9a13d00e31cbea5,
+                },
+            };
+            let layer_control_4755d1f42bf26ad3bec9353397dee7a0 = L.control.layers(
+                layer_control_4755d1f42bf26ad3bec9353397dee7a0_layers.base_layers,
+                layer_control_4755d1f42bf26ad3bec9353397dee7a0_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_a307fde4ddf5bcd3fe06bdf638cdf4ed);
+
+        
+</script>
+</html>
