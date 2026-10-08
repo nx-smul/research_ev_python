@@ -4,7 +4,7 @@ import argparse
 import os
 import sys
 
-from src.pipeline import run_full_pipeline
+from src.pipeline import RealDataPreflightError, run_full_pipeline
 from src.data_generator import generate_all_data
 
 
@@ -50,6 +50,11 @@ def main():
         default=None,
         help="Optional NSGA-II population override (otherwise uses YAML settings)."
     )
+    parser.add_argument(
+        "--sensitivity",
+        action="store_true",
+        help="Run additional demand, budget, and service-radius sensitivity scenarios.",
+    )
 
     args = parser.parse_args()
     base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -62,14 +67,18 @@ def main():
         print(f"Running full pipeline with config: {args.config}")
         if args.settings:
             print(f"  User settings: {args.settings}")
-        run_full_pipeline(
-            args.config,
-            settings_path=args.settings,
-            generations=args.generations,
-            population=args.population,
-            base_dir=base_dir,
-            data_mode=args.data_mode,
-        )
+        try:
+            run_full_pipeline(
+                args.config,
+                settings_path=args.settings,
+                generations=args.generations,
+                population=args.population,
+                base_dir=base_dir,
+                data_mode=args.data_mode,
+                sensitivity=args.sensitivity,
+            )
+        except RealDataPreflightError as exc:
+            parser.error(f"{exc}\nRun `python main.py --data-mode demo` for synthetic demonstration data.")
     else:
         parser.error(f"Unknown mode: {args.mode}")
 

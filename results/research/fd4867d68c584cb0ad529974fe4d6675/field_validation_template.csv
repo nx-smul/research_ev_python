@@ -1,0 +1,11 @@
+candidate_id,site_name,longitude,latitude,visit_date,observer,public_access_confirmed,parking_bays_observed,landowner_permission_status,utility_connection_contact,transformer_rating_mva_observed,existing_chargers_observed,peak_queue_observed,photos_or_evidence_reference,field_notes,record_status
+CS-01,Airport_Hub_Site_1,90.40074473113181,23.846718287767583,,,,,,,,,,,,not_visited
+CS-06,Uttara_Sec11_Site_2,90.38844237995914,23.870568980407086,,,,,,,,,,,,not_visited
+CS-07,Purbachal_300ft_Site_1,90.45139272072663,23.824940251892702,,,,,,,,,,,,not_visited
+CS-09,Baridhara_Diplomatic_Site_1,90.41633532434736,23.799698896848714,,,,,,,,,,,,not_visited
+CS-11,Gulshan_2_Site_1,90.4179729536578,23.78899917427349,,,,,,,,,,,,not_visited
+CS-12,Gulshan_2_Site_2,90.41641147632886,23.79443948444467,,,,,,,,,,,,not_visited
+CS-15,Banani_11_Site_1,90.39938110183822,23.79732123908944,,,,,,,,,,,,not_visited
+CS-17,Mohakhali_Terminal_Site_1,90.40044130671302,23.780464442356244,,,,,,,,,,,,not_visited
+CS-24,Tejgaon_Industrial_Site_2,90.39962264287921,23.755130944565884,,,,,,,,,,,,not_visited
+CS-31,Dhanmondi_8A_Site_1,90.3702538635566,23.74266152597366,,,,,,,,,,,,not_visited

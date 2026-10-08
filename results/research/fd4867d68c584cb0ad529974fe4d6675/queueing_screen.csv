@@ -1,0 +1,11 @@
+candidate_id,site_name,modeled_demand_kwh_day,assumed_session_kwh,servers,peak_arrivals_per_hour,mean_service_minutes,peak_utilization_pct,estimated_peak_wait_minutes,queue_status,classification
+CS-01,Airport_Hub_Site_1,11688.0,15.0,12,69.83396226415094,16.75,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times
+CS-06,Uttara_Sec11_Site_2,13162.5,15.0,12,78.6438679245283,18.75,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times
+CS-07,Purbachal_300ft_Site_1,6780.2,15.0,9,40.5106289308176,19.0,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times
+CS-09,Baridhara_Diplomatic_Site_1,8896.0,15.0,12,53.152201257861634,20.25,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times
+CS-11,Gulshan_2_Site_1,14255.5,15.0,12,85.17437106918238,17.5,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times
+CS-12,Gulshan_2_Site_2,10765.800000000001,15.0,12,64.32396226415094,18.25,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times
+CS-15,Banani_11_Site_1,11096.0,15.0,12,66.29685534591195,17.75,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times
+CS-17,Mohakhali_Terminal_Site_1,12770.2,15.0,12,76.29993710691824,18.25,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times
+CS-24,Tejgaon_Industrial_Site_2,14233.62,15.0,12,85.04364150943395,19.65909090909091,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times
+CS-31,Dhanmondi_8A_Site_1,9784.0,15.0,12,58.45786163522012,18.75,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times

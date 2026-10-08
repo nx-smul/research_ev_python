@@ -1,8 +1,8 @@
-# Optional user overrides for optimization runs and browser map preferences.
+# Optional user overrides for optimization runs.
 # Edit values here; unspecified values continue to come from the selected scenario YAML.
 optimization:
   min_open_stations: 3
-  max_open_stations: 32
+  max_open_stations: 10
   min_chargers_per_station: 2
   max_chargers_per_station: 12
   # Upfront CAPEX cap in BDT (land + charger equipment + installation + grid connection).
@@ -12,7 +12,39 @@ optimization:
   nsga2:
     population_size: 100
     generations: 250
+    crossover_probability: 0.85
+    mutation_probability: 0.15
+    random_seed: 42
 
-visualization:
-  map_provider: "osm" # osm, carto-dark, carto-light, or maptiler
-  maptiler_style: "streets-v2"
+# Optional overrides: uncomment only the values you want to change.
+# Keep these commented to inherit the selected scenario's assumptions.
+#
+# optimization:
+#   # Lower values make distance decay more slowly; units are inverse meters.
+#   lambda_impedance: 0.00035
+#
+# spatial:
+#   candidate_site_generation:
+#     min_suitability_score: 0.45
+#     min_spacing_m: 350.0
+#     max_candidate_sites: 50
+#
+# economic:
+#   discount_rate: 0.08
+#   project_lifetime_years: 10
+#   vot_bdt_per_hour: 250.0
+#   alpha_delay_weight: 0.60
+#   land_acquisition_base_sqm: 120.0
+#   land_sqm_per_charger: 25.0
+#   grid_connection_cost_per_kw: 4500.0
+#   grid_distance_penalty_bdt_per_m: 1200.0
+#
+# ahp_mcdm:
+#   criteria:
+#     traffic_density:
+#       weight: 0.22
+#     poi_density:
+#       weight: 0.18
+#
+# Charger capex, installation and capacity assumptions can also be overridden
+# under chargers.<charger_type>; fleet counts/usage assumptions under fleet.

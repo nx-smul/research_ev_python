@@ -1,0 +1,94 @@
+{
+  "classification": "assumption-based research screens; not observations or forecasts",
+  "equity_limit": "No socioeconomic or demographic data were supplied; only spatial access by input zone is reported.",
+  "grid_upgrade": {
+    "feeder_reconductoring_cost_bdt_per_km": 2200000.0,
+    "power_factor": 0.95,
+    "tx_upgrade_cost_bdt_per_mva": 3500000.0
+  },
+  "investment": {
+    "budget_multipliers": [
+      0.5,
+      0.75,
+      1.0,
+      1.25
+    ],
+    "counterfactual_ice_kg_co2_per_km": {
+      "E2W": 0.045,
+      "E3W_EasyBike": 0.09,
+      "E_Bus": 0.9,
+      "Fleet_Taxi": 0.24,
+      "Private_4W": 0.18
+    },
+    "electricity_cost_bdt_kwh": 12.0,
+    "grid_emissions_kg_co2_kwh": 0.56,
+    "operating_models": {
+      "commercial": {
+        "tariff_bdt_kwh": 26.0
+      },
+      "concessional": {
+        "tariff_bdt_kwh": 16.0
+      },
+      "public_access": {
+        "tariff_bdt_kwh": 20.0
+      }
+    }
+  },
+  "queueing": {
+    "average_session_kwh": 15.0,
+    "plug_overhead_minutes": 10.0
+  },
+  "time_of_day": {
+    "day_type_multipliers": {
+      "weekday": 1.0,
+      "weekend": 0.9
+    },
+    "hourly_energy_shares": [
+      0.012,
+      0.009,
+      0.007,
+      0.006,
+      0.007,
+      0.012,
+      0.025,
+      0.05,
+      0.07,
+      0.065,
+      0.055,
+      0.05,
+      0.048,
+      0.05,
+      0.052,
+      0.055,
+      0.06,
+      0.075,
+      0.095,
+      0.09,
+      0.07,
+      0.05,
+      0.03,
+      0.017
+    ],
+    "season_multipliers": {
+      "dry": 1.0,
+      "monsoon": 1.05
+    }
+  },
+  "uncertainty_screen": {
+    "demand_multiplier_range": [
+      0.8,
+      1.2
+    ],
+    "distance_multiplier_range": [
+      0.85,
+      1.15
+    ],
+    "samples": 250,
+    "seed": 2026,
+    "site_cost_multiplier_range": [
+      0.8,
+      1.2
+    ],
+    "suitability_noise_sd": 0.05
+  }
+}

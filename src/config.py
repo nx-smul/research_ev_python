@@ -38,15 +38,13 @@ def _validate_keys(overrides, base, prefix=""):
     for key, value in overrides.items():
         full_key = f"{prefix}.{key}" if prefix else key
         allowed_additions = {
-            "": {"visualization"},
             "optimization": {"min_open_stations", "max_open_stations", "service_radius_rmax_m"},
-            "visualization": {"map_provider", "maptiler_style"},
         }
         if key not in base and key not in allowed_additions.get(prefix, set()):
             raise ConfigError(f"Unknown settings key '{full_key}'.")
         if isinstance(value, dict):
             if key not in base:
-                if full_key not in {"optimization", "visualization"}:
+                if full_key != "optimization":
                     raise ConfigError(f"Settings section '{full_key}' must be a mapping already defined in the scenario.")
                 _validate_keys(value, {}, full_key)
                 continue
@@ -86,6 +84,9 @@ def validate_config(config):
     service_radius = opt.get("service_radius_rmax_m", 5000.0)
     if isinstance(service_radius, bool) or not isinstance(service_radius, (int, float)) or not isfinite(service_radius) or service_radius <= 0:
         raise ConfigError("'optimization.service_radius_rmax_m' must be a finite positive number.")
+    impedance = opt.get("lambda_impedance", 0.00035)
+    if isinstance(impedance, bool) or not isinstance(impedance, (int, float)) or not isfinite(impedance) or impedance < 0:
+        raise ConfigError("'optimization.lambda_impedance' must be a finite non-negative number.")
 
     nsga = opt.setdefault("nsga2", {})
     if not isinstance(nsga, dict):
@@ -123,6 +124,9 @@ def validate_config(config):
     ), allow_zero=True)
     if config.get("economic", {}).get("discount_rate", 0) >= 1:
         raise ConfigError("'economic.discount_rate' must be less than 1.")
+    alpha = config.get("economic", {}).get("alpha_delay_weight")
+    if alpha is not None and (isinstance(alpha, bool) or not isinstance(alpha, (int, float)) or not isfinite(alpha) or not 0 <= alpha <= 1):
+        raise ConfigError("'economic.alpha_delay_weight' must be finite and within [0, 1].")
 
     grid = config.get("grid", {})
     if not isinstance(grid, dict):
@@ -150,12 +154,6 @@ def validate_config(config):
         if efficiency is not None and (not isinstance(efficiency, (int, float)) or not isfinite(efficiency) or not 0 < efficiency <= 1):
             raise ConfigError(f"'chargers.{name}.efficiency' must be within (0, 1].")
 
-    visualization = config.setdefault("visualization", {})
-    if not isinstance(visualization, dict):
-        raise ConfigError("'visualization' must be a mapping.")
-    provider = visualization.get("map_provider", "osm")
-    if provider not in {"osm", "carto-dark", "carto-light", "maptiler"}:
-        raise ConfigError("'visualization.map_provider' must be osm, carto-dark, carto-light, or maptiler.")
     return config
 
 

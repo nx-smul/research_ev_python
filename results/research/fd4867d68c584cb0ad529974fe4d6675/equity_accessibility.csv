@@ -1,0 +1,11 @@
+group_field,group,demand_zones,modeled_demand_kwh_day,assigned_demand_kwh_day,mean_assigned_distance_m,modeled_access_pct,gap_vs_citywide_pp,interpretation
+zone_name,Badda_Mohakhali,12,37654.4,18070.22,3092.4599853515624,47.989663890541344,20.223133541146858,spatial access proxy only; not socioeconomic equity; no income or demographic data supplied
+zone_name,Dhanmondi,12,27994.9,0.0,,0.0,-27.766530349394486,spatial access proxy only; not socioeconomic equity; no income or demographic data supplied
+zone_name,Gulshan_Banani,16,50308.8,50308.8,907.2782727305117,100.0,72.23346965060551,spatial access proxy only; not socioeconomic equity; no income or demographic data supplied
+zone_name,Jatrabari_Sayedabad,8,38544.5,0.0,,0.0,-27.766530349394486,spatial access proxy only; not socioeconomic equity; no income or demographic data supplied
+zone_name,Kawran_Bazar_Tejgaon,16,42654.7,3054.9,3936.550048828125,7.161930572715317,-20.60459977667917,spatial access proxy only; not socioeconomic equity; no income or demographic data supplied
+zone_name,Mirpur,20,63015.2,0.0,,0.0,-27.766530349394486,spatial access proxy only; not socioeconomic equity; no income or demographic data supplied
+zone_name,Motijheel_Dilkusha,8,30711.2,0.0,,0.0,-27.766530349394486,spatial access proxy only; not socioeconomic equity; no income or demographic data supplied
+zone_name,Old_Dhaka,8,24071.6,0.0,,0.0,-27.766530349394486,spatial access proxy only; not socioeconomic equity; no income or demographic data supplied
+zone_name,Purbachal_Suburbs,4,6780.2,6780.2,0.0,100.0,72.23346965060551,spatial access proxy only; not socioeconomic equity; no income or demographic data supplied
+zone_name,Uttara,12,37279.9,21472.0,1667.699951171875,57.596721021247376,29.83019067185289,spatial access proxy only; not socioeconomic equity; no income or demographic data supplied

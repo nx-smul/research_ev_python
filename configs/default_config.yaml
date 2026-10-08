@@ -194,3 +194,41 @@ grid:
   thd_v_limit_pct: 5.0
   tx_upgrade_cost_bdt_per_mva: 3500000.0
   feeder_reconductoring_cost_bdt_per_km: 2200000.0
+
+# Assumptions for decision-support screens; replace with local measurements where available.
+research_extensions:
+  uncertainty:
+    samples: 250
+    seed: 2026
+    demand_multiplier_range: [0.8, 1.2]
+    distance_multiplier_range: [0.85, 1.15]
+    site_cost_multiplier_range: [0.8, 1.2]
+    suitability_noise_sd: 0.05
+  time_of_day:
+    day_type_multipliers:
+      weekday: 1.0
+      weekend: 0.9
+    season_multipliers:
+      dry: 1.0
+      monsoon: 1.05
+  queueing:
+    average_session_kwh: 15.0
+    plug_overhead_minutes: 10.0
+  investment:
+    budget_multipliers: [0.5, 0.75, 1.0, 1.25]
+    operating_models:
+      public_access:
+        tariff_bdt_kwh: 20.0
+      commercial:
+        tariff_bdt_kwh: 26.0
+      concessional:
+        tariff_bdt_kwh: 16.0
+    electricity_cost_bdt_kwh: 12.0
+    grid_emissions_kg_co2_kwh: 0.56
+    # Illustrative ICE counterfactual factors, kg CO2 per vehicle-km.
+    counterfactual_ice_kg_co2_per_km:
+      E2W: 0.045
+      E3W_EasyBike: 0.09
+      Private_4W: 0.18
+      Fleet_Taxi: 0.24
+      E_Bus: 0.9

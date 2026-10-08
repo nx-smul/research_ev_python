@@ -16,15 +16,16 @@ import geopandas as gpd
 from src.config import load_config
 from src.data_generator import generate_all_data
 from src.spatial.ahp_mcdm import run_ahp_spatial_pipeline
-from src.spatial.osm_network import compute_od_matrices
-from src.optimization.nsga2_solver import NSGA2Solver, export_pareto_solutions
+from src.spatial.osm_network import OSMRoadNetwork, compute_od_matrices
+from src.optimization.nsga2_solver import NSGA2Solver, canonicalize_pareto_front, export_pareto_solutions
+from src.optimization.baselines import compare_site_selection_baselines
+from src.optimization.research_extensions import generate_research_extensions
+from src.optimization.sensitivity import run_sensitivity
 from src.grid.power_flow import GridPowerFlowSimulator, plot_voltage_profile_comparison
 from src.visualization.map_plots import (
     plot_ahp_suitability_map,
     plot_optimal_cs_locations,
-    generate_interactive_folium_map
 )
-from src.visualization.generate_responsive_map import build_responsive_map_html
 from src.visualization.pareto_front import plot_pareto_front_2d, find_knee_point_solution
 
 
@@ -263,7 +264,99 @@ def _write_run_manifest(path, manifest):
     temporary.replace(path)
 
 
-def run_full_pipeline(config_path="configs/default_config.yaml", generations=None, population=None, base_dir=None, settings_path=None, data_mode="real", output_deploy_copies=False, manifest_path=None):
+def _write_research_report(path, context):
+    """Write a concise, run-specific reproducibility and limitation report."""
+    source_lines = [
+        f"- **{record['label']}**: `{record['path']}` ({record.get('data_class', 'unclassified')}); SHA-256 `{record.get('sha256', 'not recorded')}`."
+        for record in context["inputs"]
+        if record.get("path")
+    ]
+    baseline = context["baselines"][[
+        "strategy", "station_count", "system_cost_bdt", "demand_coverage_pct", "budget_feasible",
+    ]]
+    baseline_table = "\n".join([
+        "| Strategy | Stations | System cost (BDT) | Coverage (%) | Budget feasible |",
+        "|---|---:|---:|---:|:---:|",
+        *[
+            f"| {row.strategy} | {row.station_count} | {row.system_cost_bdt:,.2f} | {row.demand_coverage_pct:.2f} | {row.budget_feasible} |"
+            for row in baseline.itertuples(index=False)
+        ],
+    ])
+    sensitivity = context["sensitivity_path"]
+    extensions = context["research_extensions"]
+    extension_outputs = extensions["outputs"]
+    lines = [
+        f"# EVCS research run {context['run_id']}",
+        "",
+        f"- **Created:** {context['created_at']}",
+        f"- **Data mode/class:** {context['data_mode']} — {context['data_class']}",
+        f"- **Selected Pareto solution:** {context['solution']['solution_id']}",
+        f"- **Stations / modeled coverage:** {context['solution']['open_station_count']} / {context['solution']['demand_coverage_pct']}%",
+        f"- **Modeled life-cycle social cost:** BDT {context['solution']['total_cost_bdt']:,.2f}",
+        "",
+        "## Data inventory and provenance",
+        "",
+        *source_lines,
+        "",
+        f"Candidate sites: {context['candidate_count']}; demand zones: {context['demand_count']}; routable road segments: {context['road_edge_count']}; road graph nodes: {context['road_node_count']}.",
+        f"Demand-to-candidate OD distance and time matrices use `{context['od_routing_method']}`; disconnected pairs fail the run rather than receiving straight-line substitutes.",
+        f"Candidate-to-candidate ordered routes: {context['route_count']} of {context['route_pair_count']} have a distinct road-node route; {context['same_node_count']} pairs share a snapped node; {context['unrouted_count']} ordered pairs are disconnected.",
+        "",
+        "## Baseline comparison",
+        "",
+        "The AHP/TOPSIS and demand-greedy baselines use the same station count and charger allocations as the selected optimizer solution; only the station sites change. They are diagnostic comparisons, not equivalent independent optimizations.",
+        "",
+        baseline_table,
+        "",
+        "## Grid-model check",
+        "",
+        f"- Voltage range: {context['grid_voltage']['min_v_pu']}–{context['grid_voltage']['max_v_pu']} p.u.; voltage-limit check: **{'pass' if context['grid_voltage']['is_compliant'] else 'fail'}**.",
+        f"- Maximum line/transformer loading: {context['grid_thermal']['max_line_loading_pct']}% / {context['grid_thermal']['max_trafo_loading_pct']}%; loading check: **{'pass' if context['grid_thermal']['is_thermal_compliant'] else 'fail'}**.",
+        "- These checks validate the simulation against configured thresholds, not against utility observations. Treat grid conclusions as unvalidated unless source provenance and utility measurements are independently confirmed.",
+        "",
+        "## Robustness analysis",
+        "",
+        f"Sensitivity analysis: `{sensitivity}`." if sensitivity else "Sensitivity analysis was not run. Use `python main.py --sensitivity` to run the documented demand, budget, and service-radius perturbations.",
+        f"Monte Carlo site-screen: `{extension_outputs['uncertainty_site_screen']}` and per-sample results `{extension_outputs['uncertainty_scenario_metrics']}`; {extensions['uncertainty_summary']['samples']} samples produce reachable-demand p05/mean/p95 of {extensions['uncertainty_summary']['reachable_demand_pct_p05']:.1f}%/{extensions['uncertainty_summary']['reachable_demand_pct_mean']:.1f}%/{extensions['uncertainty_summary']['reachable_demand_pct_p95']:.1f}%. Most frequently selected: {', '.join(extensions['most_frequently_selected_sites']) or 'none'}. This is a heuristic site-selection screen, not repeated NSGA-II optimization.",
+        "",
+        "## Access, operations, grid, and investment screens",
+        "",
+        f"- Zone-level spatial access proxy (not socioeconomic equity): `{extension_outputs['equity_accessibility']}`.",
+        f"- Assumed time-of-day, day-type, and seasonal load profiles: `{extension_outputs['time_of_day_load_profile']}`.",
+        f"- Peak-hour M/M/c queue estimates: `{extension_outputs['queueing_screen']}`; arrival and service distributions are assumed.",
+        f"- Candidate transformer/feeder upgrade cost screen: `{extension_outputs['grid_upgrade_screen']}`; nearest-substation headroom and distance are input proxies, not utility studies.",
+        f"- Budget, operating-tariff, payback, and emissions scenarios: `{extension_outputs['investment_scenarios']}`; these are assumption-based and are not financial or emissions forecasts.",
+        f"- Blank field visit worksheet for selected sites: `{extension_outputs['field_validation_template']}`.",
+        f"- All editable extension assumptions: `{extension_outputs['assumptions']}`.",
+        "",
+        "## Limitations and interpretation",
+        "",
+        "- Demo-mode inputs are synthetic, not observed Dhaka data. A provenance sidecar documents declared source and processing details but does not independently authenticate the source or its license.",
+        "- The candidate-pair distances use road-edge lengths and nearest-node snapping; sparse graphs can create large snap offsets or shared-node results. Estimated speed, lane, and flow values from the OSM downloader are explicitly labeled assumptions, not measured traffic.",
+        "- Demand coverage is conditional on the configured demand inputs, charger assumptions, and routing model; it is not measured utilization or a demand forecast.",
+        "- The geographic access table is not a socioeconomic-equity analysis; demographic and income data are not supplied. Hourly profiles, queue estimates, connection upgrades, tariffs, and emissions factors are illustrative assumptions.",
+        "- Replace assumed demand, fleet, road traffic, land costs, charger costs, and grid parameters with dated, licensed local measurements before making investment or policy claims.",
+        "",
+        "## Output files",
+        "",
+        *[f"- `{output}`" for output in context["outputs"]],
+        "",
+    ]
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines), encoding="utf-8")
+
+
+def run_full_pipeline(
+    config_path="configs/default_config.yaml",
+    generations=None,
+    population=None,
+    base_dir=None,
+    settings_path=None,
+    data_mode="real",
+    manifest_path=None,
+    sensitivity=False,
+):
     """Execute the pipeline using provenance-verified public inputs or explicit demo data."""
     if base_dir is None:
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -320,10 +413,18 @@ def run_full_pipeline(config_path="configs/default_config.yaml", generations=Non
     candidate_geojson_path = os.path.join(base_dir, "data", "processed", "candidate_sites_filtered.geojson")
     roads_geojson_path = os.path.join(base_dir, "data", "raw", "osm_dhaka_roads.geojson")
     od_npz_path = os.path.join(base_dir, "data", "processed", "od_travel_time_matrix.npz")
+    candidate_road_distances_path = os.path.join(base_dir, "results", "tables", "candidate_road_distances.csv")
 
     compute_od_matrices(
         demand_geojson_path, candidate_geojson_path, roads_geojson_path, od_npz_path,
-        allow_approximate_fallback=(data_mode == "demo"),
+        allow_approximate_fallback=False,
+    )
+    road_network = OSMRoadNetwork(roads_geojson_path)
+    candidate_road_distances = road_network.calculate_candidate_road_distances(candidate_gdf)
+    candidate_road_distances.to_csv(candidate_road_distances_path, index=False)
+    print(
+        f"[Pipeline] Saved {len(candidate_road_distances)} candidate-pair road distances to "
+        f"{os.path.relpath(candidate_road_distances_path, base_dir)}."
     )
 
     # 4. Multi-Objective Optimization (NSGA-II)
@@ -332,6 +433,12 @@ def run_full_pipeline(config_path="configs/default_config.yaml", generations=Non
     dist_matrix = data["distances"]
     time_matrix = data["travel_times"]
     demand_values = data["demand_values"]
+    routing_method = str(data["routing_method"].item()) if "routing_method" in data else "legacy_unspecified"
+    if routing_method != "directed_road_network_dijkstra":
+        raise ValueError(
+            "The optimization OD matrix must use directed road-network routes; "
+            f"found routing method '{routing_method}'. Rebuild it from the current road graph."
+        )
 
     demand_gdf = gpd.read_file(demand_geojson_path)
     candidate_ids = candidate_gdf["candidate_id"].astype(str).tolist()
@@ -353,12 +460,45 @@ def run_full_pipeline(config_path="configs/default_config.yaml", generations=Non
     solver.generations = generations
 
     pareto_front, _ = solver.solve(generations=generations)
+    pareto_front = canonicalize_pareto_front(pareto_front)
     pareto_csv_path = os.path.join(base_dir, "results", "tables", "optimal_solutions_pareto.csv")
     pareto_df = export_pareto_solutions(pareto_front, candidate_metadata, config, pareto_csv_path)
+    knee_idx, knee_sol = find_knee_point_solution(pareto_df)
+    optimizer_solution = pareto_front[knee_idx]
+    baseline_path = os.path.join(base_dir, "results", "tables", "baseline_comparison.csv")
+    baseline_df = compare_site_selection_baselines(
+        solver, optimizer_solution, candidate_metadata,
+        pd.read_csv(candidate_table_path), baseline_path,
+    )
+    extension_dir = os.path.join(base_dir, "results", "research", run_id)
+    research_extensions = generate_research_extensions(
+        extension_dir, demand_gdf, demand_values, dist_matrix,
+        candidate_metadata, optimizer_solution, pareto_df, pareto_front, config,
+    )
+
+    sensitivity_dir = os.path.join(base_dir, "results", "sensitivity", run_id)
+    sensitivity_path = None
+    if sensitivity:
+        base_budget = config["optimization"]["budget_cap_bdt"]
+        base_radius = float(config["optimization"]["service_radius_rmax_m"])
+        scenarios = {
+            "baseline": {},
+            "demand_low": {"demand_multiplier": 0.8},
+            "demand_high": {"demand_multiplier": 1.2},
+            "service_radius_low": {"service_radius_rmax_m": base_radius * 0.8},
+            "service_radius_high": {"service_radius_rmax_m": base_radius * 1.2},
+        }
+        if base_budget is not None:
+            scenarios["budget_low"] = {"budget_cap_bdt": float(base_budget) * 0.9}
+            scenarios["budget_high"] = {"budget_cap_bdt": float(base_budget) * 1.1}
+        run_sensitivity(
+            dist_matrix, time_matrix, demand_values, candidate_metadata, config,
+            scenarios, sensitivity_dir, population=population, generations=generations,
+        )
+        sensitivity_path = os.path.join(sensitivity_dir, "sensitivity_results.csv")
 
     # 5. Grid AC Power Flow Simulation on Knee-Point Solution
     print("\n>>> STEP 5: Distribution Grid Power Flow Simulation (pandapower)")
-    knee_idx, knee_sol = find_knee_point_solution(pareto_df)
     print(f"[Pipeline] Selected Knee-Point Compromise Solution: '{knee_sol['solution_id']}'")
     print(f"  - Total Social Cost: BDT {knee_sol['total_cost_million_bdt']:.2f} Million (~${knee_sol['total_cost_million_usd']:.2f}M USD)")
     print(f"  - Spatial Demand Coverage: {knee_sol['demand_coverage_pct']:.1f}%")
@@ -371,7 +511,14 @@ def run_full_pipeline(config_path="configs/default_config.yaml", generations=Non
 
     selected_ids = str(knee_sol["selected_station_ids"]).split(";")
     active_stations_df = candidate_gdf[candidate_gdf["candidate_id"].isin(selected_ids)].copy()
-    active_stations_df["total_grid_power_kw"] = float(knee_sol["total_grid_power_kw"]) / max(1, len(selected_ids))
+    charger_specs = list(config["chargers"].values())
+    station_power = {
+        candidate_metadata[index]["candidate_id"]: float(
+            sum(count * spec["power_kw"] for count, spec in zip(optimizer_solution.Y[index], charger_specs))
+        )
+        for index in np.flatnonzero(optimizer_solution.x)
+    }
+    active_stations_df["total_grid_power_kw"] = active_stations_df["candidate_id"].map(station_power)
 
     sim.inject_ev_station_loads(active_stations_df)
     ev_bus, ev_line, ev_v_met, ev_t_met = sim.run_ev_power_flow()
@@ -396,21 +543,6 @@ def run_full_pipeline(config_path="configs/default_config.yaml", generations=Non
     pareto_fig_path = os.path.join(base_dir, "results", "figures", "pareto_frontier_tradeoff.png")
     plot_pareto_front_2d(pareto_df, pareto_fig_path)
 
-    folium_html_path = os.path.join(base_dir, "results", "figures", "dhaka_evcs_interactive_map.html")
-    generate_interactive_folium_map(candidate_gdf, selected_ids, substations_df, folium_html_path)
-
-    responsive_html_path = Path(base_dir) / "results" / "figures" / "dhaka_evcs_responsive_map.html"
-    dashboard_config = {**config, "optimization": {**config["optimization"], "nsga2": dict(nsga_config)}}
-    run_id = uuid.uuid4().hex
-    build_responsive_map_html(
-        Path(base_dir), responsive_html_path, config=dashboard_config,
-        data_mode=data_mode, deploy_copies=output_deploy_copies,
-        run_metadata={
-            "run_id": run_id,
-            "provenance_status": "Synthetic demonstration inputs" if data_mode == "demo" else "Source claims documented; not independently authenticated",
-        },
-    )
-
     print("\n" + "=" * 78)
     print("  RESEARCH PIPELINE COMPLETED SUCCESSFULLY!  ")
     print("=" * 78)
@@ -424,9 +556,56 @@ def run_full_pipeline(config_path="configs/default_config.yaml", generations=Non
         input_records.append({"label": "OD matrices", "path": os.path.relpath(od_npz_path, base_dir), "sha256": _sha256_file(od_npz_path), "data_class": "derived_intermediate"})
 
     output_paths = [
-        candidate_table_path, pareto_csv_path, voltage_fig_path, ahp_map_path,
-        loc_map_path, pareto_fig_path, folium_html_path, str(responsive_html_path),
+        candidate_table_path, pareto_csv_path, candidate_road_distances_path,
+        baseline_path, voltage_fig_path, ahp_map_path, loc_map_path, pareto_fig_path,
     ]
+    output_paths.extend(research_extensions[key] for key in (
+        "uncertainty_site_screen", "uncertainty_scenario_metrics", "equity_accessibility", "time_of_day_load_profile",
+        "queueing_screen", "grid_upgrade_screen", "field_validation_template",
+        "investment_scenarios", "assumptions",
+    ))
+    if sensitivity_path:
+        output_paths.append(sensitivity_path)
+
+    road_route_status = candidate_road_distances["route_status"].value_counts().to_dict()
+    report_path = os.path.join(base_dir, "results", "reports", f"run_{run_id}.md")
+    report_outputs = [os.path.relpath(path, base_dir) for path in output_paths if os.path.isfile(path)]
+    _write_research_report(report_path, {
+        "run_id": run_id,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "data_mode": data_mode,
+        "data_class": "synthetic demonstration inputs" if data_mode == "demo" else "provenance-documented inputs; source claims not independently authenticated",
+        "inputs": input_records,
+        "solution": knee_sol.to_dict(),
+        "baselines": baseline_df,
+        "candidate_count": len(candidate_gdf),
+        "demand_count": len(demand_gdf),
+        "od_routing_method": routing_method,
+        "road_edge_count": road_network.graph.number_of_edges(),
+        "road_node_count": road_network.graph.number_of_nodes(),
+        "route_count": road_route_status.get("routed", 0),
+        "route_pair_count": len(candidate_road_distances),
+        "same_node_count": road_route_status.get("same_road_node", 0),
+        "unrouted_count": road_route_status.get("no_road_route", 0),
+        "grid_voltage": ev_v_met,
+        "grid_thermal": ev_t_met,
+        "sensitivity_path": os.path.relpath(sensitivity_path, base_dir) if sensitivity_path else None,
+        "research_extensions": {
+            "outputs": {
+                key: os.path.relpath(value, base_dir)
+                for key, value in research_extensions.items()
+                if key in {
+                    "uncertainty_site_screen", "uncertainty_scenario_metrics", "equity_accessibility",
+                    "time_of_day_load_profile", "queueing_screen", "grid_upgrade_screen",
+                    "field_validation_template", "investment_scenarios", "assumptions",
+                }
+            },
+            "most_frequently_selected_sites": research_extensions["most_frequently_selected_sites"],
+            "uncertainty_summary": research_extensions["uncertainty_summary"],
+        },
+        "outputs": report_outputs,
+    })
+    output_paths.append(report_path)
     output_records = [
         {"path": os.path.relpath(path, base_dir), "sha256": _sha256_file(path)}
         for path in output_paths if os.path.isfile(path)
@@ -437,11 +616,36 @@ def run_full_pipeline(config_path="configs/default_config.yaml", generations=Non
         "created_at": datetime.now(timezone.utc).isoformat(),
         "status": "success",
         "data_mode": data_mode,
+        "od_routing_method": routing_method,
         "data_class": "synthetic_demo" if data_mode == "demo" else "provenance-documented public inputs; source claims not independently authenticated",
         "configuration": config,
         "configuration_sources": {"scenario": str(config_full_path), "settings": str(settings_full_path) if settings_full_path else None},
         "inputs": input_records,
         "outputs": output_records,
+        "grid_validation": {
+            "model_vs_configured_limits_only": True,
+            "voltage": ev_v_met,
+            "thermal": ev_t_met,
+            "validated_against_utility_measurements": False,
+        },
+        "analysis_outputs": {
+            "baseline_comparison": os.path.relpath(baseline_path, base_dir),
+            "candidate_road_distances": os.path.relpath(candidate_road_distances_path, base_dir),
+            "sensitivity_results": os.path.relpath(sensitivity_path, base_dir) if sensitivity_path else None,
+            "research_report": os.path.relpath(report_path, base_dir),
+            "research_extensions": {
+                "outputs": {
+                    key: os.path.relpath(value, base_dir)
+                    for key, value in research_extensions.items()
+                    if key in {
+                        "uncertainty_site_screen", "uncertainty_scenario_metrics", "equity_accessibility",
+                        "time_of_day_load_profile", "queueing_screen", "grid_upgrade_screen",
+                        "field_validation_template", "investment_scenarios", "assumptions",
+                    }
+                },
+                "uncertainty_summary": research_extensions["uncertainty_summary"],
+            },
+        },
         "code_revision": _git_revision(base_dir),
         "software_versions": _software_versions(),
     }
@@ -460,4 +664,9 @@ def run_full_pipeline(config_path="configs/default_config.yaml", generations=Non
         "grid_feasible": ev_v_met["is_compliant"] and ev_t_met["is_thermal_compliant"],
         "data_mode": data_mode,
         "service_radius_rmax_m": config["optimization"]["service_radius_rmax_m"],
+        "candidate_road_distances_path": candidate_road_distances_path,
+        "baseline_comparison_path": baseline_path,
+        "sensitivity_results_path": sensitivity_path,
+        "research_extensions": research_extensions,
+        "research_report_path": report_path,
     }

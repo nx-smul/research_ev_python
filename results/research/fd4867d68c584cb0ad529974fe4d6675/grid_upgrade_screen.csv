@@ -1,0 +1,11 @@
+candidate_id,site_name,station_power_kw,required_mva_at_assumed_power_factor,input_substation_headroom_mva,estimated_capacity_shortfall_mva,transformer_upgrade_cost_bdt,substation_distance_km_proxy,feeder_upgrade_cost_proxy_bdt,total_upgrade_cost_screen_bdt,classification
+CS-01,Airport_Hub_Site_1,1650.0,1.736842105263158,11.0,0.0,0.0,9.4129,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"
+CS-06,Uttara_Sec11_Site_2,1370.0,1.4421052631578948,11.0,0.0,0.0,12.0885,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"
+CS-07,Purbachal_300ft_Site_1,960.0,1.0105263157894737,11.0,0.0,0.0,9.2337,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"
+CS-09,Baridhara_Diplomatic_Site_1,1250.0,1.3157894736842106,11.0,0.0,0.0,4.7029,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"
+CS-11,Gulshan_2_Site_1,1500.0,1.5789473684210527,11.0,0.0,0.0,3.7949,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"
+CS-12,Gulshan_2_Site_2,1350.0,1.4210526315789473,11.0,0.0,0.0,4.1962,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"
+CS-15,Banani_11_Site_1,1570.0,1.6526315789473685,11.0,0.0,0.0,3.9295999999999998,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"
+CS-17,Mohakhali_Terminal_Site_1,1470.0,1.5473684210526315,11.0,0.0,0.0,2.0848,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"
+CS-24,Tejgaon_Industrial_Site_2,1522.0,1.6021052631578947,11.0,0.0,0.0,0.8161,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"
+CS-31,Dhanmondi_8A_Site_1,1370.0,1.4421052631578948,8.0,0.0,0.0,0.6664,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"

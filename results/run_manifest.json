@@ -1,0 +1,563 @@
+{
+  "analysis_outputs": {
+    "baseline_comparison": "results/tables/baseline_comparison.csv",
+    "candidate_road_distances": "results/tables/candidate_road_distances.csv",
+    "research_extensions": {
+      "outputs": {
+        "assumptions": "results/research/fd4867d68c584cb0ad529974fe4d6675/assumptions.json",
+        "equity_accessibility": "results/research/fd4867d68c584cb0ad529974fe4d6675/equity_accessibility.csv",
+        "field_validation_template": "results/research/fd4867d68c584cb0ad529974fe4d6675/field_validation_template.csv",
+        "grid_upgrade_screen": "results/research/fd4867d68c584cb0ad529974fe4d6675/grid_upgrade_screen.csv",
+        "investment_scenarios": "results/research/fd4867d68c584cb0ad529974fe4d6675/investment_scenarios.csv",
+        "queueing_screen": "results/research/fd4867d68c584cb0ad529974fe4d6675/queueing_screen.csv",
+        "time_of_day_load_profile": "results/research/fd4867d68c584cb0ad529974fe4d6675/time_of_day_load_profile.csv",
+        "uncertainty_scenario_metrics": "results/research/fd4867d68c584cb0ad529974fe4d6675/uncertainty_scenario_metrics.csv",
+        "uncertainty_site_screen": "results/research/fd4867d68c584cb0ad529974fe4d6675/uncertainty_site_screen.csv"
+      },
+      "uncertainty_summary": {
+        "distance_weighted_coverage_pct_mean": 60.89334356970726,
+        "distance_weighted_coverage_pct_p05": 59.12192889091265,
+        "distance_weighted_coverage_pct_p95": 63.69934404589906,
+        "reachable_demand_pct_mean": 100.0,
+        "reachable_demand_pct_p05": 100.0,
+        "reachable_demand_pct_p95": 100.0,
+        "samples": 250
+      }
+    },
+    "research_report": "results/reports/run_fd4867d68c584cb0ad529974fe4d6675.md",
+    "sensitivity_results": null
+  },
+  "code_revision": "49ed7183d8cfb67565d80953a8948f6ef802cb74",
+  "configuration": {
+    "ahp_mcdm": {
+      "criteria": {
+        "flood_inundation_risk": {
+          "description": "Exclusion of monsoon waterlogging and flood vulnerability zones",
+          "preference": "min_risk",
+          "weight": 0.08
+        },
+        "land_value_index": {
+          "description": "Land acquisition / rental expenditure minimization",
+          "preference": "min_cost",
+          "weight": 0.09
+        },
+        "parking_availability": {
+          "description": "Co-location feasibility with existing parking lots & fuel stations",
+          "preference": "max",
+          "weight": 0.16
+        },
+        "poi_density": {
+          "description": "Proximity to commercial, educational, and business activity clusters",
+          "preference": "max",
+          "weight": 0.18
+        },
+        "substation_headroom": {
+          "description": "Available spare transformer capacity at nearest substation",
+          "preference": "max",
+          "weight": 0.12
+        },
+        "substation_proximity": {
+          "description": "Distance to 33/11kV DPDC & DESCO substations",
+          "preference": "min_distance",
+          "weight": 0.15
+        },
+        "traffic_density": {
+          "description": "Proximity to primary and secondary arterial road corridors",
+          "preference": "max",
+          "weight": 0.22
+        }
+      },
+      "pairwise_matrix": [
+        [
+          1.0,
+          1.25,
+          1.4,
+          1.5,
+          1.85,
+          2.45,
+          2.75
+        ],
+        [
+          0.8,
+          1.0,
+          1.15,
+          1.25,
+          1.5,
+          2.0,
+          2.25
+        ],
+        [
+          0.714,
+          0.87,
+          1.0,
+          1.1,
+          1.35,
+          1.8,
+          2.0
+        ],
+        [
+          0.667,
+          0.8,
+          0.909,
+          1.0,
+          1.25,
+          1.65,
+          1.85
+        ],
+        [
+          0.541,
+          0.667,
+          0.741,
+          0.8,
+          1.0,
+          1.35,
+          1.5
+        ],
+        [
+          0.408,
+          0.5,
+          0.556,
+          0.606,
+          0.741,
+          1.0,
+          1.15
+        ],
+        [
+          0.364,
+          0.444,
+          0.5,
+          0.541,
+          0.667,
+          0.87,
+          1.0
+        ]
+      ]
+    },
+    "chargers": {
+      "Type_1_AC_22kW": {
+        "annual_om_bdt": 25000.0,
+        "cap_cost_bdt": 350000.0,
+        "daily_energy_kwh": 176.0,
+        "efficiency": 0.92,
+        "inst_cost_bdt": 80000.0,
+        "name": "Level 2 AC (22kW)",
+        "power_kw": 22.0,
+        "suitable_fleet": [
+          "E2W",
+          "E3W_EasyBike",
+          "Private_4W"
+        ],
+        "type_id": 1
+      },
+      "Type_2_DC_60kW": {
+        "annual_om_bdt": 90000.0,
+        "cap_cost_bdt": 1800000.0,
+        "daily_energy_kwh": 480.0,
+        "efficiency": 0.9,
+        "inst_cost_bdt": 350000.0,
+        "name": "DC Fast Charger (60kW)",
+        "power_kw": 60.0,
+        "suitable_fleet": [
+          "Private_4W",
+          "Fleet_Taxi",
+          "E3W_EasyBike"
+        ],
+        "type_id": 2
+      },
+      "Type_3_DC_150kW": {
+        "annual_om_bdt": 220000.0,
+        "cap_cost_bdt": 4500000.0,
+        "daily_energy_kwh": 1200.0,
+        "efficiency": 0.88,
+        "inst_cost_bdt": 850000.0,
+        "name": "DC Ultra-Fast Charger (150kW)",
+        "power_kw": 150.0,
+        "suitable_fleet": [
+          "Private_4W",
+          "Fleet_Taxi",
+          "E_Bus"
+        ],
+        "type_id": 3
+      },
+      "Type_4_Swap_Depot": {
+        "annual_om_bdt": 180000.0,
+        "cap_cost_bdt": 3000000.0,
+        "daily_energy_kwh": 800.0,
+        "efficiency": 0.91,
+        "inst_cost_bdt": 600000.0,
+        "name": "Battery Swapping Depot (100kW)",
+        "power_kw": 100.0,
+        "suitable_fleet": [
+          "E2W",
+          "E3W_EasyBike"
+        ],
+        "type_id": 4
+      }
+    },
+    "economic": {
+      "alpha_delay_weight": 0.6,
+      "currency_usd_to_bdt": 115.0,
+      "discount_rate": 0.08,
+      "grid_connection_cost_per_kw": 4500.0,
+      "grid_distance_penalty_bdt_per_m": 1200.0,
+      "land_acquisition_base_sqm": 120.0,
+      "land_costs_bdt_per_sqm": {
+        "Badda_Mohakhali": 140000.0,
+        "Default_Zone": 100000.0,
+        "Dhanmondi": 180000.0,
+        "Gulshan_Banani": 250000.0,
+        "Jatrabari_Sayedabad": 85000.0,
+        "Kawran_Bazar_Tejgaon": 150000.0,
+        "Mirpur": 95000.0,
+        "Motijheel_Dilkusha": 220000.0,
+        "Old_Dhaka": 130000.0,
+        "Purbachal_Suburbs": 50000.0,
+        "Uttara": 110000.0
+      },
+      "land_sqm_per_charger": 25.0,
+      "project_lifetime_years": 10,
+      "vot_bdt_per_hour": 250.0
+    },
+    "fleet": {
+      "E2W": {
+        "ac_share": 0.2,
+        "battery_kwh": 3.0,
+        "count": 80000,
+        "daily_km": 35.0,
+        "fast_charge_share": 0.3,
+        "kwh_per_km": 0.035,
+        "swap_share": 0.5
+      },
+      "E3W_EasyBike": {
+        "ac_share": 0.2,
+        "battery_kwh": 5.5,
+        "count": 65000,
+        "daily_km": 90.0,
+        "fast_charge_share": 0.1,
+        "kwh_per_km": 0.065,
+        "swap_share": 0.7
+      },
+      "E_Bus": {
+        "ac_share": 0.05,
+        "battery_kwh": 250.0,
+        "count": 1500,
+        "daily_km": 180.0,
+        "fast_charge_share": 0.95,
+        "kwh_per_km": 1.1,
+        "swap_share": 0.0
+      },
+      "Fleet_Taxi": {
+        "ac_share": 0.15,
+        "battery_kwh": 45.0,
+        "count": 8000,
+        "daily_km": 160.0,
+        "fast_charge_share": 0.85,
+        "kwh_per_km": 0.16,
+        "swap_share": 0.0
+      },
+      "Private_4W": {
+        "ac_share": 0.4,
+        "battery_kwh": 50.0,
+        "count": 12000,
+        "daily_km": 40.0,
+        "fast_charge_share": 0.6,
+        "kwh_per_km": 0.17,
+        "swap_share": 0.0
+      }
+    },
+    "grid": {
+      "feeder_reconductoring_cost_bdt_per_km": 2200000.0,
+      "max_line_loading_pct": 100.0,
+      "max_transformer_loading_pct": 100.0,
+      "power_factor": 0.95,
+      "thd_v_limit_pct": 5.0,
+      "tx_upgrade_cost_bdt_per_mva": 3500000.0,
+      "v_max_pu": 1.05,
+      "v_min_pu": 0.95
+    },
+    "optimization": {
+      "budget_cap_bdt": 2500000000,
+      "lambda_impedance": 0.00035,
+      "max_chargers_per_station": 12,
+      "max_open_stations": 10,
+      "min_chargers_per_station": 2,
+      "min_open_stations": 3,
+      "nsga2": {
+        "crossover_probability": 0.85,
+        "generations": 250,
+        "mutation_probability": 0.15,
+        "population_size": 100,
+        "random_seed": 42,
+        "tournament_size": 3
+      },
+      "service_radius_rmax_m": 5000.0
+    },
+    "project": {
+      "base_year": 2026,
+      "crs_geographic": "EPSG:4326",
+      "crs_projected": "EPSG:32646",
+      "name": "dhaka-evcs-placement",
+      "study_area": "Dhaka Metropolitan Area (DNCC & DSCC)",
+      "target_year": 2030
+    },
+    "research_extensions": {
+      "investment": {
+        "budget_multipliers": [
+          0.5,
+          0.75,
+          1.0,
+          1.25
+        ],
+        "counterfactual_ice_kg_co2_per_km": {
+          "E2W": 0.045,
+          "E3W_EasyBike": 0.09,
+          "E_Bus": 0.9,
+          "Fleet_Taxi": 0.24,
+          "Private_4W": 0.18
+        },
+        "electricity_cost_bdt_kwh": 12.0,
+        "grid_emissions_kg_co2_kwh": 0.56,
+        "operating_models": {
+          "commercial": {
+            "tariff_bdt_kwh": 26.0
+          },
+          "concessional": {
+            "tariff_bdt_kwh": 16.0
+          },
+          "public_access": {
+            "tariff_bdt_kwh": 20.0
+          }
+        }
+      },
+      "queueing": {
+        "average_session_kwh": 15.0,
+        "plug_overhead_minutes": 10.0
+      },
+      "time_of_day": {
+        "day_type_multipliers": {
+          "weekday": 1.0,
+          "weekend": 0.9
+        },
+        "season_multipliers": {
+          "dry": 1.0,
+          "monsoon": 1.05
+        }
+      },
+      "uncertainty": {
+        "demand_multiplier_range": [
+          0.8,
+          1.2
+        ],
+        "distance_multiplier_range": [
+          0.85,
+          1.15
+        ],
+        "samples": 250,
+        "seed": 2026,
+        "site_cost_multiplier_range": [
+          0.8,
+          1.2
+        ],
+        "suitability_noise_sd": 0.05
+      }
+    },
+    "spatial": {
+      "bounding_box": {
+        "max_lat": 23.9,
+        "max_lon": 90.46,
+        "min_lat": 23.68,
+        "min_lon": 90.32
+      },
+      "candidate_site_generation": {
+        "max_candidate_sites": 50,
+        "min_spacing_m": 350.0,
+        "min_suitability_score": 0.45
+      },
+      "exclusion_buffers": {
+        "flood_hazard_threshold": 0.7,
+        "heritage_sites_m": 50.0,
+        "waterbodies_m": 30.0
+      },
+      "grid_resolution_meters": 100
+    }
+  },
+  "configuration_sources": {
+    "scenario": "/home/simp/research/configs/default_config.yaml",
+    "settings": "/home/simp/research/configs/user_settings.yaml"
+  },
+  "created_at": "2026-10-08T20:44:20.000352+00:00",
+  "data_class": "synthetic_demo",
+  "data_mode": "demo",
+  "grid_validation": {
+    "model_vs_configured_limits_only": true,
+    "thermal": {
+      "is_thermal_compliant": true,
+      "max_line_loading_pct": 42.24,
+      "max_trafo_loading_pct": 47.66,
+      "overloaded_line_count": 0,
+      "overloaded_lines": [],
+      "overloaded_trafo_count": 0,
+      "overloaded_trafos": []
+    },
+    "validated_against_utility_measurements": false,
+    "voltage": {
+      "is_compliant": true,
+      "max_v_pu": 1.02,
+      "mean_v_pu": 1.0042,
+      "min_v_pu": 0.9978,
+      "overvoltage_buses": [],
+      "overvoltage_count": 0,
+      "undervoltage_buses": [],
+      "undervoltage_count": 0,
+      "vdi": 0.00702
+    }
+  },
+  "inputs": [
+    {
+      "data_class": "synthetic_demo",
+      "label": "OSM road network",
+      "path": "data/raw/osm_dhaka_roads.geojson",
+      "sha256": "773e87c4efb10dba25e7b634b5cd0f20aeb5d4617ba59f5a62e4f383cd8cb4e1",
+      "validation": "demo-generated"
+    },
+    {
+      "data_class": "synthetic_demo",
+      "label": "authoritative candidate sites",
+      "path": "data/processed/candidate_sites_filtered.geojson",
+      "sha256": "a7f4df23f55f6a95eda88cf88dce74e00de416d320bd8a5e7821ab5ebcbafb60",
+      "validation": "demo-generated"
+    },
+    {
+      "data_class": "synthetic_demo",
+      "label": "zoning and land-use constraints",
+      "path": "data/raw/rajuk_dap_landuse.geojson",
+      "sha256": "44c7e18617bf26a2a852f78370dde5fbecd925184f7731357ae737f45124f65c",
+      "validation": "demo-generated"
+    },
+    {
+      "data_class": "synthetic_demo",
+      "label": "utility substation attributes",
+      "path": "data/raw/dpdc_desco_substations.csv",
+      "sha256": "faf4a55987b1cb87c9a6ccd7b7d34ed6628aef492a9de3339714f4ab8817309d",
+      "validation": "demo-generated"
+    },
+    {
+      "data_class": "synthetic_demo",
+      "label": "measured spatial EV charging demand",
+      "path": "data/processed/demand_grid_100m.geojson",
+      "sha256": "0c0c924e1a7b5543a88a2253fd4dce01ba8277341dbb1a233aa48822b39c5df3",
+      "validation": "demo-generated"
+    },
+    {
+      "data_class": "synthetic_demo",
+      "label": "authoritative distribution grid model",
+      "path": "data/grid_models/dpdc_33kv_subnetwork.json",
+      "sha256": "f40bd231f784ba9fd46ae43ac0f4d95ec6a41f687b9972b51eedc7ae7bd0aec1",
+      "validation": "demo-generated"
+    },
+    {
+      "data_class": "configuration",
+      "label": "scenario configuration",
+      "path": "/home/simp/research/configs/default_config.yaml",
+      "sha256": "43d2f35058ea5b8132ccd9517bb08afc5d7935948f4409324969767356c3119b"
+    },
+    {
+      "data_class": "configuration",
+      "label": "user settings",
+      "path": "/home/simp/research/configs/user_settings.yaml",
+      "sha256": "74c1c4517f6e4b20c2c291cd14dbe2a2049eb1bf8399e9cb222a14765fd2ce77"
+    },
+    {
+      "data_class": "derived_intermediate",
+      "label": "OD matrices",
+      "path": "data/processed/od_travel_time_matrix.npz",
+      "sha256": "57d3951672e3d81938c3d0d35f761a52bcc15ce1814ec862e774827af494a042"
+    }
+  ],
+  "od_routing_method": "directed_road_network_dijkstra",
+  "outputs": [
+    {
+      "path": "results/tables/candidate_sites.csv",
+      "sha256": "898aa294cda5a92cbbe8446a0cc0c5fe4d022aee00fc2771b1ba196fe8920f1f"
+    },
+    {
+      "path": "results/tables/optimal_solutions_pareto.csv",
+      "sha256": "ad0bb961d494cbfe26900db1a6ef71bf395d153eb636983922f8be2e14e1d6ad"
+    },
+    {
+      "path": "results/tables/candidate_road_distances.csv",
+      "sha256": "acdee2e939d665ce43bf96bc8390510e920e5f41baa1a26a4b86a647bad11364"
+    },
+    {
+      "path": "results/tables/baseline_comparison.csv",
+      "sha256": "b7f323bcc18e0be8adc5b12940cfc5522219bcb462b9f5f7167478d7be8bec9f"
+    },
+    {
+      "path": "results/figures/voltage_profile_comparison.png",
+      "sha256": "5d7324201da079ad4d3dcd8b14faa9e7e553103c2516c55ec94ddee91089d0db"
+    },
+    {
+      "path": "results/figures/ahp_suitability_map.png",
+      "sha256": "e06b60acc34e57a9546f27033ba9d0a06678ef4ccca17e51dbb0e8e5f715bed3"
+    },
+    {
+      "path": "results/figures/optimal_cs_locations.png",
+      "sha256": "b33c186bb25021adb6431dc3d299748675d03c1cea8826d63c9aca1f2115bb62"
+    },
+    {
+      "path": "results/figures/pareto_frontier_tradeoff.png",
+      "sha256": "d361069db96d680b81f3f36d80455fdd92c3637d9edb4a82f3447b9b4b5e434d"
+    },
+    {
+      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/uncertainty_site_screen.csv",
+      "sha256": "268ac670d52b51a0e29d2f8b0a19284dc45f44ba09d05d000da6bf097f254eaa"
+    },
+    {
+      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/uncertainty_scenario_metrics.csv",
+      "sha256": "167753adfd1c3ebc23fe30cf4dd3fb8e2e6b80a05019de5ea46d26ea90629d3a"
+    },
+    {
+      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/equity_accessibility.csv",
+      "sha256": "55350ec7a86ad601f72fde6485f039b52a00a0260e30acb5fd3f0d97b3363fe3"
+    },
+    {
+      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/time_of_day_load_profile.csv",
+      "sha256": "bcbbda1ce0f520548e51655f6f16120d83a72bea2080001e5a1bdb311e2ffbf0"
+    },
+    {
+      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/queueing_screen.csv",
+      "sha256": "ab4bc1efe27afef938e80b9a3dfa80eb738145e916239613993573cab35d0f57"
+    },
+    {
+      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/grid_upgrade_screen.csv",
+      "sha256": "96f4e0b5d2123ddf471ea3d2469b724b912cc59146adf49dbc2a1957a8dfddc0"
+    },
+    {
+      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/field_validation_template.csv",
+      "sha256": "78753b2ae9f079dea873df075a39ec905cd15ef0646b6a3ed331e1ab80f95650"
+    },
+    {
+      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/investment_scenarios.csv",
+      "sha256": "44ba074f04c5177de0f58f5152585bd095acce8211343765fad3c706f93aeccc"
+    },
+    {
+      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/assumptions.json",
+      "sha256": "024915866443484ba195e24f51382dec7638d8bc9d1a88b39384d7e68125135e"
+    },
+    {
+      "path": "results/reports/run_fd4867d68c584cb0ad529974fe4d6675.md",
+      "sha256": "9a99171bcd50b4bd68e4899e10068087cd58f6b8f150d3b96118f36d0fff4ea7"
+    }
+  ],
+  "run_id": "fd4867d68c584cb0ad529974fe4d6675",
+  "schema_version": 1,
+  "software_versions": {
+    "PyYAML": "6.0.3",
+    "geopandas": "1.2.0",
+    "networkx": "3.7",
+    "numpy": "2.4.6",
+    "pandapower": "3.5.5",
+    "pandas": "2.3.3"
+  },
+  "status": "success"
+}

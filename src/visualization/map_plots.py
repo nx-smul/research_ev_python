@@ -1,14 +1,8 @@
-"""Spatial visualization: Matplotlib publication figures and interactive Folium GIS maps."""
+"""Static publication figures for spatial analysis results."""
 
 import os
-import json
 import numpy as np
-import pandas as pd
-import geopandas as gpd
 import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
-import folium
-from folium.plugins import MarkerCluster, HeatMap
 
 
 def plot_ahp_suitability_map(candidate_gdf, landuse_gdf, output_fig_path):
@@ -113,83 +107,3 @@ def plot_optimal_cs_locations(candidate_gdf, selected_station_ids, substations_d
     plt.savefig(output_fig_path, dpi=300)
     plt.close()
     print(f"[Visualization] Optimal EVCS locations map saved to: {output_fig_path}")
-
-
-def generate_interactive_folium_map(candidate_gdf, selected_station_ids, substations_df, output_html_path):
-    """Generate an interactive Folium web map with layer controls, popups, and clusters."""
-    # Center map on Dhaka City (23.78°N, 90.40°E)
-    m = folium.Map(location=[23.7800, 90.4000], zoom_start=12, tiles="OpenStreetMap")
-
-    # Layer 1: Substations
-    sub_fg = folium.FeatureGroup(name="DPDC & DESCO 33/11kV Substations")
-    if substations_df is not None and not substations_df.empty:
-        for _, row in substations_df.iterrows():
-            sub_id = row.get("sub_id", "")
-            s_name = row.get("name", "")
-            utility = row.get("utility", "")
-            rated_mva = row.get("rated_mva", 40.0)
-            headroom_mva = row.get("headroom_mva", 10.0)
-
-            popup_html = f"""
-            <div style='font-family: sans-serif; min-width: 180px;'>
-                <h4 style='margin-bottom: 4px; color: #1f77b4;'>⚡ {s_name}</h4>
-                <b>Utility:</b> {utility}<br>
-                <b>Rated Capacity:</b> {rated_mva} MVA<br>
-                <b>Available Headroom:</b> <span style='color: green; font-weight: bold;'>{headroom_mva} MVA</span><br>
-            </div>
-            """
-            folium.Marker(
-                location=[row["lat"], row["lon"]],
-                popup=folium.Popup(popup_html, max_width=300),
-                tooltip=f"Substation: {s_name}",
-                icon=folium.Icon(color="blue", icon="bolt", prefix="fa")
-            ).add_to(sub_fg)
-    sub_fg.add_to(m)
-
-    # Layer 2: Selected EV Charging Stations
-    selected_fg = folium.FeatureGroup(name="Optimal EV Charging Stations (EVCS)")
-    selected_set = set(selected_station_ids)
-
-    for _, row in candidate_gdf.iterrows():
-        cid = row.get("candidate_id", "")
-        is_selected = cid in selected_set
-        if not is_selected:
-            continue
-
-        sname = row.get("site_name", cid)
-        zname = row.get("zone_name", "")
-        ahp_score = row.get("ahp_suitability_score", 0.75)
-        land_cost = row.get("land_cost_bdt_sqm", 100000.0)
-        sub_dist = row.get("distance_to_substation_m", 1200.0)
-
-        popup_html = f"""
-        <div style='font-family: sans-serif; min-width: 220px;'>
-            <h4 style='margin-bottom: 4px; color: #d9534f;'>🔋 EVCS: {sname}</h4>
-            <b>Candidate ID:</b> {cid}<br>
-            <b>Zone:</b> {zname}<br>
-            <b>AHP Suitability Score:</b> {ahp_score:.3f}<br>
-            <b>Land Valuation:</b> BDT {land_cost:,.0f}/m²<br>
-            <b>Nearest Substation Dist:</b> {sub_dist:.0f} m<br>
-            <b>Configured Bays:</b> Level 2 AC, DC Fast 60kW, Ultra-Fast 150kW, Battery Swap<br>
-        </div>
-        """
-        folium.Marker(
-            location=[row.geometry.y, row.geometry.x],
-            popup=folium.Popup(popup_html, max_width=320),
-            tooltip=f"Selected EVCS: {sname}",
-            icon=folium.Icon(color="red", icon="plug", prefix="fa")
-        ).add_to(selected_fg)
-
-    selected_fg.add_to(m)
-
-    # Layer 3: AHP Candidate HeatMap
-    heat_data = [[row.geometry.y, row.geometry.x, float(row.get("ahp_suitability_score", 0.5))] for _, row in candidate_gdf.iterrows()]
-    heat_fg = folium.FeatureGroup(name="AHP Suitability Intensity Heatmap")
-    HeatMap(heat_data, radius=25, blur=15, max_zoom=13).add_to(heat_fg)
-    heat_fg.add_to(m)
-
-    folium.LayerControl(collapsed=False).add_to(m)
-
-    os.makedirs(os.path.dirname(output_html_path), exist_ok=True)
-    m.save(output_html_path)
-    print(f"[Visualization] Interactive Folium map saved to: {output_html_path}")

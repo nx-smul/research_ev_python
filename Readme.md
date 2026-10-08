@@ -144,9 +144,25 @@ A successful pipeline run writes `results/run_manifest.json` (override with the 
 
 The dashboard's **Download CSV** action in the Pareto chart exports every embedded frontier row. Solution role labels are derived from objective metrics (minimum cost, maximum coverage, knee point), rather than row number. Coverage percentage is calculated as distance/capacity-aware covered demand divided by total supplied demand; it is a modeled score, not observed charging utilization.
 
-For repeatable what-if runs, call `src.optimization.sensitivity.run_sensitivity(...)` with precomputed distance/time matrices, demand, candidates, a base config, an explicit mapping of named cases, and a caller-chosen output directory. Supported scenario parameters are `demand_multiplier`, `budget_cap_bdt`, `service_radius_rmax_m`, and `charger_mix`. Each case produces `scenario.json` and `pareto_solutions.csv`; the output directory also contains `sensitivity_results.csv` and `sensitivity_manifest.json`. These are model sensitivity scenarios, not forecasts or observed data. Each case deep-copies the supplied configuration and uses a fixed seed when provided. Sensitivity runs do not rerun GIS, routing, or grid power-flow stages.
+Run the optional pipeline-level robustness analysis with `python main.py --mode full --data-mode demo --sensitivity` (omit `--data-mode demo` when verified real inputs are available). This runs additional optimizer cases for ±20% demand, ±20% service radius, and ±10% budget, saving outputs under `results/sensitivity/<run-id>/`. These additional optimizer runs can take substantial time. They are model sensitivity scenarios, not forecasts or observed data; they do not rerun GIS, routing, or grid power-flow stages. The lower-level `src.optimization.sensitivity.run_sensitivity(...)` API also supports explicit `charger_mix` cases.
 
-Dashboard theme, basemap, filters, layer visibility, and displayed catchment circles affect browser presentation only. Optimization parameters shown in run settings are read-only metadata; to change them, edit the scenario/settings and rerun Python. The optimizer's network-distance service radius is not the same as the visualization circle distance. Fleet counts/specifications shown on the Fleet tab are illustrative assumptions, not verified local observations.
+Each successful pipeline run writes `results/tables/baseline_comparison.csv` and a run-specific `results/reports/run_<run-id>.md`. The baseline file compares the NSGA-II knee solution with TOPSIS-ranked and demand-greedy locations while keeping station count and charger allocations fixed; it is a siting diagnostic, not a separately optimized solution. The report inventories input hashes and declared provenance, reports ordered road-pair routing counts, summarizes grid checks and baseline results, and lists limitations. Grid checks are compared with configured limits only, not utility measurements.
+
+Each run also creates `results/research/<run-id>/` with:
+
+- `uncertainty_site_screen.csv` and `uncertainty_scenario_metrics.csv`: 250 seeded Monte Carlo heuristic screens by default, perturbing demand, distances, suitability, and site-cost proxies. The first reports candidate selection frequency; the second reports per-sample demand-access and cost-proxy variation. This is a candidate screening diagnostic, **not** repeated NSGA-II optimization.
+- `equity_accessibility.csv`: modeled demand coverage by available input zone and gap from citywide coverage. This is a geographic access proxy only; no income or demographic data are included, so it is not a socioeconomic-equity finding.
+- `time_of_day_load_profile.csv` and `queueing_screen.csv`: assumed hourly/day/season load patterns and M/M/c peak queue estimates. Replace the default profiles, session size, plug overhead, and service assumptions with observed charging sessions.
+- `grid_upgrade_screen.csv`: indicative transformer shortfall and feeder-cost proxy using candidate headroom/distance inputs. It is not an interconnection study or a substitute for utility feeder/topology data.
+- `investment_scenarios.csv`: Pareto-front options across budget multipliers and illustrative public, commercial, and concessional tariff cases, including simple operating surplus, payback, and net emissions estimates. Tariffs, electricity price, grid emissions intensity, and ICE counterfactual rates are assumptions in `configs/default_config.yaml`, not verified Dhaka measurements or forecasts.
+- `field_validation_template.csv`: blank site-visit records for access, parking, land permission, observed transformer details, existing chargers, queues, and evidence references.
+- `assumptions.json`: machine-readable configuration and interpretation limits for these screens.
+
+Change the `research_extensions` block in `configs/default_config.yaml` to adjust sample ranges, profile factors, queue inputs, budget scenarios, operating tariffs, and emissions factors. The field worksheet is created once per run so previously completed field records are not overwritten. Validate all assumptions with local traffic, charging, demographic, site, and utility evidence before using these results for investment or policy decisions.
+
+The pipeline's demand-to-candidate OD distance and travel-time matrices use directed shortest paths on the loaded road graph (Dijkstra), including for demo runs. It does not replace missing routes with straight-line estimates; if a demand/site pair is disconnected or one-way unreachable, the run stops with an error so the road input can be corrected. The graph routes between each point's nearest road node; the separate candidate-pair CSV also reports these snap offsets.
+
+Dashboard basemap, filters, and layer visibility affect browser presentation only. Optimization parameters are controlled by the scenario/settings files and require a pipeline rerun to change. Live EV charger/fuel facilities come from the OpenStreetMap Overpass API, with the upstream OSM replication timestamp shown separately from the fetch time. The **OSM EV chargers** and **OSM fuel stations** layers can be toggled independently. Results are cached for at most 15 minutes; **Refresh live OSM data** bypasses that cache, and the last successful response remains visible if Overpass is temporarily unavailable. Use **Fit live assets** to zoom to mapped amenities. This is the most recently replicated community-mapped data available from OSM, not a real-time charger-status/availability feed; these records are a separate, attributed map overlay and are not used as modeled demand or grid telemetry.
 
 ### 4.2 Spatial Suitability Modeling (GIS-MCDM)
 
@@ -273,8 +289,13 @@ $$Q_{g,k} - Q_{d,k} - Q_{\text{EV},k} = V_k \sum_{m=1}^{N_b} V_m (G_{km} \sin \t
 .
 ├── Readme.md                          <- Main project & research documentation
 ├── LICENSE                            <- MIT License
+├── main.py                            <- Research pipeline CLI
+├── pyproject.toml                     <- Python package, CLI, and pytest configuration
 ├── requirements.txt                   <- Python dependency specifications
 ├── environment.yml                    <- Conda environment definition
+├── api/
+│   └── app.py                         <- FastAPI results and live OpenStreetMap endpoints
+├── web/                               <- React, Vite, and MapLibre dashboard
 ├── data/
 │   ├── raw/                           <- Untransformed raw spatial and grid datasets
 │   │   ├── osm_dhaka_roads.geojson
@@ -310,7 +331,7 @@ $$Q_{g,k} - Q_{d,k} - Q_{\text{EV},k} = V_k \sum_{m=1}^{N_b} V_m (G_{km} \sin \t
 │   │   ├── voltage_stability.py      <- Bus voltage drop & line loading check
 │   │   └── grid_reinforcement.py     <- Upgrade penalty cost calculator
 │   └── visualization/
-│       ├── map_plots.py              <- Folium & GeoPandas interactive visualizer
+│       ├── map_plots.py              <- Static GeoPandas research figures
 │       └── pareto_front.py           <- Multi-objective trade-off plotting
 ├── configs/
 │   ├── default_config.yaml           <- Hyperparameters, weights, interest rates
@@ -321,10 +342,8 @@ $$Q_{g,k} - Q_{d,k} - Q_{\text{EV},k} = V_k \sum_{m=1}^{N_b} V_m (G_{km} \sin \t
 │   │   ├── optimal_cs_locations.png
 │   │   └── voltage_profile_comparison.png
 │   └── tables/                       <- Output CSVs of optimal station allocations
-└── tests/
-    ├── test_spatial_integrity.py
-    ├── test_optimization_solver.py
-    └── test_power_flow.py
+├── tests/                             <- Python and web regression tests
+└── .github/workflows/pages.yml       <- Web frontend deployment
 ```
 
 ---
@@ -380,14 +399,18 @@ optimization:
   nsga2:
     population_size: 100
     generations: 250
-visualization:
-  map_provider: osm  # osm, carto-dark, carto-light, or maptiler
-  maptiler_style: streets-v2
+    crossover_probability: 0.85
+    mutation_probability: 0.15
+    random_seed: 42
 ```
+
+`configs/user_settings.yaml` also includes commented examples for distance-decay (`optimization.lambda_impedance`), candidate-site filtering (`spatial.candidate_site_generation`), economic assumptions (`economic`), AHP weights (`ahp_mcdm.criteria`), charger costs/capacities (`chargers`), and fleet assumptions (`fleet`). Uncomment and edit only the values you want to override; all other values continue to come from the selected scenario. `lambda_impedance` must be non-negative and `economic.alpha_delay_weight` must be between 0 and 1. Rerun the pipeline for configuration changes to affect results; the web dashboard only displays the latest generated artifacts.
+
+For faster exploratory runs, lower the population and generations, then restore larger values for a final run. Change `random_seed` to explore a different stochastic search; keep it fixed to reproduce a run.
 
 By default, `full` runs use `--data-mode real` and stop before analysis if source inputs are missing or lack a provenance sidecar. No authoritative public location-level traffic, EV charging demand, or DPDC/DESCO grid-capacity datasets were verified as openly downloadable for this project. Do not interpret the current generated files as observed Dhaka data. Use `--data-mode demo` only for explicitly synthetic demonstrations; `--mode data` is also a synthetic generator.
 
-Run using both a scenario and settings overlay; explicit CLI population/generation flags override YAML only when supplied. The optimizer service radius is a network-distance limit; the dashboard’s map display radius is a browser-only straight-line visualization control:
+Run using both a scenario and settings overlay; explicit CLI population/generation flags override YAML only when supplied. The optimizer service radius is a network-distance limit:
 
 ```bash
 python main.py --mode full --config configs/default_config.yaml --settings configs/user_settings.yaml
@@ -396,7 +419,32 @@ python main.py --mode full --settings configs/user_settings.yaml --population 60
 
 The budget constrains **upfront station CAPEX** (land, charger purchase/installation and grid connection), not lifetime operating cost or user travel cost. If no feasible configuration fits, the optimizer reports that the cap must be raised or station/charger limits relaxed.
 
-The generated dashboard’s **Settings** panel displays the run configuration and supports browser-only basemap selection. OpenStreetMap needs no key. For MapTiler, choose it in the panel and save your own key; it is stored in browser local storage, not embedded in the generated site or the repository. Public websites expose browser-side tile keys to visitors, so restrict the key by allowed domain and usage in your MapTiler account.
+Each successful `python main.py --mode full ...` run also writes `results/tables/candidate_road_distances.csv`, with one row per ordered candidate-site pair because one-way roads can make outbound and return routes different. `road_distance_m` is the shortest directed path over the configured road graph's `length_m` edge weights; snap offsets from each site to its nearest graph node are separate columns and are not added to that distance. Pairs sharing one snapped node are marked `same_road_node`; disconnected directed pairs have an empty distance and `no_road_route` status. Treat these outputs as approximate when the source road graph is sparse.
+
+To fetch a routable OpenStreetMap road extract into `data/raw/osm_dhaka_roads.geojson` (including a provenance sidecar), run `python -m src.spatial.osm_network --download-roads`. The default bounding box comes from `configs/default_config.yaml`; override it with `--bbox south,west,north,east`, or choose an alternate endpoint with `--overpass-url`. Existing road data or sidecars are protected; `--overwrite` is required to replace them. The downloader preserves OSM node connectivity and one-way direction. OSM road geometry/tags do not provide measured local traffic: missing speeds/lanes and all absent PCU flow values are explicitly estimated proxies, so they must not be reported as traffic observations. A road-only download does not satisfy the provenance/input requirements for a complete real-data run; all other required inputs still need suitable sources and documentation.
+
+### Improvement ideas
+
+- Replace assumed fleet, demand, land-cost, and charger-cost inputs with dated, licensed local observations; record provenance and uncertainty for every input.
+- Run the sensitivity workflow across budget, demand, service-radius, and charger-mix scenarios, and report how robust the selected sites are.
+- Calibrate traffic-based travel times and validate power-flow results against utility-provided network topology and operating measurements before treating results as planning recommendations.
+- Add a web-based scenario editor and run-status reporting so users can launch/review simulations without editing YAML or replacing result files manually.
+
+## Web App (React, MapLibre, FastAPI)
+
+The interactive application lives in `web/`; it is a React/Vite frontend with a MapLibre map backed by FastAPI JSON endpoints. The API serves generated research results at `/api/dashboard` and retrieves current OpenStreetMap charging-station and fuel-facility records through Overpass at `/api/live-map` (cached for up to 15 minutes, with the last successful response retained during upstream errors). Live mapped facilities are an observational overlay only; they are not optimizer demand, verified utilization, or utility/grid-capacity data. Overpass availability and completeness depend on OpenStreetMap contributors and its public service limits.
+
+The dashboard uses OpenFreeMap's Positron and dark vector styles, which require no API key; **Appearance** follows the operating-system preference by default, with manual Light and Dark choices. The map automatically fits the candidate-site extent when research data loads; use **Fit sites** to return to the candidate sites after panning. Map appearance and basemap change together, and the interface does not provide a browser route calculator. OpenFreeMap, OpenMapTiles, and OpenStreetMap attribution is included in the map controls and footer. The public OpenFreeMap service has no SLA; availability depends on the user's network and the provider. The legacy Python-generated interactive HTML maps have been removed; publication figures remain available from the research pipeline. Candidate-to-candidate road-distance research results remain available from the Python pipeline in `results/tables/candidate_road_distances.csv`.
+
+Run locally in separate terminals:
+
+```bash
+python -m pip install -r requirements.txt
+uvicorn api.app:app --reload --port 8000
+cd web && npm install && npm run dev
+```
+
+The frontend defaults to `http://localhost:8000`; set `VITE_API_URL` before building to point to the deployed API. `EVCS_OVERPASS_URL` can override the public Overpass endpoint. Deploy the frontend from `web/` with GitHub Pages (the repository workflow builds the Vite app). GitHub Pages cannot run FastAPI: deploy the API separately, set `EVCS_CORS_ORIGINS` to the exact Pages origin(s), and configure the frontend’s `VITE_API_URL`. The API reads files beneath `EVCS_DATA_ROOT` (default repository root) and exposes them publicly, so publish only data you have rights to redistribute.
 
 ### Step 1: Spatial Suitability & Candidate Site Filtering
 Extract OSM road network, compute AHP criteria weights, and generate candidate placement zones:

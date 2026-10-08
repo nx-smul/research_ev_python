@@ -1,0 +1,4 @@
+strategy,method,station_count,selected_station_ids,system_cost_bdt,demand_coverage_score_kwh,demand_coverage_pct,upfront_capex_bdt,budget_cap_bdt,budget_feasible,cost_delta_vs_nsga_bdt,coverage_delta_vs_nsga_pp
+NSGA-II knee solution,Optimized siting and sizing,10,CS-01;CS-06;CS-07;CS-09;CS-11;CS-12;CS-15;CS-17;CS-24;CS-31,96771998786.1371,80240.22576900279,22.350079068753818,1352195200.0,2500000000,True,0.0,0.0
+Top-ranked baseline,TOPSIS-ranked sites; optimizer sizing held fixed,10,CS-57;CS-58;CS-56;CS-55;CS-17;CS-18;CS-21;CS-22;CS-26;CS-54,96440491137.66942,39525.61901921185,11.009449460722815,1068221080.0,2500000000,True,-331507648.4676819,-11.340629608031003
+Demand-greedy baseline,Greedy uncovered-demand proximity; optimizer sizing held fixed,10,CS-27;CS-49;CS-37;CS-17;CS-02;CS-54;CS-07;CS-55;CS-56;CS-58,98026449958.9597,49824.08187658582,13.87797901610511,1076395000.0,2500000000,True,1254451172.8226013,-8.472100052648708
