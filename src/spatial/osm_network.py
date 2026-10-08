@@ -23,14 +23,26 @@ class OSMRoadNetwork:
     def load_from_geojson(self, geojson_path):
         """Build NetworkX graph from road network GeoJSON."""
         self.roads_gdf = gpd.read_file(geojson_path)
+        if self.roads_gdf.empty:
+            raise ValueError("Road network input is empty.")
+        if self.roads_gdf.crs is None or self.roads_gdf.crs.to_epsg() != 4326:
+            raise ValueError("Road network geometry must declare CRS EPSG:4326 (longitude/latitude).")
 
         for idx, row in self.roads_gdf.iterrows():
             u = row.get("u", f"node_{idx}_u")
             v = row.get("v", f"node_{idx}_v")
-            length_m = float(row.get("length_m", 1000.0))
-            speed_kmh = float(row.get("maxspeed", 40.0))
-            lanes = int(row.get("lanes", 2))
-            pcu = float(row.get("pcu_per_hr", 2000.0))
+            required = ("length_m", "maxspeed", "lanes", "pcu_per_hr")
+            missing = [field for field in required if field not in self.roads_gdf.columns or pd.isna(row.get(field))]
+            if missing:
+                raise ValueError(
+                    f"Road feature {idx} is missing required sourced attributes: {', '.join(missing)}."
+                )
+            length_m = float(row["length_m"])
+            speed_kmh = float(row["maxspeed"])
+            lanes = int(row["lanes"])
+            pcu = float(row["pcu_per_hr"])
+            if length_m <= 0 or speed_kmh <= 0 or lanes <= 0 or pcu < 0:
+                raise ValueError(f"Road feature {idx} contains invalid routing attributes.")
 
             # Bureau of Public Roads (BPR) congestion formula: t = t0 * (1 + alpha * (V/C)^beta)
             capacity = lanes * 1200.0  # PCU/hr per lane
@@ -40,7 +52,9 @@ class OSMRoadNetwork:
             t_congested_minutes = t0_minutes * congestion_mult
 
             # Extract coordinates from LineString geometry
-            coords = list(row.geometry.coords) if hasattr(row, "geometry") and row.geometry else [(90.40, 23.75), (90.41, 23.76)]
+            if row.geometry is None or row.geometry.is_empty or not hasattr(row.geometry, "coords"):
+                raise ValueError(f"Road feature {idx} must have a non-empty LineString geometry.")
+            coords = list(row.geometry.coords)
             u_coord = coords[0]
             v_coord = coords[-1]
 
@@ -74,7 +88,7 @@ class OSMRoadNetwork:
 
         return best_node
 
-    def calculate_shortest_path_matrix(self, demand_points, candidate_points, weight="weight"):
+    def calculate_shortest_path_matrix(self, demand_points, candidate_points, weight="weight", allow_approximate_fallback=True):
         """Calculate OD travel time and network distance matrices using Dijkstra's algorithm.
 
         Args:
@@ -97,13 +111,23 @@ class OSMRoadNetwork:
 
         for i, (d_pt, d_node) in enumerate(zip(demand_points, demand_nodes)):
             for j, (c_pt, c_node) in enumerate(zip(candidate_points, candidate_nodes)):
-                if nx.is_connected(self.graph) and nx.has_path(self.graph, d_node, c_node):
+                if d_node is not None and c_node is not None and nx.has_path(self.graph, d_node, c_node):
                     try:
                         t_min = nx.shortest_path_length(self.graph, d_node, c_node, weight="weight")
                         d_m = nx.shortest_path_length(self.graph, d_node, c_node, weight="length_m")
                     except nx.NetworkXNoPath:
+                        if not allow_approximate_fallback:
+                            raise ValueError(
+                                "Road-network route unavailable for demand/candidate pair "
+                                f"({i}, {j}); Euclidean fallback is disabled for verified-data runs."
+                            )
                         t_min, d_m = self._euclidean_fallback(d_pt, c_pt)
                 else:
+                    if not allow_approximate_fallback:
+                        raise ValueError(
+                            "Road-network route unavailable for demand/candidate pair "
+                            f"({i}, {j}); Euclidean fallback is disabled for verified-data runs."
+                        )
                     t_min, d_m = self._euclidean_fallback(d_pt, c_pt)
 
                 dist_matrix[i, j] = d_m
@@ -122,7 +146,7 @@ class OSMRoadNetwork:
         return time_min, dist_m
 
 
-def compute_od_matrices(demand_geojson_path, candidate_geojson_path, roads_geojson_path, output_npz_path):
+def compute_od_matrices(demand_geojson_path, candidate_geojson_path, roads_geojson_path, output_npz_path, allow_approximate_fallback=True):
     """Compute and save OD distance and travel time matrices to .npz file."""
     demand_gdf = gpd.read_file(demand_geojson_path)
     candidate_gdf = gpd.read_file(candidate_geojson_path)
@@ -132,10 +156,17 @@ def compute_od_matrices(demand_geojson_path, candidate_geojson_path, roads_geojs
 
     demand_ids = demand_gdf["demand_id"].tolist() if "demand_id" in demand_gdf.columns else [f"D_{i}" for i in range(len(demand_gdf))]
     candidate_ids = candidate_gdf["candidate_id"].tolist() if "candidate_id" in candidate_gdf.columns else [f"CS_{j}" for j in range(len(candidate_gdf))]
-    demand_values = demand_gdf["daily_demand_kwh"].to_numpy() if "daily_demand_kwh" in demand_gdf.columns else np.ones(len(demand_gdf)) * 500.0
+    if "daily_demand_kwh" not in demand_gdf.columns:
+        raise ValueError("Demand input must contain measured or explicitly sourced 'daily_demand_kwh'; no default demand is substituted.")
+    demand_values = demand_gdf["daily_demand_kwh"].to_numpy()
 
     network = OSMRoadNetwork(roads_geojson_path)
-    dist_mat, time_mat = network.calculate_shortest_path_matrix(demand_points, candidate_points)
+    if not network.graph:
+        raise ValueError("Road network is empty; provide a valid road GeoJSON with routable edges.")
+    dist_mat, time_mat = network.calculate_shortest_path_matrix(
+        demand_points, candidate_points,
+        allow_approximate_fallback=allow_approximate_fallback,
+    )
 
     os.makedirs(os.path.dirname(output_npz_path), exist_ok=True)
     np.savez_compressed(
@@ -155,7 +186,7 @@ def compute_od_matrices(demand_geojson_path, candidate_geojson_path, roads_geojs
 
 def main():
     parser = argparse.ArgumentParser(description="Extract road network and calculate OD travel time matrix for Dhaka.")
-    parser.add_argument("--city", type=str, default="Dhaka, Bangladesh", help="City name or bounding region.")
+    parser.add_argument("--city", type=str, default="Dhaka, Bangladesh", help="City name (input files are local; this flag does not download data).")
     parser.add_argument("--matrix-output", type=str, default="data/processed/od_travel_time_matrix.npz", help="Output path for OD matrix NPZ file.")
     args = parser.parse_args()
 
@@ -164,13 +195,11 @@ def main():
     candidate_path = os.path.join(base_dir, "data", "processed", "candidate_sites_filtered.geojson")
     roads_path = os.path.join(base_dir, "data", "raw", "osm_dhaka_roads.geojson")
 
-    # If inputs missing, generate them
     if not (os.path.exists(demand_path) and os.path.exists(candidate_path) and os.path.exists(roads_path)):
-        from src.data_generator import generate_all_data
-        generate_all_data(base_dir)
+        parser.error("Required data files are missing; obtain public inputs or generate demo data explicitly with `python main.py --mode data`. No data was generated automatically.")
 
     output_path = os.path.join(base_dir, args.matrix_output) if not os.path.isabs(args.matrix_output) else args.matrix_output
-    compute_od_matrices(demand_path, candidate_path, roads_path, output_path)
+    compute_od_matrices(demand_path, candidate_path, roads_path, output_path, allow_approximate_fallback=False)
 
 
 if __name__ == "__main__":

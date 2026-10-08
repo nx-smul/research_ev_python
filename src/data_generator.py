@@ -1,4 +1,4 @@
-"""Data generator utility for synthetic & benchmark Dhaka spatial and electrical grid datasets."""
+"""Generate synthetic demonstration datasets; never treat these as observations."""
 
 import json
 import os
@@ -258,6 +258,7 @@ def _generate_candidate_sites(anchors: dict, substations: list, processed_dir: P
                     "site_name": f"{name}_Site_{k+1}",
                     "zone_name": zone,
                     "land_cost_bdt_sqm": lprice,
+                    # Per-candidate demand is not used by the optimizer; demand belongs to zones.
                     "nearest_substation_id": nearest_sub["sub_id"],
                     "distance_to_substation_m": round(sub_dist_m, 1),
                     "substation_headroom_mva": headroom,
@@ -316,11 +317,16 @@ def generate_processed_datasets(base_dir="/home/simp/research"):
 
     np.random.seed(42)
     demand_points, demand_ids, demand_values = _generate_demand_grid(anchors, processed_dir)
-    candidate_points, candidate_ids = _generate_candidate_sites(anchors, substations, processed_dir)
+    # The demo power-flow model currently represents DPDC only; keep generated
+    # candidate-to-substation links within that model rather than inventing a DESCO bus.
+    grid_substations = [item for item in substations if item["utility"] == "DPDC"]
+    candidate_points, candidate_ids = _generate_candidate_sites(anchors, grid_substations, processed_dir)
     _generate_od_matrix(demand_points, candidate_points, demand_ids, candidate_ids, demand_values, processed_dir)
 
 
 def generate_all_data(base_dir="/home/simp/research"):
+    """Explicitly generate synthetic benchmark data for demos/tests only."""
+    print("WARNING: generating SYNTHETIC DEMO data; these values are not observed or official.")
     print("Generating raw and processed datasets...")
     generate_raw_datasets(base_dir)
     print("Generating processed candidate sites, demand grid, and OD matrix...")

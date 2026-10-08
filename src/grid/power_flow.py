@@ -22,6 +22,11 @@ class GridPowerFlowSimulator:
         self.base_net = None
         if network_json_path and os.path.exists(network_json_path):
             self.load_network(network_json_path)
+        elif network_json_path:
+            raise FileNotFoundError(
+                f"Grid model not found: {network_json_path}. Supply an authoritative network model; "
+                "no synthetic network will be created automatically."
+            )
 
     def load_network(self, network_json_path):
         """Load pandapower network from JSON."""
@@ -32,8 +37,14 @@ class GridPowerFlowSimulator:
         """Run AC power flow on baseline grid (without added EV charging loads)."""
         try:
             pp.runpp(self.base_net, algorithm="nr", numba=False, enforce_q_lims=False)
-        except Exception:
-            pp.runpp(self.base_net, algorithm="bfsw", numba=False)
+        except Exception as nr_error:
+            try:
+                pp.runpp(self.base_net, algorithm="bfsw", numba=False)
+            except Exception as bfsw_error:
+                raise RuntimeError(
+                    f"Grid baseline power flow failed with Newton-Raphson ({nr_error}) "
+                    f"and BFSW ({bfsw_error})."
+                ) from bfsw_error
 
         bus_res = self.base_net.res_bus.copy()
         line_res = self.base_net.res_line.copy()
@@ -56,7 +67,13 @@ class GridPowerFlowSimulator:
         q_mult = math.tan(math.acos(power_factor))
 
         for _, row in stations_df.iterrows():
-            power_kw = float(row.get("total_grid_power_kw", row.get("total_power_kw", 800.0)))
+            power_value = row.get("total_grid_power_kw", row.get("total_power_kw"))
+            if power_value is None or pd.isna(power_value):
+                raise ValueError(
+                    f"EV station '{row.get('candidate_id', 'unknown')}' has no sourced power demand; "
+                    "provide total_grid_power_kw or total_power_kw explicitly."
+                )
+            power_kw = float(power_value)
             if power_kw <= 0:
                 continue
 
@@ -73,21 +90,41 @@ class GridPowerFlowSimulator:
                         target_bus = b_idx
                         break
 
+            lon = lat = None
             if target_bus is None and "lon" in row and "lat" in row:
                 # Coordinate matching
                 lon, lat = float(row["lon"]), float(row["lat"])
+            elif target_bus is None and "geometry" in row and row.geometry is not None:
+                # GeoDataFrame inputs commonly expose a point geometry instead of lon/lat columns.
+                lon, lat = float(row.geometry.x), float(row.geometry.y)
+
+            if target_bus is None and lon is not None and lat is not None:
                 min_d = float("inf")
-                for b_idx, b_row in self.net.bus.iterrows():
-                    b_geo = self.net.bus_geodata.loc[b_idx] if b_idx in self.net.bus_geodata.index else None
-                    if b_geo is not None:
+                bus_geodata = getattr(self.net, "bus_geodata", None)
+                if bus_geodata is not None:
+                    for b_idx in bus_geodata.index:
+                        b_geo = bus_geodata.loc[b_idx]
                         d = (b_geo["x"] - lon)**2 + (b_geo["y"] - lat)**2
                         if d < min_d:
                             min_d = d
                             target_bus = b_idx
+            if target_bus is None and "nearest_substation_id" in row and row["nearest_substation_id"]:
+                sub_id = str(row["nearest_substation_id"])
+                for b_idx, b_name in self.net.bus["name"].items():
+                    if sub_id in str(b_name):
+                        target_bus = b_idx
+                        break
+            if target_bus is None and "nearest_substation_id" in row and row["nearest_substation_id"]:
+                raise ValueError(
+                    f"Substation '{row['nearest_substation_id']}' for EV station "
+                    f"'{row.get('candidate_id', 'unknown')}' is absent from the loaded grid model."
+                )
 
             if target_bus is None:
-                # Default to a random non-slack bus
-                target_bus = self.net.bus.index[1 % len(self.net.bus)]
+                raise ValueError(
+                    f"Cannot map EV station '{row.get('candidate_id', 'unknown')}' to a grid bus. "
+                    "Provide matching substation IDs or georeferenced bus coordinates; no default bus is used."
+                )
 
             # Add EV load element
             pp.create_load(
@@ -102,8 +139,14 @@ class GridPowerFlowSimulator:
         """Run AC power flow on EV-integrated network."""
         try:
             pp.runpp(self.net, algorithm="nr", numba=False, enforce_q_lims=False)
-        except Exception:
-            pp.runpp(self.net, algorithm="bfsw", numba=False)
+        except Exception as nr_error:
+            try:
+                pp.runpp(self.net, algorithm="bfsw", numba=False)
+            except Exception as bfsw_error:
+                raise RuntimeError(
+                    f"EV-loaded grid power flow failed with Newton-Raphson ({nr_error}) "
+                    f"and BFSW ({bfsw_error})."
+                ) from bfsw_error
 
         bus_res = self.net.res_bus.copy()
         line_res = self.net.res_line.copy()
@@ -189,8 +232,7 @@ def main():
     out_fig_path = os.path.join(base_dir, args.output) if not os.path.isabs(args.output) else args.output
 
     if not os.path.exists(net_path):
-        from src.data_generator import generate_all_data
-        generate_all_data(base_dir)
+        parser.error(f"Grid model not found: {net_path}. Supply a documented utility model or explicitly create a demo dataset; no synthetic network was generated.")
 
     sim = GridPowerFlowSimulator(net_path)
     base_bus, base_line, base_v_met, base_t_met = sim.run_baseline_power_flow()

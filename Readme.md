@@ -123,6 +123,31 @@ flowchart TD
 
 ---
 
+## Important data-status notice (2026-10-08)
+
+The repository's built-in generator creates **synthetic demonstration data**, not official Dhaka observations. In particular, its `dtca_traffic_counts.csv`, road graph, demand points, land-use polygons, candidate attributes, substation records, and grid model must not be described as DTCA/RAJUK/DPDC/DESCO source data. The default full pipeline now requires public-input provenance sidecars and stops when they are absent; it does not silently generate replacements. `python main.py --mode data` and `python main.py --mode full --data-mode demo` explicitly generate/use synthetic demo inputs only.
+
+### Public-source availability and limits
+
+- **OpenStreetMap roads/POIs:** Bangladesh extracts are downloadable from [Geofabrik](https://download.geofabrik.de/asia/bangladesh.html); OSM data are licensed under [ODbL](https://www.openstreetmap.org/copyright), with attribution and applicable share-alike obligations. Coverage/attributes vary; OSM does not provide measured traffic volumes, vehicle registrations, EV charging demand, or utility capacity.
+- **Classified traffic counts:** No open, downloadable Dhaka dataset with verified locations, vehicle classes, measurement dates, and license was confirmed. [DTCA](https://dtca.gov.bd/) is a source to contact, not proof of access to a suitable dataset.
+- **Vehicle registrations:** No public location-level registration dataset suitable for neighborhood demand was confirmed. [BRTA](https://brta.gov.bd/) is an authoritative inquiry route; citywide totals cannot be assigned to individual cells.
+- **EV charging inventory/demand:** No authoritative open station inventory or observed location-level energy/session dataset was verified. Policy targets or registration totals are not charging-demand measurements.
+- **Land use/flood risk:** [RAJUK](https://rajuk.gov.bd/), [BWDB FFWC](https://ffwc.gov.bd/), and [BWDB GIS](https://gis.bwdb.gov.bd/arcgis/home/) are credible leads; editable Dhaka GIS downloads, dataset-specific licenses, dates, coverage, and resolutions were not verified.
+- **Distribution grid:** No openly downloadable DPDC/DESCO topology with node-level ratings, actual loads, and spare capacity was verified. Contact [DPDC](https://dpdc.gov.bd/) and [DESCO](https://desco.gov.bd/) for authorized models.
+
+Before any dataset can be treated as observed input, provide a sibling `<filename>.provenance.json` containing `source_url`, `license`, `retrieved_at`, `coverage`, `units`, `transformation`, and `data_class` (`observed`, `official_source`, or `derived_from_observed`). Keep any estimates/scenarios explicitly labeled and out of evidence-based runs. The real-data preflight is an integrity gate, not independent authentication of a source claim; users must verify the source and reuse terms.
+
+### Reproducibility, sensitivity, and exports
+
+A successful pipeline run writes `results/run_manifest.json` (override with the `manifest_path` argument when calling `run_full_pipeline`). It records a run ID and timestamp, real/demo classification, effective merged configuration (including optimizer CLI overrides), source metadata and SHA-256 hashes for inputs/sidecars, hashes for generated outputs, source configuration paths, available package versions, and Git revision when available. Demo runs are marked synthetic. The manifest is written after successful completion; failed runs do not receive a success manifest. Hashes provide content identity, not publisher authentication.
+
+The dashboard's **Download CSV** action in the Pareto chart exports every embedded frontier row. Solution role labels are derived from objective metrics (minimum cost, maximum coverage, knee point), rather than row number. Coverage percentage is calculated as distance/capacity-aware covered demand divided by total supplied demand; it is a modeled score, not observed charging utilization.
+
+For repeatable what-if runs, call `src.optimization.sensitivity.run_sensitivity(...)` with precomputed distance/time matrices, demand, candidates, a base config, an explicit mapping of named cases, and a caller-chosen output directory. Supported scenario parameters are `demand_multiplier`, `budget_cap_bdt`, `service_radius_rmax_m`, and `charger_mix`. Each case produces `scenario.json` and `pareto_solutions.csv`; the output directory also contains `sensitivity_results.csv` and `sensitivity_manifest.json`. These are model sensitivity scenarios, not forecasts or observed data. Each case deep-copies the supplied configuration and uses a fixed seed when provided. Sensitivity runs do not rerun GIS, routing, or grid power-flow stages.
+
+Dashboard theme, basemap, filters, layer visibility, and displayed catchment circles affect browser presentation only. Optimization parameters shown in run settings are read-only metadata; to change them, edit the scenario/settings and rerun Python. The optimizer's network-distance service radius is not the same as the visualization circle distance. Fleet counts/specifications shown on the Fleet tab are illustrative assumptions, not verified local observations.
+
 ### 4.2 Spatial Suitability Modeling (GIS-MCDM)
 
 Spatial multi-criteria evaluation applies the **Analytic Hierarchy Process (AHP)** to calculate normalized relative weights for spatial criteria, followed by **TOPSIS (Technique for Order Preference by Similarity to Ideal Solution)** ranking.
@@ -342,7 +367,36 @@ pip install -r requirements.txt
 
 ## 9. Execution & Reproducibility Guide
 
-The optimization and simulation workflow can be executed sequentially or end-to-end using the command line interface:
+The optimization and simulation workflow can be executed sequentially or end-to-end using the command line interface. For everyday tuning, edit `configs/user_settings.yaml` (partial overrides applied to the selected scenario):
+
+```yaml
+optimization:
+  min_open_stations: 3
+  max_open_stations: 32
+  min_chargers_per_station: 2
+  max_chargers_per_station: 12
+  budget_cap_bdt: 2500000000  # upfront CAPEX: land + equipment + installation + grid connection
+  service_radius_rmax_m: 5000.0  # optimizer network-distance threshold in meters
+  nsga2:
+    population_size: 100
+    generations: 250
+visualization:
+  map_provider: osm  # osm, carto-dark, carto-light, or maptiler
+  maptiler_style: streets-v2
+```
+
+By default, `full` runs use `--data-mode real` and stop before analysis if source inputs are missing or lack a provenance sidecar. No authoritative public location-level traffic, EV charging demand, or DPDC/DESCO grid-capacity datasets were verified as openly downloadable for this project. Do not interpret the current generated files as observed Dhaka data. Use `--data-mode demo` only for explicitly synthetic demonstrations; `--mode data` is also a synthetic generator.
+
+Run using both a scenario and settings overlay; explicit CLI population/generation flags override YAML only when supplied. The optimizer service radius is a network-distance limit; the dashboard’s map display radius is a browser-only straight-line visualization control:
+
+```bash
+python main.py --mode full --config configs/default_config.yaml --settings configs/user_settings.yaml
+python main.py --mode full --settings configs/user_settings.yaml --population 60 --generations 120
+```
+
+The budget constrains **upfront station CAPEX** (land, charger purchase/installation and grid connection), not lifetime operating cost or user travel cost. If no feasible configuration fits, the optimizer reports that the cap must be raised or station/charger limits relaxed.
+
+The generated dashboard’s **Settings** panel displays the run configuration and supports browser-only basemap selection. OpenStreetMap needs no key. For MapTiler, choose it in the panel and save your own key; it is stored in browser local storage, not embedded in the generated site or the repository. Public websites expose browser-side tile keys to visitors, so restrict the key by allowed domain and usage in your MapTiler account.
 
 ### Step 1: Spatial Suitability & Candidate Site Filtering
 Extract OSM road network, compute AHP criteria weights, and generate candidate placement zones:

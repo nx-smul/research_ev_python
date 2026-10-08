@@ -131,6 +131,11 @@ def test_nsga2_solver_components(mock_candidate_gdf, mock_od_matrices, sample_co
     # Initialize population
     pop = solver.initialize_population()
     assert len(pop) == solver.pop_size
+    assert all(solver.min_open_stations <= int(ind.x.sum()) <= solver.max_open_stations for ind in pop)
+    assert all(
+        all(solver.y_min <= int(ind.Y[j].sum()) <= solver.y_max for j in np.flatnonzero(ind.x))
+        for ind in pop
+    )
 
     # Test non-dominated sorting
     fronts = solver.fast_non_dominated_sort(pop)
@@ -165,6 +170,26 @@ def test_nsga2_solver_run(mock_candidate_gdf, mock_od_matrices, sample_config):
     assert hasattr(best_sol, "F1_cost")
     assert hasattr(best_sol, "F2_coverage")
     assert best_sol.F1_cost > 0
+    assert best_sol.budget_feasible
+    assert best_sol.capex_bdt <= cfg["optimization"]["budget_cap_bdt"]
+
+
+def test_station_count_limits_and_capex_budget(mock_candidate_gdf, mock_od_matrices, sample_config):
+    dist_mat, time_mat, demand_values = mock_od_matrices
+    candidate_metadata = mock_candidate_gdf.to_dict("records")
+    cfg = sample_config.copy()
+    cfg["optimization"] = dict(sample_config["optimization"])
+    cfg["optimization"]["min_open_stations"] = 2
+    cfg["optimization"]["max_open_stations"] = 2
+    cfg["optimization"]["budget_cap_bdt"] = 1.0
+    cfg["optimization"]["nsga2"] = {"population_size": 4, "generations": 1, "random_seed": 4}
+    solver = NSGA2Solver(dist_mat, time_mat, demand_values, candidate_metadata, cfg)
+    population = solver.initialize_population()
+    assert all(int(ind.x.sum()) == 2 for ind in population)
+    assert all(not ind.budget_feasible for ind in population)
+    assert all(ind.objectives[0] >= 1e30 for ind in population)
+    with pytest.raises(ValueError, match="No budget-feasible"):
+        solver.solve(generations=1, show_progress=False)
 
 
 def test_milp_solver(mock_candidate_gdf, mock_od_matrices, sample_config):

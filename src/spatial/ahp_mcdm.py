@@ -189,10 +189,13 @@ def compute_spatial_suitability(criteria_df, weights_dict, exclusion_cols=None):
     return pd.Series(np.clip(suitability, 0.0, 1.0), index=criteria_df.index, name="composite_suitability")
 
 
-def run_ahp_spatial_pipeline(config_path, output_csv=None):
+def run_ahp_spatial_pipeline(config_path, output_csv=None, base_dir=None):
     """Execute complete AHP-TOPSIS spatial evaluation pipeline."""
-    with open(config_path, "r") as f:
-        config = yaml.safe_load(f)
+    if isinstance(config_path, dict):
+        config = config_path
+    else:
+        with open(config_path, "r") as f:
+            config = yaml.safe_load(f)
 
     pairwise_matrix = config["ahp_mcdm"]["pairwise_matrix"]
     weights, lambda_max, CI, CR = calculate_ahp_weights(pairwise_matrix)
@@ -209,14 +212,32 @@ def run_ahp_spatial_pipeline(config_path, output_csv=None):
     for k, w in zip(crit_keys, weights):
         print(f"  - {k}: {w:.4f}")
 
-    # Load candidate sites GeoJSON or generate if absent
-    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    # Load the candidate dataset from the caller's data root.
+    if base_dir is None:
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     candidate_geojson_path = os.path.join(base_dir, "data", "processed", "candidate_sites_filtered.geojson")
     if not os.path.exists(candidate_geojson_path):
-        from src.data_generator import generate_all_data
-        generate_all_data(base_dir)
+        raise FileNotFoundError(
+            f"Candidate input is missing: {candidate_geojson_path}. Obtain a documented source dataset "
+            "or explicitly generate demo inputs with `python main.py --mode data`; no data was generated automatically."
+        )
 
     candidate_gdf = gpd.read_file(candidate_geojson_path)
+    required_columns = {
+        "candidate_id", "geometry", "traffic_density_score", "poi_score", "parking_score",
+        "substation_headroom_mva", "land_cost_bdt_sqm", "distance_to_substation_m",
+        "ahp_suitability_score", "site_name", "zone_name",
+    }
+    missing_columns = sorted(required_columns - set(candidate_gdf.columns))
+    if missing_columns:
+        raise ValueError(f"Candidate input is missing required columns: {', '.join(missing_columns)}.")
+    if candidate_gdf.empty or candidate_gdf.geometry.is_empty.any():
+        raise ValueError("Candidate input must contain non-empty point features.")
+    if candidate_gdf.crs is None or candidate_gdf.crs.to_epsg() != 4326:
+        raise ValueError("Candidate geometry must declare CRS EPSG:4326 (longitude/latitude).")
+    numeric_cols = ["traffic_density_score", "poi_score", "parking_score", "substation_headroom_mva", "land_cost_bdt_sqm", "distance_to_substation_m", "ahp_suitability_score"]
+    if candidate_gdf[numeric_cols].isna().any().any() or not np.isfinite(candidate_gdf[numeric_cols].to_numpy(dtype=float)).all():
+        raise ValueError("Candidate input contains missing or non-finite suitability and cost values.")
 
     # Perform TOPSIS ranking across candidate sites
     feature_cols = [

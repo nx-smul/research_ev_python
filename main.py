@@ -18,7 +18,7 @@ def main():
         type=str,
         choices=["full", "data"],
         default="full",
-        help="Execution mode: 'data' generates raw/processed datasets, 'full' runs the complete pipeline."
+        help="Execution mode: 'data' explicitly generates SYNTHETIC demo datasets; 'full' runs the pipeline (real inputs required unless --data-mode demo)."
     )
     parser.add_argument(
         "--config",
@@ -27,29 +27,49 @@ def main():
         help="Path to YAML configuration file (only used in 'full' mode)."
     )
     parser.add_argument(
+        "--settings",
+        type=str,
+        default="configs/user_settings.yaml",
+        help="Partial YAML settings file merged over --config (default: configs/user_settings.yaml)."
+    )
+    parser.add_argument(
+        "--data-mode",
+        choices=["real", "demo"],
+        default="real",
+        help="Input mode for full pipeline: real requires provenance-verified sources; demo explicitly generates synthetic benchmark data.",
+    )
+    parser.add_argument(
         "--generations",
         type=int,
-        default=50,
-        help="Number of NSGA-II generations (only used in 'full' mode)."
+        default=None,
+        help="Optional NSGA-II generation override (otherwise uses YAML settings)."
     )
     parser.add_argument(
         "--population",
         type=int,
-        default=40,
-        help="Population size for NSGA-II (only used in 'full' mode)."
+        default=None,
+        help="Optional NSGA-II population override (otherwise uses YAML settings)."
     )
 
     args = parser.parse_args()
     base_dir = os.path.dirname(os.path.abspath(__file__))
 
     if args.mode == "data":
-        print("Generating datasets...")
+        print("Generating SYNTHETIC demo datasets only; these are not real observations or official data.")
         generate_all_data(base_dir)
-        print("Datasets generated successfully!")
+        print("Synthetic demo datasets generated successfully.")
     elif args.mode == "full":
         print(f"Running full pipeline with config: {args.config}")
-        print(f"  Generations: {args.generations}, Population: {args.population}")
-        run_full_pipeline(args.config, generations=args.generations, population=args.population, base_dir=base_dir)
+        if args.settings:
+            print(f"  User settings: {args.settings}")
+        run_full_pipeline(
+            args.config,
+            settings_path=args.settings,
+            generations=args.generations,
+            population=args.population,
+            base_dir=base_dir,
+            data_mode=args.data_mode,
+        )
     else:
         parser.error(f"Unknown mode: {args.mode}")
 

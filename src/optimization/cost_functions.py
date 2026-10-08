@@ -170,9 +170,16 @@ def evaluate_objectives(x, Y, dist_matrix, time_matrix, demand_values, candidate
     for j in range(M):
         if x[j] == 1:
             meta = candidate_metadata[j]
-            land_cost_sqm = meta.get("land_cost_bdt_sqm", 100000.0)
-            sub_dist_m = meta.get("distance_to_substation_m", 1500.0)
-            sub_headroom_mva = meta.get("substation_headroom_mva", 5.0)
+            land_cost_sqm = meta.get("land_cost_bdt_sqm")
+            sub_dist_m = meta.get("distance_to_substation_m")
+            sub_headroom_mva = meta.get("substation_headroom_mva")
+            candidate_id = meta.get("candidate_id", j)
+            if land_cost_sqm is None or not np.isfinite(float(land_cost_sqm)):
+                raise ValueError(f"Candidate '{candidate_id}' is missing a finite land_cost_bdt_sqm value.")
+            if sub_dist_m is None or not np.isfinite(float(sub_dist_m)):
+                raise ValueError(f"Candidate '{candidate_id}' is missing a finite distance_to_substation_m value.")
+            if sub_headroom_mva is None or not np.isfinite(float(sub_headroom_mva)):
+                raise ValueError(f"Candidate '{candidate_id}' is missing a finite substation_headroom_mva value.")
 
             # Capex & Land
             capex, land_c, eq_c, inst_c = calculate_station_capex(

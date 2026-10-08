@@ -2,8 +2,21 @@
 
 import os
 import pytest
-import pandas as pd
-from src.pipeline import run_full_pipeline
+from src.pipeline import RealDataPreflightError, run_full_pipeline
+
+
+def test_real_mode_fails_before_generation_or_outputs(base_dir, tmp_path, monkeypatch):
+    def unexpected_generation(_):
+        pytest.fail("real mode must never invoke the synthetic data generator")
+
+    monkeypatch.setattr("src.pipeline.generate_all_data", unexpected_generation)
+    with pytest.raises(RealDataPreflightError, match="no synthetic replacements"):
+        run_full_pipeline(
+            config_path=os.path.join(base_dir, "configs", "default_config.yaml"),
+            base_dir=tmp_path,
+            settings_path=None,
+        )
+    assert not (tmp_path / "results").exists()
 
 
 def test_full_pipeline_execution(base_dir, tmp_path):
@@ -18,7 +31,9 @@ def test_full_pipeline_execution(base_dir, tmp_path):
         config_path=config_path,
         generations=5,
         population=10,
-        base_dir=tmp_path
+        base_dir=tmp_path,
+        data_mode="demo",
+        output_deploy_copies=False,
     )
 
     assert results is not None

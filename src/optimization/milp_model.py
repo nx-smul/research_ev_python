@@ -14,6 +14,13 @@ class CMO_EVCS_MILP:
         self.demand_values = np.array(demand_values, dtype=np.float64)
         self.candidate_metadata = candidate_metadata
         self.config = config
+        for j, meta in enumerate(candidate_metadata):
+            for field in ("land_cost_bdt_sqm", "distance_to_substation_m"):
+                value = meta.get(field)
+                if value is None or not np.isfinite(float(value)):
+                    raise ValueError(
+                        f"Candidate '{meta.get('candidate_id', j)}' is missing a finite {field} value."
+                    )
 
         self.N = len(demand_values)
         self.M = len(candidate_metadata)
@@ -79,10 +86,15 @@ class CMO_EVCS_MILP:
         model.max_sizing = pyo.Constraint(model.J, rule=max_sizing_rule)
 
         # 4. Optional Station Count Constraint (P-Median / MCLP)
+        min_open = self.config["optimization"].get("min_open_stations", 1)
+        max_open = self.config["optimization"].get("max_open_stations", self.M)
         if p_stations is not None:
             def p_median_rule(m):
                 return sum(m.x[j] for j in m.J) == p_stations
             model.p_stations_con = pyo.Constraint(rule=p_median_rule)
+        else:
+            model.station_count_min = pyo.Constraint(expr=sum(model.x[j] for j in model.J) >= min_open)
+            model.station_count_max = pyo.Constraint(expr=sum(model.x[j] for j in model.J) <= max_open)
 
         # Objective Function: Weighted Normalized Formulation
         # Min Cost + Max Coverage
@@ -93,7 +105,7 @@ class CMO_EVCS_MILP:
                 for j in m.J for t in m.T
             )
             land_cost = sum(
-                self.candidate_metadata[j].get("land_cost_bdt_sqm", 100000.0) * (120.0 * m.x[j] + sum(25.0 * m.y[j, t] for t in m.T))
+                self.candidate_metadata[j]["land_cost_bdt_sqm"] * (120.0 * m.x[j] + sum(25.0 * m.y[j, t] for t in m.T))
                 for j in m.J
             )
             # Coverage (sum of served demand with distance decay)
@@ -106,6 +118,26 @@ class CMO_EVCS_MILP:
             return (1.0 - coverage_weight) * (equip_cost + land_cost) * 1e-6 - coverage_weight * coverage
 
         model.obj = pyo.Objective(rule=objective_rule, sense=pyo.minimize)
+
+        cap = budget_cap if budget_cap is not None else self.config["optimization"].get("budget_cap_bdt")
+        if cap is not None:
+            econ = self.config["economic"]
+            capex_expr = sum(
+                (charger_list[t]["cap_cost_bdt"] + charger_list[t]["inst_cost_bdt"]
+                 + econ.get("land_sqm_per_charger", 25.0) * self.candidate_metadata[j]["land_cost_bdt_sqm"]) * model.y[j, t]
+                for j in model.J for t in model.T
+            ) + sum(
+                econ.get("land_acquisition_base_sqm", 120.0) * self.candidate_metadata[j]["land_cost_bdt_sqm"] * model.x[j]
+                for j in model.J
+            ) + sum(
+                econ.get("grid_connection_cost_per_kw", 4500.0) * charger_list[t]["power_kw"] * model.y[j, t]
+                for j in model.J for t in model.T
+            ) + sum(
+                self.candidate_metadata[j]["distance_to_substation_m"]
+                * econ.get("grid_distance_penalty_bdt_per_m", 1200.0) * model.x[j]
+                for j in model.J
+            )
+            model.budget_cap = pyo.Constraint(expr=capex_expr <= cap)
         return model
 
     def solve_scipy_milp_fallback(self, p_stations=15):
@@ -121,7 +153,7 @@ class CMO_EVCS_MILP:
         decay = np.exp(-0.00035 * self.dist_matrix)
         potential_coverage = np.dot(self.demand_values, decay)  # shape (M,)
 
-        land_costs = np.array([m.get("land_cost_bdt_sqm", 100000.0) for m in self.candidate_metadata])
+        land_costs = np.array([m["land_cost_bdt_sqm"] for m in self.candidate_metadata])
 
         # Benefit - Cost vector for each station j
         c_obj = -(potential_coverage / np.max(potential_coverage)) + 0.35 * (land_costs / np.max(land_costs))

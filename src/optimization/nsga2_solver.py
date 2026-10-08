@@ -11,7 +11,7 @@ import pandas as pd
 import geopandas as gpd
 from tqdm import tqdm
 
-from .cost_functions import evaluate_objectives
+from .cost_functions import calculate_grid_connection_cost, calculate_station_capex, evaluate_objectives
 
 
 class SolutionCandidate:
@@ -27,6 +27,7 @@ class SolutionCandidate:
         self.crowding_distance = 0.0
         self.z_assignment = None
         self.penalties = 0.0
+        self.demand_values = None
 
 
 class NSGA2Solver:
@@ -47,6 +48,13 @@ class NSGA2Solver:
         opt = config["optimization"]
         self.y_min = opt.get("min_chargers_per_station", 2)
         self.y_max = opt.get("max_chargers_per_station", 12)
+        self.min_open_stations = opt.get("min_open_stations", 3)
+        self.max_open_stations = min(opt.get("max_open_stations", self.M), self.M)
+        if self.min_open_stations > self.max_open_stations:
+            raise ValueError("Station-count limits exceed the number of available candidate sites.")
+        if self.min_open_stations * self.y_min > self.max_open_stations * self.y_max:
+            raise ValueError("Station and charger-count limits are infeasible.")
+        self.budget_cap_bdt = opt.get("budget_cap_bdt")
         self.r_max = opt.get("service_radius_rmax_m", 5000.0)
 
         nsga_cfg = opt.get("nsga2", {})
@@ -56,24 +64,24 @@ class NSGA2Solver:
         self.mut_prob = nsga_cfg.get("mutation_probability", 0.15)
         self.seed = nsga_cfg.get("random_seed", 42)
 
-        np.random.seed(self.seed)
+        self.rng = np.random.default_rng(self.seed)
 
     def initialize_population(self):
         """Create initial random population of valid solutions."""
         pop = []
         for _ in range(self.pop_size):
-            # Random station selection with 15% to 60% of sites opened
-            num_open = np.random.randint(max(3, int(0.15 * self.M)), max(4, int(0.60 * self.M)))
-            open_indices = np.random.choice(self.M, size=num_open, replace=False)
+            # Sample a valid number of open sites from configured limits.
+            num_open = self.rng.integers(self.min_open_stations, self.max_open_stations + 1)
+            open_indices = self.rng.choice(self.M, size=num_open, replace=False)
             x = np.zeros(self.M, dtype=int)
             x[open_indices] = 1
 
             Y = np.zeros((self.M, self.K), dtype=int)
             for j in open_indices:
-                total_chargers = np.random.randint(self.y_min, self.y_max + 1)
+                total_chargers = self.rng.integers(self.y_min, self.y_max + 1)
                 # Distribute chargers among K types
-                probs = np.random.dirichlet(np.ones(self.K))
-                counts = np.random.multinomial(total_chargers, probs)
+                probs = self.rng.dirichlet(np.ones(self.K))
+                counts = self.rng.multinomial(total_chargers, probs)
                 Y[j, :] = counts
 
             cand = SolutionCandidate(x, Y)
@@ -90,10 +98,47 @@ class NSGA2Solver:
         )
         ind.F1_cost = F1
         ind.F2_coverage = F2
+        ind.demand_values = self.demand_values.copy()
         ind.z_assignment = z_mat
         ind.penalties = pen
-        # NSGA-II standard minimization: [F1_cost, -F2_coverage]
-        ind.objectives = [F1, -F2]
+        ind.capex_bdt = self.calculate_capex(ind.x, ind.Y)
+        ind.budget_feasible = self.budget_cap_bdt is None or ind.capex_bdt <= self.budget_cap_bdt
+        # Penalize over-budget solutions while retaining a gradient toward the cap.
+        if ind.budget_feasible:
+            ind.objectives = [F1, -F2]
+        else:
+            overrun = ind.capex_bdt - self.budget_cap_bdt
+            ind.objectives = [1e30 + overrun, 1e30 + overrun]
+
+    def calculate_capex(self, x, Y):
+        """Calculate upfront station CAPEX, including land, equipment, installation and grid connection."""
+        econ = self.config["economic"]
+        total = 0.0
+        for j in np.flatnonzero(x):
+            meta = self.candidate_metadata[j]
+            land_cost = meta.get("land_cost_bdt_sqm")
+            substation_distance = meta.get("distance_to_substation_m")
+            if land_cost is None or pd.isna(land_cost):
+                raise ValueError(
+                    f"Candidate '{meta.get('candidate_id', j)}' has no sourced land cost."
+                )
+            if substation_distance is None or pd.isna(substation_distance):
+                raise ValueError(
+                    f"Candidate '{meta.get('candidate_id', j)}' has no sourced substation distance."
+                )
+            capex, _, _, _ = calculate_station_capex(
+                Y[j], land_cost, self.charger_specs,
+                econ.get("land_acquisition_base_sqm", 120.0),
+                econ.get("land_sqm_per_charger", 25.0),
+            )
+            power_kw = sum(Y[j, k] * spec["power_kw"] for k, spec in enumerate(self.charger_specs.values()))
+            grid_cost = calculate_grid_connection_cost(
+                power_kw, substation_distance,
+                econ.get("grid_connection_cost_per_kw", 4500.0),
+                econ.get("grid_distance_penalty_bdt_per_m", 1200.0),
+            )
+            total += capex + grid_cost
+        return total
 
     def fast_non_dominated_sort(self, population):
         """Partition population into non-dominated Pareto fronts F_1, F_2, ..."""
@@ -164,7 +209,7 @@ class NSGA2Solver:
 
     def binary_tournament_selection(self, population):
         """Select best candidate using crowded comparison operator (rank first, crowding distance second)."""
-        idx1, idx2 = np.random.choice(len(population), size=2, replace=False)
+        idx1, idx2 = self.rng.choice(len(population), size=2, replace=False)
         ind1, ind2 = population[idx1], population[idx2]
 
         if ind1.rank < ind2.rank:
@@ -176,22 +221,16 @@ class NSGA2Solver:
 
     def crossover(self, parent1, parent2):
         """Uniform / SBX crossover on station selection and charger allocations."""
-        if np.random.rand() > self.cx_prob:
+        if self.rng.random() > self.cx_prob:
             return copy.deepcopy(parent1), copy.deepcopy(parent2)
 
         # Crossover on selection vector x
-        mask = np.random.rand(self.M) < 0.5
+        mask = self.rng.random(self.M) < 0.5
         child1_x = np.where(mask, parent1.x, parent2.x)
         child2_x = np.where(mask, parent2.x, parent1.x)
 
-        # Ensure at least 3 stations open
-        if np.sum(child1_x) < 3:
-            child1_x[np.random.choice(self.M, 3, replace=False)] = 1
-        if np.sum(child2_x) < 3:
-            child2_x[np.random.choice(self.M, 3, replace=False)] = 1
-
         # Crossover on charger matrix Y
-        mask_Y = np.random.rand(self.M, self.K) < 0.5
+        mask_Y = self.rng.random((self.M, self.K)) < 0.5
         child1_Y = np.where(mask_Y, parent1.Y, parent2.Y)
         child2_Y = np.where(mask_Y, parent2.Y, parent1.Y)
 
@@ -207,19 +246,17 @@ class NSGA2Solver:
 
     def mutate(self, ind):
         """Polynomial / uniform mutation on station locations and charger sizing."""
-        if np.random.rand() < self.mut_prob:
+        if self.rng.random() < self.mut_prob:
             # Mutate station toggle x
-            mutate_sites = np.random.choice(self.M, size=max(1, int(0.10 * self.M)), replace=False)
+            mutate_sites = self.rng.choice(self.M, size=max(1, int(0.10 * self.M)), replace=False)
             ind.x[mutate_sites] = 1 - ind.x[mutate_sites]
-            if np.sum(ind.x) < 3:
-                ind.x[np.random.choice(self.M, 3, replace=False)] = 1
 
-        if np.random.rand() < self.mut_prob:
+        if self.rng.random() < self.mut_prob:
             # Mutate charger counts
             for j in range(self.M):
-                if ind.x[j] == 1 and np.random.rand() < 0.30:
-                    k = np.random.randint(self.K)
-                    delta = np.random.choice([-2, -1, 1, 2])
+                if ind.x[j] == 1 and self.rng.random() < 0.30:
+                    k = self.rng.integers(self.K)
+                    delta = self.rng.choice([-2, -1, 1, 2])
                     ind.Y[j, k] = max(0, ind.Y[j, k] + delta)
 
         self.repair_individual(ind.x, ind.Y)
@@ -227,16 +264,24 @@ class NSGA2Solver:
 
     def repair_individual(self, x, Y):
         """Enforce bounds: y_min * x_j <= sum_t y_jt <= y_max * x_j."""
+        # Bound the number of open stations first; randomly drop/add sites as needed.
+        open_indices = np.flatnonzero(x)
+        if len(open_indices) > self.max_open_stations:
+            drop = self.rng.choice(open_indices, len(open_indices) - self.max_open_stations, replace=False)
+            x[drop] = 0
+        elif len(open_indices) < self.min_open_stations:
+            closed_indices = np.flatnonzero(x == 0)
+            add = self.rng.choice(closed_indices, self.min_open_stations - len(open_indices), replace=False)
+            x[add] = 1
+
         for j in range(self.M):
             if x[j] == 0:
                 Y[j, :] = 0
             else:
                 total = np.sum(Y[j, :])
                 if total < self.y_min:
-                    diff = self.y_min - total
-                    Y[j, 0] += diff
+                    Y[j, 0] += self.y_min - total
                 elif total > self.y_max:
-                    # Scale down proportionally
                     scale = self.y_max / total
                     Y[j, :] = np.floor(Y[j, :] * scale).astype(int)
                     while np.sum(Y[j, :]) < self.y_min:
@@ -288,18 +333,51 @@ class NSGA2Solver:
 
         # Extract Pareto Front (Rank 0 solutions)
         final_fronts = self.fast_non_dominated_sort(population)
-        pareto_front = final_fronts[0]
+        pareto_front = [ind for ind in final_fronts[0] if ind.budget_feasible]
+        if not pareto_front:
+            raise ValueError(
+                "No budget-feasible EVCS solution was found. Increase optimization.budget_cap_bdt "
+                "or relax station/charger limits."
+            )
         # Sort Pareto front by Cost ascending
         pareto_front.sort(key=lambda ind: ind.F1_cost)
 
         return pareto_front, population
 
 
+def self_budget(config):
+    """Return configured upfront CAPEX limit, or None when no cap is set."""
+    return config["optimization"].get("budget_cap_bdt")
+
+
+def canonicalize_pareto_front(pareto_front):
+    """Sort and deduplicate a Pareto front for stable labels and exports."""
+    unique = {}
+    for solution in pareto_front:
+        key = (round(float(solution.F1_cost), 10), round(float(solution.F2_coverage), 10))
+        previous = unique.get(key)
+        signature = (tuple(solution.x.tolist()), tuple(solution.Y.ravel().tolist()))
+        if previous is None:
+            unique[key] = (signature, solution)
+        else:
+            old_signature, _ = previous
+            if signature < old_signature:
+                unique[key] = (signature, solution)
+    return [entry[1] for _, entry in sorted(
+        unique.items(), key=lambda item: (item[0][0], -item[0][1], item[1][0])
+    )]
+
+
 def export_pareto_solutions(pareto_front, candidate_metadata, config, output_csv_path):
-    """Export Pareto-optimal solutions to CSV table."""
+    """Export a canonical, cost-sorted Pareto table with stable solution identifiers."""
+    pareto_front = canonicalize_pareto_front(pareto_front)
+    if not pareto_front:
+        raise ValueError("Cannot export an empty Pareto front.")
     charger_keys = list(config["chargers"].keys())
     usd_rate = config["economic"].get("currency_usd_to_bdt", 115.0)
-    total_potential_demand = sum(m.get("daily_demand_kwh", 1000.0) for m in candidate_metadata)
+    total_potential_demand = float(np.sum(pareto_front[0].demand_values)) if pareto_front else 0.0
+    if not np.isfinite(total_potential_demand) or total_potential_demand <= 0:
+        raise ValueError("Cannot export demand coverage without positive, finite input demand values.")
 
     rows = []
     for sol_idx, sol in enumerate(pareto_front):
@@ -312,7 +390,7 @@ def export_pareto_solutions(pareto_front, candidate_metadata, config, output_csv
             total_chargers[k] * config["chargers"][k]["power_kw"] for k in charger_keys
         )
 
-        coverage_pct = round(min(100.0, (sol.F2_coverage / max(1.0, total_potential_demand * 0.95)) * 100.0), 2)
+        coverage_pct = round(min(100.0, (sol.F2_coverage / total_potential_demand) * 100.0), 2)
 
         rows.append({
             "solution_id": f"SOL-{sol_idx + 1:03d}",
@@ -321,12 +399,16 @@ def export_pareto_solutions(pareto_front, candidate_metadata, config, output_csv
             "total_cost_usd": round(sol.F1_cost / usd_rate, 2),
             "total_cost_million_usd": round((sol.F1_cost / usd_rate) / 1e6, 3),
             "demand_coverage_score": round(sol.F2_coverage, 2),
+            "demand_coverage_denominator_kwh": round(total_potential_demand, 6),
             "demand_coverage_pct": coverage_pct,
             "open_station_count": len(open_site_ids),
             "total_grid_power_kw": round(total_kw, 1),
             "selected_station_ids": ";".join(open_site_ids),
             "charger_allocations_json": json.dumps(total_chargers),
-            "penalties_bdt": round(sol.penalties, 2)
+            "penalties_bdt": round(sol.penalties, 2),
+            "upfront_capex_bdt": round(sol.capex_bdt, 2),
+            "budget_cap_bdt": self_budget(config),
+            "budget_feasible": bool(sol.budget_feasible)
         })
 
     df = pd.DataFrame(rows)
@@ -355,8 +437,7 @@ def main():
     candidate_geojson_path = os.path.join(base_dir, "data", "processed", "candidate_sites_filtered.geojson")
 
     if not (os.path.exists(npz_path) and os.path.exists(candidate_geojson_path)):
-        from src.data_generator import generate_all_data
-        generate_all_data(base_dir)
+        parser.error("OD matrix and candidate inputs are required. Obtain source data or run `python main.py --mode data` for synthetic demo data; no data was generated automatically.")
 
     data = np.load(npz_path)
     dist_matrix = data["distances"]

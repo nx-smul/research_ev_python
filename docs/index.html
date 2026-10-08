@@ -98,10 +98,79 @@
     .leaflet-container {
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
+    :root {
+      color-scheme: dark;
+      --surface-0: #070d18;
+      --surface-1: rgba(15, 23, 42, 0.96);
+      --surface-2: rgba(30, 41, 59, 0.78);
+      --line-soft: rgba(148, 163, 184, 0.16);
+      --accent: #34d399;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--surface-0);
+      letter-spacing: -0.01em;
+    }
+    button, select, input {
+      -webkit-tap-highlight-color: transparent;
+    }
+    button {
+      transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    }
+    button:active { transform: translateY(1px); }
+    :focus-visible {
+      outline: 2px solid var(--accent) !important;
+      outline-offset: 3px;
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.16);
+    }
+    ::selection { background: rgba(16, 185, 129, 0.3); color: #f8fafc; }
+    #map {
+      height: 100%;
+      width: 100%;
+      background-color: #0b1120;
+    }
+    .custom-scrollbar { scrollbar-width: thin; scrollbar-color: rgba(100, 116, 139, 0.55) transparent; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.35); }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.42); border-radius: 9999px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(16, 185, 129, 0.6); }
+    .pulse-ring { animation: pulse-animation 2.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
+    @keyframes pulse-animation {
+      0% { transform: scale(0.9); opacity: 0.9; }
+      50% { transform: scale(1.4); opacity: 0.2; }
+      100% { transform: scale(0.9); opacity: 0.9; }
+    }
+    .leaflet-popup-content-wrapper {
+      background: #0f172a; color: #f8fafc; border: 1px solid #334155; border-radius: 14px;
+      padding: 0; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    .leaflet-popup-content { margin: 0; line-height: 1.4; }
+    .leaflet-popup-tip { background: #0f172a; border: 1px solid #334155; }
+    .leaflet-container { font-family: 'Plus Jakarta Sans', sans-serif; }
     .glass-card {
       background: rgba(15, 23, 42, 0.88);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(51, 65, 85, 0.7);
+      backdrop-filter: blur(14px) saturate(140%);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      box-shadow: 0 18px 48px rgba(2, 6, 23, 0.28);
+    }
+    #sidebar { width: min(24rem, 92vw); }
+    #tab-content-layers .grid > div, #tab-content-layers > div, #tab-content-sim > div, #tab-content-fleet > div {
+      border-color: var(--line-soft);
+      box-shadow: 0 8px 24px rgba(2, 6, 23, 0.12);
+    }
+    #tab-content-layers .grid > div { transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease; }
+    #tab-content-layers .grid > div:hover { border-color: rgba(52, 211, 153, 0.38); transform: translateY(-2px); box-shadow: 0 12px 28px rgba(2, 6, 23, 0.24); }
+    #settings-panel, #analytics-modal { overscroll-behavior: contain; }
+    @media (max-width: 640px) {
+      header { min-height: 4rem; }
+      #map-bm-control { top: auto; bottom: 4.75rem; right: .75rem; }
+      #inspector-card { left: .75rem; right: .75rem; bottom: .75rem; width: auto; max-height: 42vh; overflow-y: auto; }
+      #settings-panel > div { border-left: 0; }
+      #analytics-modal { padding: .5rem; }
+      #analytics-modal > div { height: calc(100dvh - 1rem); border-radius: 1rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
     }
   </style>
 </head>
@@ -144,13 +213,13 @@
       <!-- Solution Switcher -->
       <div class="flex items-center bg-slate-800/90 border border-slate-700/80 rounded-xl p-1 text-xs shadow-sm">
         <span class="text-slate-400 px-2 font-medium hidden lg:inline text-[11px]"><i class="fa-solid fa-code-branch mr-1 text-emerald-400"></i>Pareto:</span>
-        <button id="btn-sol-knee" onclick="selectSolution(0)" class="px-2.5 py-1 rounded-lg font-bold bg-emerald-500 text-slate-950 shadow transition-all text-xs">
+        <button id="btn-sol-knee" aria-pressed="true" onclick="selectSolution(0)" class="px-2.5 py-1 rounded-lg font-bold bg-emerald-500 text-slate-950 shadow transition-all text-xs">
           Knee Point
         </button>
-        <button id="btn-sol-max" onclick="selectSolution(1)" class="px-2.5 py-1 rounded-lg font-medium text-slate-300 hover:text-white transition-all text-xs">
+        <button id="btn-sol-max" aria-pressed="false" onclick="selectSolution(1)" class="px-2.5 py-1 rounded-lg font-medium text-slate-300 hover:text-white transition-all text-xs">
           Max Coverage
         </button>
-        <button id="btn-sol-budget" onclick="selectSolution(2)" class="px-2.5 py-1 rounded-lg font-medium text-slate-300 hover:text-white transition-all text-xs hidden sm:block">
+        <button id="btn-sol-budget" aria-pressed="false" onclick="selectSolution(2)" class="px-2.5 py-1 rounded-lg font-medium text-slate-300 hover:text-white transition-all text-xs hidden sm:block">
           Budget Tier
         </button>
       </div>
@@ -160,6 +229,12 @@
               class="px-2.5 py-1.5 rounded-xl bg-blue-600/20 border border-blue-500/30 text-blue-400 hover:bg-blue-600/30 text-xs font-semibold transition flex items-center gap-1.5">
         <i class="fa-solid fa-arrows-rotate text-xs" id="online-sync-icon"></i>
         <span class="hidden sm:inline">Sync Live OSM</span>
+      </button>
+
+      <!-- Settings Drawer Toggle -->
+      <button onclick="toggleSettingsPanel()" title="Configure map and run settings"
+              class="px-2.5 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 hover:text-white hover:border-emerald-500/50 text-xs font-semibold transition flex items-center gap-1.5">
+        <i class="fa-solid fa-gear text-emerald-400"></i><span class="hidden sm:inline">Settings</span>
       </button>
 
       <!-- Analytics Modal Toggle -->
@@ -183,14 +258,14 @@
     <aside id="sidebar" class="w-84 sm:w-96 bg-slate-900/95 backdrop-blur border-r border-slate-800 flex flex-col shrink-0 z-20 transition-all duration-300 absolute lg:relative h-full -translate-x-full lg:translate-x-0 shadow-2xl lg:shadow-none">
 
       <!-- Navigation Tabs inside Sidebar -->
-      <div class="flex border-b border-slate-800 bg-slate-950/40 px-2 pt-2 gap-1 text-xs shrink-0">
-        <button id="tab-btn-layers" onclick="switchSidebarTab('layers')" class="flex-1 py-2 font-bold border-b-2 border-emerald-500 text-emerald-400 text-center">
+      <div role="tablist" aria-label="Dashboard controls" class="flex border-b border-slate-800 bg-slate-950/40 px-2 pt-2 gap-1 text-xs shrink-0">
+        <button id="tab-btn-layers" role="tab" aria-selected="true" aria-controls="tab-content-layers" onclick="switchSidebarTab('layers')" class="flex-1 py-2 font-bold border-b-2 border-emerald-500 text-emerald-400 text-center">
           <i class="fa-solid fa-layer-group mr-1.5"></i>Layers & GIS
         </button>
-        <button id="tab-btn-sim" onclick="switchSidebarTab('sim')" class="flex-1 py-2 font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 text-center">
+        <button id="tab-btn-sim" role="tab" aria-selected="false" aria-controls="tab-content-sim" onclick="switchSidebarTab('sim')" class="flex-1 py-2 font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 text-center">
           <i class="fa-solid fa-sliders mr-1.5"></i>Grid Studio
         </button>
-        <button id="tab-btn-fleet" onclick="switchSidebarTab('fleet')" class="flex-1 py-2 font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 text-center">
+        <button id="tab-btn-fleet" role="tab" aria-selected="false" aria-controls="tab-content-fleet" onclick="switchSidebarTab('fleet')" class="flex-1 py-2 font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 text-center">
           <i class="fa-solid fa-car mr-1.5"></i>Fleet & Bays
         </button>
       </div>
@@ -498,12 +573,14 @@
       <div id="map"></div>
 
       <!-- Map Floating Base Layer Switcher -->
-      <div class="absolute top-4 right-4 glass-card rounded-xl p-1.5 z-20 shadow-xl flex space-x-1 text-xs">
+      <div id="map-bm-control" role="group" aria-label="Choose map basemap" class="absolute top-4 right-4 glass-card rounded-xl p-1.5 z-20 shadow-xl flex space-x-1 text-xs">
         <button onclick="switchBaseMap('dark')" id="btn-bm-dark" class="px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-emerald-400 transition">Dark</button>
         <button onclick="switchBaseMap('light')" id="btn-bm-light" class="px-2.5 py-1 rounded-lg font-medium text-slate-300 hover:text-white transition">Light</button>
         <button onclick="switchBaseMap('osm')" id="btn-bm-osm" class="px-2.5 py-1 rounded-lg font-medium text-slate-300 hover:text-white transition">OSM</button>
         <button onclick="switchBaseMap('sat')" id="btn-bm-sat" class="px-2.5 py-1 rounded-lg font-medium text-slate-300 hover:text-white transition">Satellite</button>
       </div>
+
+      <div id="map-tile-status" class="absolute bottom-5 left-1/2 -translate-x-1/2 glass-card rounded-lg px-3 py-1.5 z-20 text-[11px] text-amber-300" role="status"></div>
 
       <!-- Quick Reset Center Button -->
       <button onclick="resetDhakaCenter()" class="absolute bottom-5 left-5 glass-card rounded-xl px-3.5 py-2 z-20 shadow-xl text-xs font-semibold text-slate-200 hover:text-white hover:border-emerald-500 transition flex items-center gap-2">
@@ -535,8 +612,39 @@
     </main>
   </div>
 
+  <!-- Settings Drawer: run parameters are informational; browser map settings apply immediately -->
+  <div id="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settings-title" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-40 flex justify-end">
+    <div class="w-full max-w-md h-full bg-slate-900 border-l border-slate-700 shadow-2xl overflow-y-auto custom-scrollbar">
+      <div class="sticky top-0 z-10 p-4 bg-slate-900/95 backdrop-blur border-b border-slate-800 flex items-center justify-between">
+        <div><h2 id="settings-title" class="text-lg font-bold text-white">Settings</h2><p class="text-xs text-slate-400">Map preferences & optimization run configuration</p></div>
+        <button onclick="toggleSettingsPanel()" aria-label="Close settings" class="p-2 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="p-4 space-y-5">
+        <section class="space-y-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400">Map provider</h3>
+          <label class="block text-xs text-slate-300">Basemap
+            <select id="settings-map-provider" onchange="applyMapSettings()" class="mt-1 w-full rounded-lg bg-slate-800 border border-slate-700 p-2 text-sm text-white">
+              <option value="osm">OpenStreetMap (no key)</option><option value="carto-dark">Carto dark</option><option value="carto-light">Carto light</option><option value="sat">Satellite</option><option value="maptiler">MapTiler (key required)</option>
+            </select>
+          </label>
+          <label class="block text-xs text-slate-300">MapTiler API key <span class="text-slate-500">(optional)</span>
+            <div class="mt-1 flex gap-2"><input id="maptiler-key" type="password" autocomplete="off" placeholder="Enter your own key" class="min-w-0 flex-1 rounded-lg bg-slate-800 border border-slate-700 p-2 text-sm text-white"><button onclick="toggleKeyVisibility()" class="rounded-lg border border-slate-700 px-3 text-slate-300">Show</button></div>
+          </label>
+          <div class="flex gap-2"><button onclick="saveMapKey()" class="rounded-lg bg-emerald-500 px-3 py-2 text-xs font-bold text-slate-950">Save key locally</button><button onclick="clearMapKey()" class="rounded-lg border border-slate-700 px-3 py-2 text-xs text-slate-300">Clear</button></div>
+          <p class="text-[11px] leading-relaxed text-slate-400">OpenStreetMap tiles do not require an API key. The optional MapTiler key is stored only in this browser’s local storage and is sent only to MapTiler tile requests. Avoid using a restricted or secret server-side key in a public website.</p>
+          <p id="map-settings-status" class="text-xs text-emerald-400" role="status"></p>
+        </section>
+        <section class="space-y-3 border-t border-slate-800 pt-4">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-blue-400">Optimization settings</h3>
+          <p class="text-[11px] leading-relaxed text-slate-400">These values describe the generated run. Change them in <code class="text-slate-200">configs/user_settings.yaml</code> and rerun Python to produce new results; editing them here will not alter an existing optimization.</p>
+          <div id="run-settings-summary" class="grid grid-cols-2 gap-2 text-xs"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+
   <!-- Full-Screen Research Analytics Modal (Charts & Tradeoffs) -->
-  <div id="analytics-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-6">
+  <div id="analytics-modal" role="dialog" aria-modal="true" aria-labelledby="analytics-title" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-6">
     <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-5xl h-[85vh] flex flex-col shadow-2xl overflow-hidden">
       <!-- Modal Header -->
       <div class="p-4 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between shrink-0">
@@ -545,11 +653,11 @@
             <i class="fa-solid fa-chart-line"></i>
           </div>
           <div>
-            <h3 class="text-base font-bold text-white">Research Analytics & Power Grid Verification</h3>
+            <h3 id="analytics-title" class="text-base font-bold text-white">Research Analytics & Power Grid Verification</h3>
             <p class="text-xs text-slate-400">NSGA-II Pareto Frontier & 33kV DPDC/DESCO Voltage Stability Profiles</p>
           </div>
         </div>
-        <button onclick="toggleAnalyticsModal()" class="text-slate-400 hover:text-white p-2">
+        <button onclick="toggleAnalyticsModal()" aria-label="Close analytics" class="text-slate-400 hover:text-white p-2">
           <i class="fa-solid fa-xmark text-lg"></i>
         </button>
       </div>
@@ -621,9 +729,10 @@
     const RAW_ROADS = {"type": "FeatureCollection", "name": "osm_dhaka_roads", "features": [{"type": "Feature", "properties": {"u": "Airport_Hub", "v": "Uttara_Sec3", "highway": "trunk", "maxspeed": 60.0, "lanes": 4, "length_m": 2793.7, "pcu_per_hr": 3800, "congestion_factor": 1.12}, "geometry": {"type": "LineString", "coordinates": [[90.4, 23.8433], [90.3956, 23.8681]]}}, {"type": "Feature", "properties": {"u": "Uttara_Sec3", "v": "Uttara_Sec11", "highway": "primary", "maxspeed": 50.0, "lanes": 3, "length_m": 1104.7, "pcu_per_hr": 2400, "congestion_factor": 1.06}, "geometry": {"type": "LineString", "coordinates": [[90.3956, 23.8681], [90.3872, 23.8744]]}}, {"type": "Feature", "properties": {"u": "Airport_Hub", "v": "Mohakhali_Terminal", "highway": "motorway", "maxspeed": 70.0, "lanes": 6, "length_m": 7250.9, "pcu_per_hr": 5200, "congestion_factor": 1.08}, "geometry": {"type": "LineString", "coordinates": [[90.4, 23.8433], [90.4012, 23.7781]]}}, {"type": "Feature", "properties": {"u": "Airport_Hub", "v": "Purbachal_300ft", "highway": "trunk", "maxspeed": 80.0, "lanes": 6, "length_m": 6074.9, "pcu_per_hr": 4500, "congestion_factor": 1.05}, "geometry": {"type": "LineString", "coordinates": [[90.4, 23.8433], [90.455, 23.822]]}}, {"type": "Feature", "properties": {"u": "Mohakhali_Terminal", "v": "Gulshan_1", "highway": "primary", "maxspeed": 45.0, "lanes": 4, "length_m": 1591.3, "pcu_per_hr": 3200, "congestion_factor": 1.06}, "geometry": {"type": "LineString", "coordinates": [[90.4012, 23.7781], [90.4167, 23.78]]}}, {"type": "Feature", "properties": {"u": "Gulshan_1", "v": "Gulshan_2", "highway": "primary", "maxspeed": 40.0, "lanes": 4, "length_m": 1400.7, "pcu_per_hr": 2800, "congestion_factor": 1.04}, "geometry": {"type": "LineString", "coordinates": [[90.4167, 23.78], [90.415, 23.7925]]}}, {"type": "Feature", "properties": {"u": "Gulshan_2", "v": "Baridhara_Diplomatic", "highway": "secondary", "maxspeed": 35.0, "lanes": 2, "length_m": 946.1, "pcu_per_hr": 1900, "congestion_factor": 1.12}, "geometry": {"type": "LineString", "coordinates": [[90.415, 23.7925], [90.421, 23.799]]}}, {"type": "Feature", "properties": {"u": "Gulshan_2", "v": "Banani_11", "highway": "secondary", "maxspeed": 35.0, "lanes": 2, "length_m": 1105.6, "pcu_per_hr": 2200, "congestion_factor": 1.22}, "geometry": {"type": "LineString", "coordinates": [[90.415, 23.7925], [90.4042, 23.7936]]}}, {"type": "Feature", "properties": {"u": "Gulshan_1", "v": "Badda_Pragati_Sarani", "highway": "primary", "maxspeed": 40.0, "lanes": 4, "length_m": 1011.1, "pcu_per_hr": 3500, "congestion_factor": 1.09}, "geometry": {"type": "LineString", "coordinates": [[90.4167, 23.78], [90.425, 23.775]]}}, {"type": "Feature", "properties": {"u": "Badda_Pragati_Sarani", "v": "Hatirjheel_North", "highway": "primary", "maxspeed": 45.0, "lanes": 4, "length_m": 1817.1, "pcu_per_hr": 3000, "congestion_factor": 1.05}, "geometry": {"type": "LineString", "coordinates": [[90.425, 23.775], [90.408, 23.77]]}}, {"type": "Feature", "properties": {"u": "Hatirjheel_North", "v": "Tejgaon_Industrial", "highway": "primary", "maxspeed": 45.0, "lanes": 4, "length_m": 1486.9, "pcu_per_hr": 2600, "congestion_factor": 1.03}, "geometry": {"type": "LineString", "coordinates": [[90.408, 23.77], [90.3983, 23.76]]}}, {"type": "Feature", "properties": {"u": "Mohakhali_Terminal", "v": "Tejgaon_Industrial", "highway": "primary", "maxspeed": 45.0, "lanes": 4, "length_m": 2034.1, "pcu_per_hr": 3400, "congestion_factor": 1.08}, "geometry": {"type": "LineString", "coordinates": [[90.4012, 23.7781], [90.3983, 23.76]]}}, {"type": "Feature", "properties": {"u": "Tejgaon_Industrial", "v": "Kawran_Bazar_CBD", "highway": "primary", "maxspeed": 40.0, "lanes": 4, "length_m": 1196.6, "pcu_per_hr": 3800, "congestion_factor": 1.12}, "geometry": {"type": "LineString", "coordinates": [[90.3983, 23.76], [90.3922, 23.7508]]}}, {"type": "Feature", "properties": {"u": "Tejgaon_Industrial", "v": "Farmgate_Hub", "highway": "primary", "maxspeed": 40.0, "lanes": 4, "length_m": 1083.8, "pcu_per_hr": 4200, "congestion_factor": 1.18}, "geometry": {"type": "LineString", "coordinates": [[90.3983, 23.76], [90.3881, 23.7572]]}}, {"type": "Feature", "properties": {"u": "Farmgate_Hub", "v": "Shahbagh_Square", "highway": "primary", "maxspeed": 40.0, "lanes": 4, "length_m": 2222.7, "pcu_per_hr": 3900, "congestion_factor": 1.14}, "geometry": {"type": "LineString", "coordinates": [[90.3881, 23.7572], [90.3961, 23.7386]]}}, {"type": "Feature", "properties": {"u": "Shahbagh_Square", "v": "Motijheel_CBD", "highway": "primary", "maxspeed": 40.0, "lanes": 4, "length_m": 2341.0, "pcu_per_hr": 4600, "congestion_factor": 1.26}, "geometry": {"type": "LineString", "coordinates": [[90.3961, 23.7386], [90.4183, 23.7331]]}}, {"type": "Feature", "properties": {"u": "Motijheel_CBD", "v": "Kamalapur_Railway", "highway": "secondary", "maxspeed": 30.0, "lanes": 3, "length_m": 692.9, "pcu_per_hr": 2500, "congestion_factor": 1.07}, "geometry": {"type": "LineString", "coordinates": [[90.4183, 23.7331], [90.425, 23.732]]}}, {"type": "Feature", "properties": {"u": "Motijheel_CBD", "v": "Old_Dhaka_Sadarghat", "highway": "secondary", "maxspeed": 25.0, "lanes": 2, "length_m": 3236.8, "pcu_per_hr": 3100, "congestion_factor": 1.87}, "geometry": {"type": "LineString", "coordinates": [[90.4183, 23.7331], [90.41, 23.705]]}}, {"type": "Feature", "properties": {"u": "Old_Dhaka_Sadarghat", "v": "Old_Dhaka_Lalbagh", "highway": "secondary", "maxspeed": 25.0, "lanes": 2, "length_m": 2727.6, "pcu_per_hr": 2200, "congestion_factor": 1.22}, "geometry": {"type": "LineString", "coordinates": [[90.41, 23.705], [90.388, 23.719]]}}, {"type": "Feature", "properties": {"u": "Motijheel_CBD", "v": "Sayedabad_Terminal", "highway": "primary", "maxspeed": 35.0, "lanes": 4, "length_m": 1896.0, "pcu_per_hr": 4100, "congestion_factor": 1.17}, "geometry": {"type": "LineString", "coordinates": [[90.4183, 23.7331], [90.4281, 23.7186]]}}, {"type": "Feature", "properties": {"u": "Sayedabad_Terminal", "v": "Jatrabari_Flyover_Hub", "highway": "motorway", "maxspeed": 60.0, "lanes": 6, "length_m": 1090.4, "pcu_per_hr": 4900, "congestion_factor": 1.07}, "geometry": {"type": "LineString", "coordinates": [[90.4281, 23.7186], [90.435, 23.7111]]}}, {"type": "Feature", "properties": {"u": "Farmgate_Hub", "v": "Dhanmondi_27", "highway": "primary", "maxspeed": 40.0, "lanes": 4, "length_m": 1453.2, "pcu_per_hr": 3300, "congestion_factor": 1.07}, "geometry": {"type": "LineString", "coordinates": [[90.3881, 23.7572], [90.375, 23.752]]}}, {"type": "Feature", "properties": {"u": "Dhanmondi_27", "v": "Dhanmondi_8A", "highway": "secondary", "maxspeed": 35.0, "lanes": 3, "length_m": 656.1, "pcu_per_hr": 2100, "congestion_factor": 1.04}, "geometry": {"type": "LineString", "coordinates": [[90.375, 23.752], [90.375, 23.7461]]}}, {"type": "Feature", "properties": {"u": "Dhanmondi_27", "v": "Shyamoli_Square", "highway": "primary", "maxspeed": 45.0, "lanes": 4, "length_m": 2587.7, "pcu_per_hr": 3600, "congestion_factor": 1.1}, "geometry": {"type": "LineString", "coordinates": [[90.375, 23.752], [90.362, 23.772]]}}, {"type": "Feature", "properties": {"u": "Dhanmondi_8A", "v": "Mohammadpur_Townhall", "highway": "secondary", "maxspeed": 30.0, "lanes": 2, "length_m": 1944.5, "pcu_per_hr": 2300, "congestion_factor": 1.26}, "geometry": {"type": "LineString", "coordinates": [[90.375, 23.7461], [90.361, 23.758]]}}, {"type": "Feature", "properties": {"u": "Shyamoli_Square", "v": "Gabtoli_Terminal", "highway": "primary", "maxspeed": 50.0, "lanes": 4, "length_m": 2254.3, "pcu_per_hr": 4200, "congestion_factor": 1.18}, "geometry": {"type": "LineString", "coordinates": [[90.362, 23.772], [90.345, 23.785]]}}, {"type": "Feature", "properties": {"u": "Shyamoli_Square", "v": "Mirpur_1", "highway": "primary", "maxspeed": 45.0, "lanes": 4, "length_m": 2677.8, "pcu_per_hr": 3900, "congestion_factor": 1.14}, "geometry": {"type": "LineString", "coordinates": [[90.362, 23.772], [90.3542, 23.795]]}}, {"type": "Feature", "properties": {"u": "Mirpur_1", "v": "Mirpur_10_Circle", "highway": "primary", "maxspeed": 45.0, "lanes": 4, "length_m": 1989.1, "pcu_per_hr": 4300, "congestion_factor": 1.2}, "geometry": {"type": "LineString", "coordinates": [[90.3542, 23.795], [90.3686, 23.8071]]}}, {"type": "Feature", "properties": {"u": "Mirpur_10_Circle", "v": "Mirpur_12", "highway": "primary", "maxspeed": 45.0, "lanes": 4, "length_m": 1948.8, "pcu_per_hr": 3100, "congestion_factor": 1.05}, "geometry": {"type": "LineString", "coordinates": [[90.3686, 23.8071], [90.3644, 23.8242]]}}, {"type": "Feature", "properties": {"u": "Mirpur_10_Circle", "v": "Mohakhali_Terminal", "highway": "primary", "maxspeed": 40.0, "lanes": 4, "length_m": 4626.0, "pcu_per_hr": 4800, "congestion_factor": 1.31}, "geometry": {"type": "LineString", "coordinates": [[90.3686, 23.8071], [90.4012, 23.7781]]}}]};
     const RAW_LANDUSE = {"type": "FeatureCollection", "name": "rajuk_dap_landuse", "features": [{"type": "Feature", "properties": {"zone_type": "Commercial", "land_price_bdt_sqm": 250000.0, "is_exclusion_zone": 0, "is_flood_hazard": 0}, "geometry": {"type": "Polygon", "coordinates": [[[90.4, 23.775], [90.425, 23.775], [90.425, 23.805], [90.4, 23.805], [90.4, 23.775]]]}}, {"type": "Feature", "properties": {"zone_type": "Commercial", "land_price_bdt_sqm": 220000.0, "is_exclusion_zone": 0, "is_flood_hazard": 0}, "geometry": {"type": "Polygon", "coordinates": [[[90.41, 23.725], [90.43, 23.725], [90.43, 23.742], [90.41, 23.742], [90.41, 23.725]]]}}, {"type": "Feature", "properties": {"zone_type": "Industrial", "land_price_bdt_sqm": 150000.0, "is_exclusion_zone": 0, "is_flood_hazard": 0}, "geometry": {"type": "Polygon", "coordinates": [[[90.39, 23.755], [90.408, 23.755], [90.408, 23.77], [90.39, 23.77], [90.39, 23.755]]]}}, {"type": "Feature", "properties": {"zone_type": "Mixed", "land_price_bdt_sqm": 180000.0, "is_exclusion_zone": 0, "is_flood_hazard": 0}, "geometry": {"type": "Polygon", "coordinates": [[[90.365, 23.74], [90.385, 23.74], [90.385, 23.76], [90.365, 23.76], [90.365, 23.74]]]}}, {"type": "Feature", "properties": {"zone_type": "Mixed", "land_price_bdt_sqm": 95000.0, "is_exclusion_zone": 0, "is_flood_hazard": 0}, "geometry": {"type": "Polygon", "coordinates": [[[90.345, 23.785], [90.375, 23.785], [90.375, 23.83], [90.345, 23.83], [90.345, 23.785]]]}}, {"type": "Feature", "properties": {"zone_type": "Residential", "land_price_bdt_sqm": 110000.0, "is_exclusion_zone": 0, "is_flood_hazard": 0}, "geometry": {"type": "Polygon", "coordinates": [[[90.38, 23.85], [90.405, 23.85], [90.405, 23.885], [90.38, 23.885], [90.38, 23.85]]]}}, {"type": "Feature", "properties": {"zone_type": "Mixed", "land_price_bdt_sqm": 130000.0, "is_exclusion_zone": 0, "is_flood_hazard": 0}, "geometry": {"type": "Polygon", "coordinates": [[[90.38, 23.7], [90.42, 23.7], [90.42, 23.725], [90.38, 23.725], [90.38, 23.7]]]}}, {"type": "Feature", "properties": {"zone_type": "Waterbody", "land_price_bdt_sqm": 0.0, "is_exclusion_zone": 1, "is_flood_hazard": 1}, "geometry": {"type": "Polygon", "coordinates": [[[90.37, 23.695], [90.435, 23.695], [90.435, 23.705], [90.37, 23.705], [90.37, 23.695]]]}}, {"type": "Feature", "properties": {"zone_type": "Waterbody", "land_price_bdt_sqm": 0.0, "is_exclusion_zone": 1, "is_flood_hazard": 0}, "geometry": {"type": "Polygon", "coordinates": [[[90.4, 23.768], [90.418, 23.768], [90.418, 23.774], [90.4, 23.774], [90.4, 23.768]]]}}, {"type": "Feature", "properties": {"zone_type": "Flood_Hazard", "land_price_bdt_sqm": 40000.0, "is_exclusion_zone": 1, "is_flood_hazard": 1}, "geometry": {"type": "Polygon", "coordinates": [[[90.445, 23.75], [90.465, 23.75], [90.465, 23.83], [90.445, 23.83], [90.445, 23.75]]]}}]};
     const RAW_SUBSTATIONS = [{"sub_id": "DPDC-SS-01", "name": "Motijheel 33/11kV", "utility": "DPDC", "lon": 90.419, "lat": 23.734, "rated_mva": 50.0, "base_load_mva": 41.5, "voltage_kv": 33.0, "zone": "Motijheel_Dilkusha", "headroom_mva": 8.5, "headroom_pct": 17.0}, {"sub_id": "DPDC-SS-02", "name": "Dhanmondi 33/11kV", "utility": "DPDC", "lon": 90.373, "lat": 23.748, "rated_mva": 40.0, "base_load_mva": 32.0, "voltage_kv": 33.0, "zone": "Dhanmondi", "headroom_mva": 8.0, "headroom_pct": 20.0}, {"sub_id": "DPDC-SS-03", "name": "Tejgaon 33/11kV", "utility": "DPDC", "lon": 90.397, "lat": 23.762, "rated_mva": 50.0, "base_load_mva": 39.0, "voltage_kv": 33.0, "zone": "Kawran_Bazar_Tejgaon", "headroom_mva": 11.0, "headroom_pct": 22.0}, {"sub_id": "DPDC-SS-04", "name": "Lalbagh 33/11kV", "utility": "DPDC", "lon": 90.387, "lat": 23.717, "rated_mva": 30.0, "base_load_mva": 26.5, "voltage_kv": 33.0, "zone": "Old_Dhaka", "headroom_mva": 3.5, "headroom_pct": 11.67}, {"sub_id": "DPDC-SS-05", "name": "Jatrabari 33/11kV", "utility": "DPDC", "lon": 90.432, "lat": 23.712, "rated_mva": 40.0, "base_load_mva": 31.0, "voltage_kv": 33.0, "zone": "Jatrabari_Sayedabad", "headroom_mva": 9.0, "headroom_pct": 22.5}, {"sub_id": "DPDC-SS-06", "name": "Sayedabad 33/11kV", "utility": "DPDC", "lon": 90.426, "lat": 23.72, "rated_mva": 35.0, "base_load_mva": 28.0, "voltage_kv": 33.0, "zone": "Jatrabari_Sayedabad", "headroom_mva": 7.0, "headroom_pct": 20.0}, {"sub_id": "DPDC-SS-07", "name": "Kamalapur 33/11kV", "utility": "DPDC", "lon": 90.423, "lat": 23.731, "rated_mva": 35.0, "base_load_mva": 27.5, "voltage_kv": 33.0, "zone": "Motijheel_Dilkusha", "headroom_mva": 7.5, "headroom_pct": 21.43}, {"sub_id": "DPDC-SS-08", "name": "Kawran Bazar 33/11kV", "utility": "DPDC", "lon": 90.391, "lat": 23.7515, "rated_mva": 45.0, "base_load_mva": 38.0, "voltage_kv": 33.0, "zone": "Kawran_Bazar_Tejgaon", "headroom_mva": 7.0, "headroom_pct": 15.56}, {"sub_id": "DESCO-SS-01", "name": "Gulshan-1 33/11kV", "utility": "DESCO", "lon": 90.416, "lat": 23.781, "rated_mva": 50.0, "base_load_mva": 38.5, "voltage_kv": 33.0, "zone": "Gulshan_Banani", "headroom_mva": 11.5, "headroom_pct": 23.0}, {"sub_id": "DESCO-SS-02", "name": "Gulshan-2 33/11kV", "utility": "DESCO", "lon": 90.414, "lat": 23.794, "rated_mva": 50.0, "base_load_mva": 39.0, "voltage_kv": 33.0, "zone": "Gulshan_Banani", "headroom_mva": 11.0, "headroom_pct": 22.0}, {"sub_id": "DESCO-SS-03", "name": "Banani 33/11kV", "utility": "DESCO", "lon": 90.403, "lat": 23.795, "rated_mva": 40.0, "base_load_mva": 31.0, "voltage_kv": 33.0, "zone": "Gulshan_Banani", "headroom_mva": 9.0, "headroom_pct": 22.5}, {"sub_id": "DESCO-SS-04", "name": "Uttara-1 33/11kV", "utility": "DESCO", "lon": 90.397, "lat": 23.865, "rated_mva": 45.0, "base_load_mva": 33.0, "voltage_kv": 33.0, "zone": "Uttara", "headroom_mva": 12.0, "headroom_pct": 26.67}, {"sub_id": "DESCO-SS-05", "name": "Uttara-2 33/11kV", "utility": "DESCO", "lon": 90.386, "lat": 23.876, "rated_mva": 40.0, "base_load_mva": 29.5, "voltage_kv": 33.0, "zone": "Uttara", "headroom_mva": 10.5, "headroom_pct": 26.25}, {"sub_id": "DESCO-SS-06", "name": "Mirpur-10 33/11kV", "utility": "DESCO", "lon": 90.367, "lat": 23.808, "rated_mva": 45.0, "base_load_mva": 36.0, "voltage_kv": 33.0, "zone": "Mirpur", "headroom_mva": 9.0, "headroom_pct": 20.0}, {"sub_id": "DESCO-SS-07", "name": "Mirpur-1 33/11kV", "utility": "DESCO", "lon": 90.353, "lat": 23.796, "rated_mva": 35.0, "base_load_mva": 27.0, "voltage_kv": 33.0, "zone": "Mirpur", "headroom_mva": 8.0, "headroom_pct": 22.86}, {"sub_id": "DESCO-SS-08", "name": "Mohakhali 33/11kV", "utility": "DESCO", "lon": 90.402, "lat": 23.779, "rated_mva": 50.0, "base_load_mva": 40.0, "voltage_kv": 33.0, "zone": "Badda_Mohakhali", "headroom_mva": 10.0, "headroom_pct": 20.0}, {"sub_id": "DESCO-SS-09", "name": "Baridhara 33/11kV", "utility": "DESCO", "lon": 90.422, "lat": 23.801, "rated_mva": 35.0, "base_load_mva": 24.0, "voltage_kv": 33.0, "zone": "Gulshan_Banani", "headroom_mva": 11.0, "headroom_pct": 31.43}, {"sub_id": "DESCO-SS-10", "name": "Purbachal 33/11kV", "utility": "DESCO", "lon": 90.452, "lat": 23.824, "rated_mva": 40.0, "base_load_mva": 18.0, "voltage_kv": 33.0, "zone": "Purbachal_Suburbs", "headroom_mva": 22.0, "headroom_pct": 55.0}];
-    const RAW_PARETO = [{"solution_id": "SOL-001", "total_cost_bdt": 70809880108.23, "total_cost_million_bdt": 70809.88, "total_cost_usd": 615738087.9, "total_cost_million_usd": 615.738, "demand_coverage_score": 95087.47, "demand_coverage_pct": 100.0, "open_station_count": 31, "total_grid_power_kw": 24214.0, "selected_station_ids": "CS-02;CS-03;CS-07;CS-08;CS-09;CS-12;CS-14;CS-15;CS-16;CS-19;CS-20;CS-22;CS-23;CS-24;CS-25;CS-27;CS-28;CS-30;CS-31;CS-33;CS-38;CS-40;CS-41;CS-42;CS-44;CS-46;CS-47;CS-53;CS-54;CS-55;CS-57", "charger_allocations_json": "{\"Type_1_AC_22kW\": 82, \"Type_2_DC_60kW\": 46, \"Type_3_DC_150kW\": 75, \"Type_4_Swap_Depot\": 84}", "penalties_bdt": 0.0}, {"solution_id": "SOL-002", "total_cost_bdt": 72189259186.36, "total_cost_million_bdt": 72189.259, "total_cost_usd": 627732688.58, "total_cost_million_usd": 627.733, "demand_coverage_score": 100461.17, "demand_coverage_pct": 100.0, "open_station_count": 32, "total_grid_power_kw": 23780.0, "selected_station_ids": "CS-02;CS-03;CS-07;CS-08;CS-09;CS-12;CS-14;CS-15;CS-16;CS-19;CS-20;CS-22;CS-23;CS-24;CS-25;CS-27;CS-28;CS-30;CS-31;CS-33;CS-36;CS-38;CS-40;CS-41;CS-42;CS-44;CS-46;CS-47;CS-53;CS-54;CS-55;CS-57", "charger_allocations_json": "{\"Type_1_AC_22kW\": 85, \"Type_2_DC_60kW\": 46, \"Type_3_DC_150kW\": 77, \"Type_4_Swap_Depot\": 76}", "penalties_bdt": 0.0}, {"solution_id": "SOL-003", "total_cost_bdt": 73814410069.66, "total_cost_million_bdt": 73814.41, "total_cost_usd": 641864435.39, "total_cost_million_usd": 641.864, "demand_coverage_score": 102249.67, "demand_coverage_pct": 100.0, "open_station_count": 33, "total_grid_power_kw": 23166.0, "selected_station_ids": "CS-02;CS-03;CS-07;CS-08;CS-09;CS-10;CS-11;CS-12;CS-14;CS-15;CS-16;CS-18;CS-19;CS-20;CS-23;CS-24;CS-25;CS-27;CS-28;CS-29;CS-30;CS-31;CS-33;CS-38;CS-40;CS-41;CS-42;CS-44;CS-46;CS-53;CS-54;CS-55;CS-57", "charger_allocations_json": "{\"Type_1_AC_22kW\": 78, \"Type_2_DC_60kW\": 30, \"Type_3_DC_150kW\": 77, \"Type_4_Swap_Depot\": 81}", "penalties_bdt": 0.0}];
+    const RAW_PARETO = [{"solution_id": "SOL-001", "total_cost_bdt": 68655831400.75, "total_cost_million_bdt": 68655.831, "total_cost_usd": 597007229.57, "total_cost_million_usd": 597.007, "demand_coverage_score": 135015.32, "demand_coverage_pct": 100.0, "open_station_count": 30, "total_grid_power_kw": 25158.0, "selected_station_ids": "CS-03;CS-04;CS-07;CS-08;CS-09;CS-10;CS-11;CS-12;CS-13;CS-15;CS-17;CS-20;CS-21;CS-22;CS-24;CS-28;CS-29;CS-32;CS-33;CS-35;CS-42;CS-44;CS-45;CS-48;CS-50;CS-51;CS-55;CS-56;CS-57;CS-58", "charger_allocations_json": "{\"Type_1_AC_22kW\": 29, \"Type_2_DC_60kW\": 57, \"Type_3_DC_150kW\": 98, \"Type_4_Swap_Depot\": 64}", "penalties_bdt": 0.0, "upfront_capex_bdt": 2499606240.0, "budget_cap_bdt": 2500000000, "budget_feasible": true}, {"solution_id": "SOL-002", "total_cost_bdt": 68655831400.75, "total_cost_million_bdt": 68655.831, "total_cost_usd": 597007229.57, "total_cost_million_usd": 597.007, "demand_coverage_score": 135015.32, "demand_coverage_pct": 100.0, "open_station_count": 30, "total_grid_power_kw": 25158.0, "selected_station_ids": "CS-03;CS-04;CS-07;CS-08;CS-09;CS-10;CS-11;CS-12;CS-13;CS-15;CS-17;CS-20;CS-21;CS-22;CS-24;CS-28;CS-29;CS-32;CS-33;CS-35;CS-42;CS-44;CS-45;CS-48;CS-50;CS-51;CS-55;CS-56;CS-57;CS-58", "charger_allocations_json": "{\"Type_1_AC_22kW\": 29, \"Type_2_DC_60kW\": 57, \"Type_3_DC_150kW\": 98, \"Type_4_Swap_Depot\": 64}", "penalties_bdt": 0.0, "upfront_capex_bdt": 2499606240.0, "budget_cap_bdt": 2500000000, "budget_feasible": true}, {"solution_id": "SOL-003", "total_cost_bdt": 68655831400.75, "total_cost_million_bdt": 68655.831, "total_cost_usd": 597007229.57, "total_cost_million_usd": 597.007, "demand_coverage_score": 135015.32, "demand_coverage_pct": 100.0, "open_station_count": 30, "total_grid_power_kw": 25158.0, "selected_station_ids": "CS-03;CS-04;CS-07;CS-08;CS-09;CS-10;CS-11;CS-12;CS-13;CS-15;CS-17;CS-20;CS-21;CS-22;CS-24;CS-28;CS-29;CS-32;CS-33;CS-35;CS-42;CS-44;CS-45;CS-48;CS-50;CS-51;CS-55;CS-56;CS-57;CS-58", "charger_allocations_json": "{\"Type_1_AC_22kW\": 29, \"Type_2_DC_60kW\": 57, \"Type_3_DC_150kW\": 98, \"Type_4_Swap_Depot\": 64}", "penalties_bdt": 0.0, "upfront_capex_bdt": 2499606240.0, "budget_cap_bdt": 2500000000, "budget_feasible": true}, {"solution_id": "SOL-004", "total_cost_bdt": 68655831400.75, "total_cost_million_bdt": 68655.831, "total_cost_usd": 597007229.57, "total_cost_million_usd": 597.007, "demand_coverage_score": 135015.32, "demand_coverage_pct": 100.0, "open_station_count": 30, "total_grid_power_kw": 25158.0, "selected_station_ids": "CS-03;CS-04;CS-07;CS-08;CS-09;CS-10;CS-11;CS-12;CS-13;CS-15;CS-17;CS-20;CS-21;CS-22;CS-24;CS-28;CS-29;CS-32;CS-33;CS-35;CS-42;CS-44;CS-45;CS-48;CS-50;CS-51;CS-55;CS-56;CS-57;CS-58", "charger_allocations_json": "{\"Type_1_AC_22kW\": 29, \"Type_2_DC_60kW\": 57, \"Type_3_DC_150kW\": 98, \"Type_4_Swap_Depot\": 64}", "penalties_bdt": 0.0, "upfront_capex_bdt": 2499606240.0, "budget_cap_bdt": 2500000000, "budget_feasible": true}, {"solution_id": "SOL-005", "total_cost_bdt": 68655831400.75, "total_cost_million_bdt": 68655.831, "total_cost_usd": 597007229.57, "total_cost_million_usd": 597.007, "demand_coverage_score": 135015.32, "demand_coverage_pct": 100.0, "open_station_count": 30, "total_grid_power_kw": 25158.0, "selected_station_ids": "CS-03;CS-04;CS-07;CS-08;CS-09;CS-10;CS-11;CS-12;CS-13;CS-15;CS-17;CS-20;CS-21;CS-22;CS-24;CS-28;CS-29;CS-32;CS-33;CS-35;CS-42;CS-44;CS-45;CS-48;CS-50;CS-51;CS-55;CS-56;CS-57;CS-58", "charger_allocations_json": "{\"Type_1_AC_22kW\": 29, \"Type_2_DC_60kW\": 57, \"Type_3_DC_150kW\": 98, \"Type_4_Swap_Depot\": 64}", "penalties_bdt": 0.0, "upfront_capex_bdt": 2499606240.0, "budget_cap_bdt": 2500000000, "budget_feasible": true}, {"solution_id": "SOL-006", "total_cost_bdt": 68708496369.44, "total_cost_million_bdt": 68708.496, "total_cost_usd": 597465185.82, "total_cost_million_usd": 597.465, "demand_coverage_score": 140784.78, "demand_coverage_pct": 100.0, "open_station_count": 30, "total_grid_power_kw": 25154.0, "selected_station_ids": "CS-03;CS-04;CS-07;CS-08;CS-09;CS-10;CS-11;CS-12;CS-13;CS-15;CS-17;CS-20;CS-21;CS-22;CS-24;CS-28;CS-29;CS-32;CS-33;CS-35;CS-42;CS-44;CS-45;CS-48;CS-50;CS-51;CS-55;CS-56;CS-57;CS-58", "charger_allocations_json": "{\"Type_1_AC_22kW\": 27, \"Type_2_DC_60kW\": 56, \"Type_3_DC_150kW\": 100, \"Type_4_Swap_Depot\": 62}", "penalties_bdt": 0.0, "upfront_capex_bdt": 2497703240.0, "budget_cap_bdt": 2500000000, "budget_feasible": true}, {"solution_id": "SOL-007", "total_cost_bdt": 68708496369.44, "total_cost_million_bdt": 68708.496, "total_cost_usd": 597465185.82, "total_cost_million_usd": 597.465, "demand_coverage_score": 140784.78, "demand_coverage_pct": 100.0, "open_station_count": 30, "total_grid_power_kw": 25154.0, "selected_station_ids": "CS-03;CS-04;CS-07;CS-08;CS-09;CS-10;CS-11;CS-12;CS-13;CS-15;CS-17;CS-20;CS-21;CS-22;CS-24;CS-28;CS-29;CS-32;CS-33;CS-35;CS-42;CS-44;CS-45;CS-48;CS-50;CS-51;CS-55;CS-56;CS-57;CS-58", "charger_allocations_json": "{\"Type_1_AC_22kW\": 27, \"Type_2_DC_60kW\": 56, \"Type_3_DC_150kW\": 100, \"Type_4_Swap_Depot\": 62}", "penalties_bdt": 0.0, "upfront_capex_bdt": 2497703240.0, "budget_cap_bdt": 2500000000, "budget_feasible": true}, {"solution_id": "SOL-008", "total_cost_bdt": 68938572713.61, "total_cost_million_bdt": 68938.573, "total_cost_usd": 599465849.68, "total_cost_million_usd": 599.466, "demand_coverage_score": 140929.22, "demand_coverage_pct": 100.0, "open_station_count": 30, "total_grid_power_kw": 25096.0, "selected_station_ids": "CS-03;CS-04;CS-07;CS-08;CS-09;CS-10;CS-11;CS-12;CS-13;CS-15;CS-17;CS-20;CS-21;CS-22;CS-24;CS-28;CS-29;CS-32;CS-33;CS-35;CS-42;CS-44;CS-45;CS-48;CS-50;CS-51;CS-55;CS-56;CS-57;CS-58", "charger_allocations_json": "{\"Type_1_AC_22kW\": 28, \"Type_2_DC_60kW\": 58, \"Type_3_DC_150kW\": 100, \"Type_4_Swap_Depot\": 60}", "penalties_bdt": 0.0, "upfront_capex_bdt": 2493722240.0, "budget_cap_bdt": 2500000000, "budget_feasible": true}, {"solution_id": "SOL-009", "total_cost_bdt": 68938572713.61, "total_cost_million_bdt": 68938.573, "total_cost_usd": 599465849.68, "total_cost_million_usd": 599.466, "demand_coverage_score": 140929.22, "demand_coverage_pct": 100.0, "open_station_count": 30, "total_grid_power_kw": 25096.0, "selected_station_ids": "CS-03;CS-04;CS-07;CS-08;CS-09;CS-10;CS-11;CS-12;CS-13;CS-15;CS-17;CS-20;CS-21;CS-22;CS-24;CS-28;CS-29;CS-32;CS-33;CS-35;CS-42;CS-44;CS-45;CS-48;CS-50;CS-51;CS-55;CS-56;CS-57;CS-58", "charger_allocations_json": "{\"Type_1_AC_22kW\": 28, \"Type_2_DC_60kW\": 58, \"Type_3_DC_150kW\": 100, \"Type_4_Swap_Depot\": 60}", "penalties_bdt": 0.0, "upfront_capex_bdt": 2493722240.0, "budget_cap_bdt": 2500000000, "budget_feasible": true}, {"solution_id": "SOL-010", "total_cost_bdt": 68990740217.5, "total_cost_million_bdt": 68990.74, "total_cost_usd": 599919480.15, "total_cost_million_usd": 599.919, "demand_coverage_score": 141502.35, "demand_coverage_pct": 100.0, "open_station_count": 30, "total_grid_power_kw": 25076.0, "selected_station_ids": "CS-03;CS-04;CS-07;CS-08;CS-09;CS-10;CS-11;CS-12;CS-13;CS-15;CS-17;CS-20;CS-21;CS-22;CS-24;CS-28;CS-29;CS-32;CS-33;CS-35;CS-42;CS-44;CS-45;CS-48;CS-50;CS-51;CS-55;CS-56;CS-57;CS-58", "charger_allocations_json": "{\"Type_1_AC_22kW\": 28, \"Type_2_DC_60kW\": 56, \"Type_3_DC_150kW\": 100, \"Type_4_Swap_Depot\": 61}", "penalties_bdt": 0.0, "upfront_capex_bdt": 2495932240.0, "budget_cap_bdt": 2500000000, "budget_feasible": true}];
     const RANKED_CANDIDATES = {"CS-07": {"candidate_id": "CS-07", "site_name": "Purbachal_300ft_Site_1", "zone_name": "Purbachal_Suburbs", "ahp_suitability_score": 0.874, "topsis_score": 0.8245, "topsis_rank": 1, "land_cost_bdt_sqm": 50000.0, "distance_to_substation_m": 124.2, "substation_headroom_mva": 22.0}, "CS-08": {"candidate_id": "CS-08", "site_name": "Purbachal_300ft_Site_2", "zone_name": "Purbachal_Suburbs", "ahp_suitability_score": 0.811, "topsis_score": 0.7404, "topsis_rank": 2, "land_cost_bdt_sqm": 50000.0, "distance_to_substation_m": 892.9, "substation_headroom_mva": 22.0}, "CS-04": {"candidate_id": "CS-04", "site_name": "Uttara_Sec3_Site_2", "zone_name": "Uttara", "ahp_suitability_score": 0.812, "topsis_score": 0.6355, "topsis_rank": 3, "land_cost_bdt_sqm": 110000.0, "distance_to_substation_m": 420.6, "substation_headroom_mva": 12.0}, "CS-03": {"candidate_id": "CS-03", "site_name": "Uttara_Sec3_Site_1", "zone_name": "Uttara", "ahp_suitability_score": 0.804, "topsis_score": 0.6087, "topsis_rank": 4, "land_cost_bdt_sqm": 110000.0, "distance_to_substation_m": 824.2, "substation_headroom_mva": 12.0}, "CS-17": {"candidate_id": "CS-17", "site_name": "Mohakhali_Terminal_Site_1", "zone_name": "Badda_Mohakhali", "ahp_suitability_score": 0.826, "topsis_score": 0.5999, "topsis_rank": 5, "land_cost_bdt_sqm": 140000.0, "distance_to_substation_m": 237.4, "substation_headroom_mva": 10.0}, "CS-39": {"candidate_id": "CS-39", "site_name": "Mirpur_10_Circle_Site_1", "zone_name": "Mirpur", "ahp_suitability_score": 0.825, "topsis_score": 0.5882, "topsis_rank": 6, "land_cost_bdt_sqm": 95000.0, "distance_to_substation_m": 290.8, "substation_headroom_mva": 9.0}, "CS-40": {"candidate_id": "CS-40", "site_name": "Mirpur_10_Circle_Site_2", "zone_name": "Mirpur", "ahp_suitability_score": 0.831, "topsis_score": 0.587, "topsis_rank": 7, "land_cost_bdt_sqm": 95000.0, "distance_to_substation_m": 380.5, "substation_headroom_mva": 9.0}, "CS-58": {"candidate_id": "CS-58", "site_name": "Jatrabari_Flyover_Hub_Site_2", "zone_name": "Jatrabari_Sayedabad", "ahp_suitability_score": 0.814, "topsis_score": 0.5812, "topsis_rank": 8, "land_cost_bdt_sqm": 85000.0, "distance_to_substation_m": 520.4, "substation_headroom_mva": 9.0}, "CS-38": {"candidate_id": "CS-38", "site_name": "Mirpur_1_Site_2", "zone_name": "Mirpur", "ahp_suitability_score": 0.796, "topsis_score": 0.5734, "topsis_rank": 9, "land_cost_bdt_sqm": 95000.0, "distance_to_substation_m": 10.8, "substation_headroom_mva": 8.0}, "CS-57": {"candidate_id": "CS-57", "site_name": "Jatrabari_Flyover_Hub_Site_1", "zone_name": "Jatrabari_Sayedabad", "ahp_suitability_score": 0.804, "topsis_score": 0.5681, "topsis_rank": 10, "land_cost_bdt_sqm": 85000.0, "distance_to_substation_m": 677.6, "substation_headroom_mva": 9.0}, "CS-18": {"candidate_id": "CS-18", "site_name": "Mohakhali_Terminal_Site_2", "zone_name": "Badda_Mohakhali", "ahp_suitability_score": 0.806, "topsis_score": 0.5639, "topsis_rank": 11, "land_cost_bdt_sqm": 140000.0, "distance_to_substation_m": 678.6, "substation_headroom_mva": 10.0}, "CS-37": {"candidate_id": "CS-37", "site_name": "Mirpur_1_Site_1", "zone_name": "Mirpur", "ahp_suitability_score": 0.794, "topsis_score": 0.561, "topsis_rank": 12, "land_cost_bdt_sqm": 95000.0, "distance_to_substation_m": 328.1, "substation_headroom_mva": 8.0}, "CS-56": {"candidate_id": "CS-56", "site_name": "Sayedabad_Terminal_Site_2", "zone_name": "Jatrabari_Sayedabad", "ahp_suitability_score": 0.817, "topsis_score": 0.5425, "topsis_rank": 13, "land_cost_bdt_sqm": 85000.0, "distance_to_substation_m": 533.8, "substation_headroom_mva": 7.0}, "CS-13": {"candidate_id": "CS-13", "site_name": "Gulshan_1_Site_1", "zone_name": "Gulshan_Banani", "ahp_suitability_score": 0.752, "topsis_score": 0.5406, "topsis_rank": 14, "land_cost_bdt_sqm": 250000.0, "distance_to_substation_m": 439.6, "substation_headroom_mva": 11.5}, "CS-12": {"candidate_id": "CS-12", "site_name": "Gulshan_2_Site_2", "zone_name": "Gulshan_Banani", "ahp_suitability_score": 0.741, "topsis_score": 0.5375, "topsis_rank": 15, "land_cost_bdt_sqm": 250000.0, "distance_to_substation_m": 272.1, "substation_headroom_mva": 11.0}, "CS-21": {"candidate_id": "CS-21", "site_name": "Hatirjheel_North_Site_1", "zone_name": "Badda_Mohakhali", "ahp_suitability_score": 0.776, "topsis_score": 0.537, "topsis_rank": 16, "land_cost_bdt_sqm": 140000.0, "distance_to_substation_m": 885.8, "substation_headroom_mva": 10.0}, "CS-05": {"candidate_id": "CS-05", "site_name": "Uttara_Sec11_Site_1", "zone_name": "Uttara", "ahp_suitability_score": 0.7, "topsis_score": 0.5368, "topsis_rank": 17, "land_cost_bdt_sqm": 110000.0, "distance_to_substation_m": 312.5, "substation_headroom_mva": 10.5}, "CS-55": {"candidate_id": "CS-55", "site_name": "Sayedabad_Terminal_Site_1", "zone_name": "Jatrabari_Sayedabad", "ahp_suitability_score": 0.818, "topsis_score": 0.5366, "topsis_rank": 18, "land_cost_bdt_sqm": 85000.0, "distance_to_substation_m": 613.8, "substation_headroom_mva": 7.0}, "CS-23": {"candidate_id": "CS-23", "site_name": "Tejgaon_Industrial_Site_1", "zone_name": "Kawran_Bazar_Tejgaon", "ahp_suitability_score": 0.695, "topsis_score": 0.5362, "topsis_rank": 19, "land_cost_bdt_sqm": 150000.0, "distance_to_substation_m": 343.0, "substation_headroom_mva": 11.0}, "CS-06": {"candidate_id": "CS-06", "site_name": "Uttara_Sec11_Site_2", "zone_name": "Uttara", "ahp_suitability_score": 0.703, "topsis_score": 0.5302, "topsis_rank": 20, "land_cost_bdt_sqm": 110000.0, "distance_to_substation_m": 661.0, "substation_headroom_mva": 10.5}, "CS-09": {"candidate_id": "CS-09", "site_name": "Baridhara_Diplomatic_Site_1", "zone_name": "Gulshan_Banani", "ahp_suitability_score": 0.76, "topsis_score": 0.5279, "topsis_rank": 21, "land_cost_bdt_sqm": 250000.0, "distance_to_substation_m": 645.2, "substation_headroom_mva": 11.0}, "CS-14": {"candidate_id": "CS-14", "site_name": "Gulshan_1_Site_2", "zone_name": "Gulshan_Banani", "ahp_suitability_score": 0.754, "topsis_score": 0.5224, "topsis_rank": 22, "land_cost_bdt_sqm": 250000.0, "distance_to_substation_m": 758.6, "substation_headroom_mva": 11.5}, "CS-25": {"candidate_id": "CS-25", "site_name": "Kawran_Bazar_CBD_Site_1", "zone_name": "Kawran_Bazar_Tejgaon", "ahp_suitability_score": 0.768, "topsis_score": 0.5172, "topsis_rank": 23, "land_cost_bdt_sqm": 150000.0, "distance_to_substation_m": 309.3, "substation_headroom_mva": 7.0}, "CS-49": {"candidate_id": "CS-49", "site_name": "Kamalapur_Railway_Site_1", "zone_name": "Motijheel_Dilkusha", "ahp_suitability_score": 0.76, "topsis_score": 0.5145, "topsis_rank": 24, "land_cost_bdt_sqm": 220000.0, "distance_to_substation_m": 50.8, "substation_headroom_mva": 7.5}, "CS-10": {"candidate_id": "CS-10", "site_name": "Baridhara_Diplomatic_Site_2", "zone_name": "Gulshan_Banani", "ahp_suitability_score": 0.74, "topsis_score": 0.514, "topsis_rank": 25, "land_cost_bdt_sqm": 250000.0, "distance_to_substation_m": 698.8, "substation_headroom_mva": 11.0}, "CS-11": {"candidate_id": "CS-11", "site_name": "Gulshan_2_Site_1", "zone_name": "Gulshan_Banani", "ahp_suitability_score": 0.749, "topsis_score": 0.5133, "topsis_rank": 26, "land_cost_bdt_sqm": 250000.0, "distance_to_substation_m": 708.9, "substation_headroom_mva": 11.0}, "CS-22": {"candidate_id": "CS-22", "site_name": "Hatirjheel_North_Site_2", "zone_name": "Badda_Mohakhali", "ahp_suitability_score": 0.736, "topsis_score": 0.5114, "topsis_rank": 27, "land_cost_bdt_sqm": 140000.0, "distance_to_substation_m": 1305.1, "substation_headroom_mva": 11.0}, "CS-15": {"candidate_id": "CS-15", "site_name": "Banani_11_Site_1", "zone_name": "Gulshan_Banani", "ahp_suitability_score": 0.77, "topsis_score": 0.5087, "topsis_rank": 28, "land_cost_bdt_sqm": 250000.0, "distance_to_substation_m": 477.2, "substation_headroom_mva": 9.0}, "CS-26": {"candidate_id": "CS-26", "site_name": "Kawran_Bazar_CBD_Site_2", "zone_name": "Kawran_Bazar_Tejgaon", "ahp_suitability_score": 0.784, "topsis_score": 0.5047, "topsis_rank": 29, "land_cost_bdt_sqm": 150000.0, "distance_to_substation_m": 607.3, "substation_headroom_mva": 7.0}, "CS-50": {"candidate_id": "CS-50", "site_name": "Kamalapur_Railway_Site_2", "zone_name": "Motijheel_Dilkusha", "ahp_suitability_score": 0.756, "topsis_score": 0.5029, "topsis_rank": 30, "land_cost_bdt_sqm": 220000.0, "distance_to_substation_m": 351.9, "substation_headroom_mva": 7.5}, "CS-47": {"candidate_id": "CS-47", "site_name": "Motijheel_CBD_Site_1", "zone_name": "Motijheel_Dilkusha", "ahp_suitability_score": 0.719, "topsis_score": 0.5018, "topsis_rank": 31, "land_cost_bdt_sqm": 220000.0, "distance_to_substation_m": 284.4, "substation_headroom_mva": 8.5}, "CS-29": {"candidate_id": "CS-29", "site_name": "Dhanmondi_27_Site_1", "zone_name": "Dhanmondi", "ahp_suitability_score": 0.751, "topsis_score": 0.4981, "topsis_rank": 32, "land_cost_bdt_sqm": 180000.0, "distance_to_substation_m": 522.3, "substation_headroom_mva": 8.0}, "CS-48": {"candidate_id": "CS-48", "site_name": "Motijheel_CBD_Site_2", "zone_name": "Motijheel_Dilkusha", "ahp_suitability_score": 0.734, "topsis_score": 0.4898, "topsis_rank": 33, "land_cost_bdt_sqm": 220000.0, "distance_to_substation_m": 345.2, "substation_headroom_mva": 7.5}, "CS-01": {"candidate_id": "CS-01", "site_name": "Airport_Hub_Site_1", "zone_name": "Uttara", "ahp_suitability_score": 0.741, "topsis_score": 0.4878, "topsis_rank": 34, "land_cost_bdt_sqm": 110000.0, "distance_to_substation_m": 2071.4, "substation_headroom_mva": 12.0}, "CS-24": {"candidate_id": "CS-24", "site_name": "Tejgaon_Industrial_Site_2", "zone_name": "Kawran_Bazar_Tejgaon", "ahp_suitability_score": 0.672, "topsis_score": 0.4858, "topsis_rank": 35, "land_cost_bdt_sqm": 150000.0, "distance_to_substation_m": 816.1, "substation_headroom_mva": 11.0}, "CS-30": {"candidate_id": "CS-30", "site_name": "Dhanmondi_27_Site_2", "zone_name": "Dhanmondi", "ahp_suitability_score": 0.74, "topsis_score": 0.4832, "topsis_rank": 36, "land_cost_bdt_sqm": 180000.0, "distance_to_substation_m": 778.7, "substation_headroom_mva": 8.0}, "CS-16": {"candidate_id": "CS-16", "site_name": "Banani_11_Site_2", "zone_name": "Gulshan_Banani", "ahp_suitability_score": 0.726, "topsis_score": 0.4795, "topsis_rank": 37, "land_cost_bdt_sqm": 250000.0, "distance_to_substation_m": 606.8, "substation_headroom_mva": 9.0}, "CS-27": {"candidate_id": "CS-27", "site_name": "Farmgate_Hub_Site_1", "zone_name": "Kawran_Bazar_Tejgaon", "ahp_suitability_score": 0.74, "topsis_score": 0.4785, "topsis_rank": 38, "land_cost_bdt_sqm": 150000.0, "distance_to_substation_m": 710.8, "substation_headroom_mva": 7.0}, "CS-44": {"candidate_id": "CS-44", "site_name": "Gabtoli_Terminal_Site_2", "zone_name": "Mirpur", "ahp_suitability_score": 0.783, "topsis_score": 0.471, "topsis_rank": 39, "land_cost_bdt_sqm": 95000.0, "distance_to_substation_m": 1676.6, "substation_headroom_mva": 8.0}, "CS-20": {"candidate_id": "CS-20", "site_name": "Badda_Pragati_Sarani_Site_2", "zone_name": "Badda_Mohakhali", "ahp_suitability_score": 0.61, "topsis_score": 0.4634, "topsis_rank": 40, "land_cost_bdt_sqm": 140000.0, "distance_to_substation_m": 880.2, "substation_headroom_mva": 11.5}, "CS-02": {"candidate_id": "CS-02", "site_name": "Airport_Hub_Site_2", "zone_name": "Uttara", "ahp_suitability_score": 0.763, "topsis_score": 0.4589, "topsis_rank": 41, "land_cost_bdt_sqm": 110000.0, "distance_to_substation_m": 2781.7, "substation_headroom_mva": 12.0}, "CS-28": {"candidate_id": "CS-28", "site_name": "Farmgate_Hub_Site_2", "zone_name": "Kawran_Bazar_Tejgaon", "ahp_suitability_score": 0.738, "topsis_score": 0.4466, "topsis_rank": 42, "land_cost_bdt_sqm": 150000.0, "distance_to_substation_m": 1235.8, "substation_headroom_mva": 7.0}, "CS-42": {"candidate_id": "CS-42", "site_name": "Mirpur_12_Site_2", "zone_name": "Mirpur", "ahp_suitability_score": 0.699, "topsis_score": 0.4461, "topsis_rank": 43, "land_cost_bdt_sqm": 95000.0, "distance_to_substation_m": 1504.9, "substation_headroom_mva": 9.0}, "CS-46": {"candidate_id": "CS-46", "site_name": "Shahbagh_Square_Site_2", "zone_name": "Kawran_Bazar_Tejgaon", "ahp_suitability_score": 0.754, "topsis_score": 0.4335, "topsis_rank": 44, "land_cost_bdt_sqm": 150000.0, "distance_to_substation_m": 1482.5, "substation_headroom_mva": 7.0}, "CS-43": {"candidate_id": "CS-43", "site_name": "Gabtoli_Terminal_Site_1", "zone_name": "Mirpur", "ahp_suitability_score": 0.721, "topsis_score": 0.4311, "topsis_rank": 45, "land_cost_bdt_sqm": 95000.0, "distance_to_substation_m": 1934.0, "substation_headroom_mva": 8.0}, "CS-31": {"candidate_id": "CS-31", "site_name": "Dhanmondi_8A_Site_1", "zone_name": "Dhanmondi", "ahp_suitability_score": 0.629, "topsis_score": 0.4299, "topsis_rank": 46, "land_cost_bdt_sqm": 180000.0, "distance_to_substation_m": 666.4, "substation_headroom_mva": 8.0}, "CS-32": {"candidate_id": "CS-32", "site_name": "Dhanmondi_8A_Site_2", "zone_name": "Dhanmondi", "ahp_suitability_score": 0.596, "topsis_score": 0.4246, "topsis_rank": 47, "land_cost_bdt_sqm": 180000.0, "distance_to_substation_m": 516.7, "substation_headroom_mva": 8.0}, "CS-41": {"candidate_id": "CS-41", "site_name": "Mirpur_12_Site_1", "zone_name": "Mirpur", "ahp_suitability_score": 0.644, "topsis_score": 0.4232, "topsis_rank": 48, "land_cost_bdt_sqm": 95000.0, "distance_to_substation_m": 1321.5, "substation_headroom_mva": 9.0}, "CS-19": {"candidate_id": "CS-19", "site_name": "Badda_Pragati_Sarani_Site_1", "zone_name": "Badda_Mohakhali", "ahp_suitability_score": 0.617, "topsis_score": 0.4223, "topsis_rank": 49, "land_cost_bdt_sqm": 140000.0, "distance_to_substation_m": 1550.2, "substation_headroom_mva": 11.5}, "CS-52": {"candidate_id": "CS-52", "site_name": "Old_Dhaka_Lalbagh_Site_2", "zone_name": "Old_Dhaka", "ahp_suitability_score": 0.609, "topsis_score": 0.4199, "topsis_rank": 50, "land_cost_bdt_sqm": 130000.0, "distance_to_substation_m": 221.8, "substation_headroom_mva": 3.5}, "CS-54": {"candidate_id": "CS-54", "site_name": "Old_Dhaka_Sadarghat_Site_2", "zone_name": "Old_Dhaka", "ahp_suitability_score": 0.735, "topsis_score": 0.4061, "topsis_rank": 51, "land_cost_bdt_sqm": 130000.0, "distance_to_substation_m": 1948.7, "substation_headroom_mva": 7.0}, "CS-51": {"candidate_id": "CS-51", "site_name": "Old_Dhaka_Lalbagh_Site_1", "zone_name": "Old_Dhaka", "ahp_suitability_score": 0.61, "topsis_score": 0.4024, "topsis_rank": 52, "land_cost_bdt_sqm": 130000.0, "distance_to_substation_m": 411.5, "substation_headroom_mva": 3.5}, "CS-53": {"candidate_id": "CS-53", "site_name": "Old_Dhaka_Sadarghat_Site_1", "zone_name": "Old_Dhaka", "ahp_suitability_score": 0.712, "topsis_score": 0.3844, "topsis_rank": 53, "land_cost_bdt_sqm": 130000.0, "distance_to_substation_m": 2260.0, "substation_headroom_mva": 7.0}, "CS-45": {"candidate_id": "CS-45", "site_name": "Shahbagh_Square_Site_1", "zone_name": "Kawran_Bazar_Tejgaon", "ahp_suitability_score": 0.717, "topsis_score": 0.3535, "topsis_rank": 54, "land_cost_bdt_sqm": 150000.0, "distance_to_substation_m": 1977.0, "substation_headroom_mva": 3.5}, "CS-35": {"candidate_id": "CS-35", "site_name": "Mohammadpur_Townhall_Site_1", "zone_name": "Dhanmondi", "ahp_suitability_score": 0.591, "topsis_score": 0.3462, "topsis_rank": 55, "land_cost_bdt_sqm": 180000.0, "distance_to_substation_m": 1387.2, "substation_headroom_mva": 8.0}, "CS-34": {"candidate_id": "CS-34", "site_name": "Shyamoli_Square_Site_2", "zone_name": "Mirpur", "ahp_suitability_score": 0.648, "topsis_score": 0.3448, "topsis_rank": 56, "land_cost_bdt_sqm": 95000.0, "distance_to_substation_m": 2520.5, "substation_headroom_mva": 8.0}, "CS-33": {"candidate_id": "CS-33", "site_name": "Shyamoli_Square_Site_1", "zone_name": "Mirpur", "ahp_suitability_score": 0.583, "topsis_score": 0.3136, "topsis_rank": 57, "land_cost_bdt_sqm": 95000.0, "distance_to_substation_m": 2472.2, "substation_headroom_mva": 8.0}, "CS-36": {"candidate_id": "CS-36", "site_name": "Mohammadpur_Townhall_Site_2", "zone_name": "Dhanmondi", "ahp_suitability_score": 0.543, "topsis_score": 0.2598, "topsis_rank": 58, "land_cost_bdt_sqm": 180000.0, "distance_to_substation_m": 1956.8, "substation_headroom_mva": 8.0}};
     const BUS_VOLTAGES = [{"bus_id": "DPDC-SS-01", "name": "Motijheel 33/11kV", "utility": "DPDC", "base_kv": 33.0, "base_pu": 0.987, "ev_pu": 0.978, "rated_mva": 50.0, "headroom_mva": 8.5}, {"bus_id": "DPDC-SS-02", "name": "Dhanmondi 33/11kV", "utility": "DPDC", "base_kv": 33.0, "base_pu": 0.993, "ev_pu": 0.971, "rated_mva": 40.0, "headroom_mva": 8.0}, {"bus_id": "DPDC-SS-03", "name": "Tejgaon 33/11kV", "utility": "DPDC", "base_kv": 33.0, "base_pu": 0.999, "ev_pu": 0.964, "rated_mva": 50.0, "headroom_mva": 11.0}, {"bus_id": "DPDC-SS-04", "name": "Lalbagh 33/11kV", "utility": "DPDC", "base_kv": 33.0, "base_pu": 0.987, "ev_pu": 0.957, "rated_mva": 30.0, "headroom_mva": 3.5}, {"bus_id": "DPDC-SS-05", "name": "Jatrabari 33/11kV", "utility": "DPDC", "base_kv": 33.0, "base_pu": 0.993, "ev_pu": 0.978, "rated_mva": 40.0, "headroom_mva": 9.0}, {"bus_id": "DPDC-SS-06", "name": "Sayedabad 33/11kV", "utility": "DPDC", "base_kv": 33.0, "base_pu": 0.999, "ev_pu": 0.971, "rated_mva": 35.0, "headroom_mva": 7.0}, {"bus_id": "DPDC-SS-07", "name": "Kamalapur 33/11kV", "utility": "DPDC", "base_kv": 33.0, "base_pu": 0.987, "ev_pu": 0.964, "rated_mva": 35.0, "headroom_mva": 7.5}, {"bus_id": "DPDC-SS-08", "name": "Kawran Bazar 33/11kV", "utility": "DPDC", "base_kv": 33.0, "base_pu": 0.993, "ev_pu": 0.957, "rated_mva": 45.0, "headroom_mva": 7.0}, {"bus_id": "DESCO-SS-01", "name": "Gulshan-1 33/11kV", "utility": "DESCO", "base_kv": 33.0, "base_pu": 0.999, "ev_pu": 0.978, "rated_mva": 50.0, "headroom_mva": 11.5}, {"bus_id": "DESCO-SS-02", "name": "Gulshan-2 33/11kV", "utility": "DESCO", "base_kv": 33.0, "base_pu": 0.987, "ev_pu": 0.971, "rated_mva": 50.0, "headroom_mva": 11.0}, {"bus_id": "DESCO-SS-03", "name": "Banani 33/11kV", "utility": "DESCO", "base_kv": 33.0, "base_pu": 0.993, "ev_pu": 0.964, "rated_mva": 40.0, "headroom_mva": 9.0}, {"bus_id": "DESCO-SS-04", "name": "Uttara-1 33/11kV", "utility": "DESCO", "base_kv": 33.0, "base_pu": 0.999, "ev_pu": 0.957, "rated_mva": 45.0, "headroom_mva": 12.0}, {"bus_id": "DESCO-SS-05", "name": "Uttara-2 33/11kV", "utility": "DESCO", "base_kv": 33.0, "base_pu": 0.987, "ev_pu": 0.978, "rated_mva": 40.0, "headroom_mva": 10.5}, {"bus_id": "DESCO-SS-06", "name": "Mirpur-10 33/11kV", "utility": "DESCO", "base_kv": 33.0, "base_pu": 0.993, "ev_pu": 0.971, "rated_mva": 45.0, "headroom_mva": 9.0}, {"bus_id": "DESCO-SS-07", "name": "Mirpur-1 33/11kV", "utility": "DESCO", "base_kv": 33.0, "base_pu": 0.999, "ev_pu": 0.964, "rated_mva": 35.0, "headroom_mva": 8.0}, {"bus_id": "DESCO-SS-08", "name": "Mohakhali 33/11kV", "utility": "DESCO", "base_kv": 33.0, "base_pu": 0.987, "ev_pu": 0.957, "rated_mva": 50.0, "headroom_mva": 10.0}, {"bus_id": "DESCO-SS-09", "name": "Baridhara 33/11kV", "utility": "DESCO", "base_kv": 33.0, "base_pu": 0.993, "ev_pu": 0.978, "rated_mva": 35.0, "headroom_mva": 11.0}, {"bus_id": "DESCO-SS-10", "name": "Purbachal 33/11kV", "utility": "DESCO", "base_kv": 33.0, "base_pu": 0.999, "ev_pu": 0.971, "rated_mva": 40.0, "headroom_mva": 22.0}];
+    const RUN_SETTINGS = {"min_open_stations": 3, "max_open_stations": 32, "min_chargers_per_station": 2, "max_chargers_per_station": 12, "budget_cap_bdt": 2500000000, "population_size": 100, "generations": 250, "map_provider": "osm", "maptiler_style": "streets-v2"};
 
     // 2. STATE MANAGEMENT
     let activeSolutionIndex = 0;
@@ -654,7 +763,37 @@
       initMap();
       initLiveWeather();
       populateParetoTable();
+      populateRunSettings();
+      loadMapKey();
+      let provider = RUN_SETTINGS.map_provider || 'osm';
+      try { provider = localStorage.getItem('dhaka-evcs-map-provider') || provider; } catch (e) {}
+      document.getElementById('settings-map-provider').value = provider;
+      if (provider === 'maptiler') applyMapSettings();
+      else switchBaseMap(provider === 'carto-light' ? 'light' : provider === 'carto-dark' ? 'dark' : provider);
+      selectSolution(0);
       initCharts();
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') {
+          if (!document.getElementById('settings-panel').classList.contains('hidden')) toggleSettingsPanel(false);
+          if (!document.getElementById('analytics-modal').classList.contains('hidden')) toggleAnalyticsModal(false);
+          if (!document.getElementById('inspector-card').classList.contains('hidden')) closeInspector();
+        }
+        if (event.key === 'Tab') {
+          const dialog = [document.getElementById('analytics-modal'), document.getElementById('settings-panel')]
+            .find(element => !element.classList.contains('hidden'));
+          if (!dialog) return;
+          const focusable = [...dialog.querySelectorAll('button:not([disabled]), input:not([disabled]), select:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])')]
+            .filter(element => element.offsetParent !== null);
+          if (!focusable.length) return;
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (event.shiftKey && (document.activeElement === first || !dialog.contains(document.activeElement))) {
+            event.preventDefault(); last.focus();
+          } else if (!event.shiftKey && (document.activeElement === last || !dialog.contains(document.activeElement))) {
+            event.preventDefault(); first.focus();
+          }
+        }
+      });
     });
 
     function initMap() {
@@ -683,8 +822,14 @@
         maxZoom: 18
       });
 
-      activeBaseLayer = baseLayers.dark;
+      activeBaseLayer = baseLayers.osm;
       activeBaseLayer.addTo(map);
+      map.whenReady(() => setTimeout(() => map.invalidateSize(true), 150));
+      map.on('baselayerchange', () => setTimeout(() => map.invalidateSize(true), 80));
+      baseLayers.osm.on('tileerror', () => {
+        const notice = document.getElementById('map-tile-status');
+        if (notice) notice.textContent = 'Map tiles unavailable; check connection or choose another basemap.';
+      });
 
       // Initialize Layer Groups
       layers.optimalEVCS = L.layerGroup().addTo(map);
@@ -703,8 +848,11 @@
 
     function switchBaseMap(type) {
       if (activeBaseLayer) map.removeLayer(activeBaseLayer);
+      const normalized = type === 'dark' ? 'carto-dark' : type === 'light' ? 'carto-light' : type;
       activeBaseLayer = baseLayers[type] || baseLayers.dark;
       activeBaseLayer.addTo(map);
+      const select = document.getElementById('settings-map-provider');
+      if (select && normalized !== 'maptiler') select.value = normalized === 'carto-dark' || normalized === 'carto-light' || normalized === 'sat' ? normalized : 'osm';
 
       ['dark', 'light', 'osm', 'sat'].forEach(t => {
         const btn = document.getElementById('btn-bm-' + t);
@@ -716,6 +864,79 @@
           }
         }
       });
+    }
+
+    function toggleSettingsPanel(forceOpen) {
+      const panel = document.getElementById('settings-panel');
+      const opening = typeof forceOpen === 'boolean' ? forceOpen : panel.classList.contains('hidden');
+      panel.classList.toggle('hidden', !opening);
+      if (opening) {
+        setTimeout(() => document.getElementById('settings-map-provider').focus(), 0);
+      } else {
+        document.querySelector('[onclick="toggleSettingsPanel()"]').focus();
+      }
+    }
+
+    function populateRunSettings() {
+      const budget = RUN_SETTINGS.budget_cap_bdt == null ? 'No cap' : `BDT ${Number(RUN_SETTINGS.budget_cap_bdt).toLocaleString()}`;
+      document.getElementById('run-settings-summary').innerHTML = `
+        <div class="rounded-lg bg-slate-800 p-2"><span class="text-slate-400">Stations</span><div class="mt-1 font-bold text-white">${RUN_SETTINGS.min_open_stations}–${RUN_SETTINGS.max_open_stations}</div></div>
+        <div class="rounded-lg bg-slate-800 p-2"><span class="text-slate-400">Chargers / site</span><div class="mt-1 font-bold text-white">${RUN_SETTINGS.min_chargers_per_station}–${RUN_SETTINGS.max_chargers_per_station}</div></div>
+        <div class="rounded-lg bg-slate-800 p-2"><span class="text-slate-400">CAPEX budget</span><div class="mt-1 font-bold text-white">${budget}</div></div>
+        <div class="rounded-lg bg-slate-800 p-2"><span class="text-slate-400">NSGA-II</span><div class="mt-1 font-bold text-white">${RUN_SETTINGS.population_size} × ${RUN_SETTINGS.generations}</div></div>
+      `;
+    }
+
+    function loadMapKey() {
+      try { document.getElementById('maptiler-key').value = localStorage.getItem('dhaka-evcs-maptiler-key') || ''; } catch (e) {}
+    }
+
+    function saveMapKey() {
+      const key = document.getElementById('maptiler-key').value.trim();
+      const status = document.getElementById('map-settings-status');
+      try {
+        if (key) localStorage.setItem('dhaka-evcs-maptiler-key', key);
+        else localStorage.removeItem('dhaka-evcs-maptiler-key');
+        status.textContent = 'Key saved in this browser only.';
+        if (document.getElementById('settings-map-provider').value === 'maptiler') applyMapSettings();
+      } catch (e) { status.textContent = 'Browser storage unavailable; the key was not saved.'; }
+    }
+
+    function clearMapKey() {
+      document.getElementById('maptiler-key').value = '';
+      try { localStorage.removeItem('dhaka-evcs-maptiler-key'); } catch (e) {}
+      document.getElementById('map-settings-status').textContent = 'Stored key cleared.';
+      if (document.getElementById('settings-map-provider').value === 'maptiler') applyMapSettings();
+    }
+
+    function toggleKeyVisibility() {
+      const input = document.getElementById('maptiler-key');
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    function applyMapSettings() {
+      const provider = document.getElementById('settings-map-provider').value;
+      const status = document.getElementById('map-settings-status');
+      try { localStorage.setItem('dhaka-evcs-map-provider', provider); } catch (e) {}
+      if (provider === 'maptiler') {
+        let key = document.getElementById('maptiler-key').value.trim();
+        try { key = key || localStorage.getItem('dhaka-evcs-maptiler-key') || ''; } catch (e) {}
+        if (!key) {
+          status.textContent = 'Add a MapTiler key or choose OSM; switching to OpenStreetMap.';
+          document.getElementById('settings-map-provider').value = 'osm';
+          switchBaseMap('osm');
+          return;
+        }
+        const style = encodeURIComponent(RUN_SETTINGS.maptiler_style || 'streets-v2');
+        if (activeBaseLayer) map.removeLayer(activeBaseLayer);
+        activeBaseLayer = L.tileLayer(`https://api.maptiler.com/maps/${style}/{z}/{x}/{y}.png?key=${encodeURIComponent(key)}`, { maxZoom: 20, attribution: '&copy; MapTiler &copy; OpenStreetMap contributors' });
+        activeBaseLayer.addTo(map);
+        status.textContent = 'MapTiler basemap active. Key stays in this browser.';
+        setTimeout(() => map.invalidateSize(true), 100);
+        return;
+      }
+      status.textContent = provider === 'osm' ? 'OpenStreetMap does not require a key.' : 'Basemap updated.';
+      switchBaseMap(provider === 'carto-light' ? 'light' : provider === 'carto-dark' ? 'dark' : 'osm');
     }
 
     function resetDhakaCenter() {
@@ -733,9 +954,11 @@
         const content = document.getElementById('tab-content-' + t);
         if (t === tabName) {
           btn.className = "flex-1 py-2 font-bold border-b-2 border-emerald-500 text-emerald-400 text-center";
+          btn.setAttribute('aria-selected', 'true');
           content.classList.remove('hidden');
         } else {
           btn.className = "flex-1 py-2 font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 text-center";
+          btn.setAttribute('aria-selected', 'false');
           content.classList.add('hidden');
         }
       });
@@ -752,6 +975,7 @@
       ['knee', 'max', 'budget'].forEach((btnKey, idx) => {
         const btn = document.getElementById('btn-sol-' + btnKey);
         if (!btn) return;
+        btn.setAttribute('aria-pressed', String(idx === index));
         if (idx === index) {
           btn.className = "px-2.5 py-1 rounded-lg font-bold bg-emerald-500 text-slate-950 shadow transition-all text-xs";
         } else {
@@ -1247,14 +1471,18 @@
     let paretoChartInstance = null;
     let voltageChartInstance = null;
 
-    function toggleAnalyticsModal() {
+    function toggleAnalyticsModal(forceOpen) {
       const modal = document.getElementById('analytics-modal');
-      modal.classList.toggle('hidden');
-      if (!modal.classList.contains('hidden')) {
+      const opening = typeof forceOpen === 'boolean' ? forceOpen : modal.classList.contains('hidden');
+      modal.classList.toggle('hidden', !opening);
+      if (opening) {
         setTimeout(() => {
           if (paretoChartInstance) paretoChartInstance.resize();
           if (voltageChartInstance) voltageChartInstance.resize();
+          modal.querySelector('button[aria-label="Close analytics"]').focus();
         }, 50);
+      } else {
+        document.querySelector('[onclick="toggleAnalyticsModal()"]').focus();
       }
     }
 

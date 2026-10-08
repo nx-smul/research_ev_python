@@ -18,6 +18,16 @@ from src.spatial.spatial_filter import SpatialFilter, filter_candidate_sites
 from src.spatial.osm_network import OSMRoadNetwork
 
 
+def test_network_route_failure_can_disable_euclidean_approximation():
+    network = OSMRoadNetwork()
+    network.graph.add_node("demand-node", pos=(90.4, 23.7), lon=90.4, lat=23.7)
+    network.graph.add_node("candidate-node", pos=(90.5, 23.8), lon=90.5, lat=23.8)
+    with pytest.raises(ValueError, match="Euclidean fallback is disabled"):
+        network.calculate_shortest_path_matrix(
+            [(90.4, 23.7)], [(90.5, 23.8)], allow_approximate_fallback=False
+        )
+
+
 def test_ahp_weights_consistent(sample_pairwise_matrix):
     weights, lambda_max, CI, CR = calculate_ahp_weights(sample_pairwise_matrix)
     assert len(weights) == 3

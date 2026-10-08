@@ -1,0 +1,18 @@
+# Optional user overrides for optimization runs and browser map preferences.
+# Edit values here; unspecified values continue to come from the selected scenario YAML.
+optimization:
+  min_open_stations: 3
+  max_open_stations: 32
+  min_chargers_per_station: 2
+  max_chargers_per_station: 12
+  # Upfront CAPEX cap in BDT (land + charger equipment + installation + grid connection).
+  budget_cap_bdt: 2500000000
+  # Maximum network-distance service radius used by the optimizer (meters).
+  service_radius_rmax_m: 5000.0
+  nsga2:
+    population_size: 100
+    generations: 250
+
+visualization:
+  map_provider: "osm" # osm, carto-dark, carto-light, or maptiler
+  maptiler_style: "streets-v2"
