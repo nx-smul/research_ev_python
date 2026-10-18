@@ -1,0 +1,6 @@
+metric,value,unit
+annual_energy_served_kwh,40434013.8,kWh
+avoided_ice_emissions_tons_co2,0.0,tons CO2
+added_grid_emissions_tons_co2,22643.05,tons CO2
+net_avoided_emissions_tons_co2,-22643.05,tons CO2
+avoidance_factor,0.0,ratio

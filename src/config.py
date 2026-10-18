@@ -6,9 +6,10 @@ from pathlib import Path
 
 import yaml
 
+from src.core.exceptions import ConfigError
 
-class ConfigError(ValueError):
-    """Raised when a scenario or override configuration is invalid."""
+# Backward compatibility: re-export ConfigError for existing imports
+__all__ = ["ConfigError", "load_config", "validate_config"]
 
 
 def _deep_merge(base, overrides):

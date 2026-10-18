@@ -21,6 +21,79 @@ def test_dashboard_endpoint_serves_run_artifacts():
     assert isinstance(payload["pareto"], list)
     assert "run_id" in payload["run"]
     assert isinstance(payload["research"], dict)
+    assert payload["evidence"]["status"] == "synthetic_demo"
+    assert payload["evidence"]["modeled_results_are_observations"] is False
+    assert payload["evidence"]["live_osm_used_in_optimization"] is False
+    assert payload["evidence"]["inputs"]
+
+
+def test_run_endpoint_returns_manifest_and_its_run_scoped_artifacts(tmp_path, monkeypatch):
+    run_id = "run-123"
+    run_dir = tmp_path / "results" / "research" / run_id
+    run_dir.mkdir(parents=True)
+    (run_dir / "manifest.json").write_text(json.dumps({"run_id": run_id, "data_mode": "demo", "outputs": [
+        {"path": "results/tables/optimal_solutions_pareto.csv"},
+        {"path": "results/tables/candidate_sites.csv"},
+    ]}))
+    pareto = tmp_path / "results" / "tables" / "optimal_solutions_pareto.csv"
+    pareto.parent.mkdir(parents=True)
+    pd.DataFrame([{"solution_id": "old-solution"}]).to_csv(pareto, index=False)
+    ranked = tmp_path / "results" / "tables" / "candidate_sites.csv"
+    pd.DataFrame([{"candidate_id": "old-site"}]).to_csv(ranked, index=False)
+    manifest = {
+        "run_id": run_id,
+        "data_mode": "demo",
+        "outputs": [
+            {"path": "results/tables/optimal_solutions_pareto.csv"},
+            {"path": "results/tables/candidate_sites.csv"},
+        ],
+    }
+    (tmp_path / "results" / "run_manifest.json").write_text(json.dumps(manifest))
+    monkeypatch.setattr(app_module, "ROOT", tmp_path)
+
+    response = TestClient(app_module.app).get(f"/api/run/{run_id}")
+
+    assert response.status_code == 200
+    assert response.json()["run"]["run_id"] == run_id
+    assert response.json()["pareto"] == [{"solution_id": "old-solution"}]
+    assert response.json()["ranked"] == [{"candidate_id": "old-site"}]
+
+
+def test_run_endpoint_uses_artifacts_from_selected_run_manifest(tmp_path, monkeypatch):
+    run_id = "run-older"
+    run_dir = tmp_path / "results" / "research" / run_id
+    artifacts = run_dir / "dashboard_data"
+    artifacts.mkdir(parents=True)
+    selected_candidates = {"type": "FeatureCollection", "features": [{"properties": {"candidate_id": "older-site"}}]}
+    shared_candidates = {"type": "FeatureCollection", "features": [{"properties": {"candidate_id": "latest-site"}}]}
+    (artifacts / "candidate_sites_filtered.geojson").write_text(json.dumps(selected_candidates))
+    (tmp_path / "data" / "processed").mkdir(parents=True)
+    (tmp_path / "data" / "processed" / "candidate_sites_filtered.geojson").write_text(json.dumps(shared_candidates))
+    (run_dir / "manifest.json").write_text(json.dumps({
+        "run_id": run_id,
+        "data_mode": "demo",
+        "dashboard_artifacts": {"candidates": f"results/research/{run_id}/dashboard_data/candidate_sites_filtered.geojson"},
+    }))
+    monkeypatch.setattr(app_module, "ROOT", tmp_path)
+
+    response = TestClient(app_module.app).get(f"/api/run/{run_id}")
+
+    assert response.status_code == 200
+    assert response.json()["candidates"]["features"][0]["properties"]["candidate_id"] == "older-site"
+
+
+def test_run_endpoint_rejects_unknown_run():
+    response = TestClient(app_module.app).get("/api/run/not-a-run")
+
+    assert response.status_code == 404
+
+
+def test_evidence_summary_marks_legacy_manifest_unknown():
+    evidence = app_module._evidence_summary({"data_mode": "real", "inputs": []})
+
+    assert evidence["status"] == "unknown"
+    assert evidence["inputs"] == []
+    assert "does not include an evidence summary" in evidence["limitations"][0]
 
 
 def test_research_endpoint_data_is_loaded_from_manifest_outputs(tmp_path, monkeypatch):

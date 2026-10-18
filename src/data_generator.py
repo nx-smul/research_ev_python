@@ -1,19 +1,16 @@
 """Generate synthetic demonstration datasets; never treat these as observations."""
 
 import json
-import os
-import csv
 import math
 import yaml
 import logging
 from pathlib import Path
 import numpy as np
 import pandas as pd
-import geopandas as gpd
-from shapely.geometry import Point, LineString, Polygon, MultiPolygon
+from shapely.geometry import Point, LineString, Polygon
 import pandapower as pp
-import pandapower.networks as nw
-from scipy.spatial.distance import cdist
+
+from src.core.geo_utils import haversine_distance_m, bpr_travel_time
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -51,41 +48,23 @@ def _generate_road_features(city_anchors: dict, raw_dir: Path, road_edges: list)
         p1 = city_anchors[u]
         p2 = city_anchors[v]
         geom = LineString([(p1[0], p1[1]), (p2[0], p2[1])])
-        d_lat = math.radians(p2[1] - p1[1])
-        d_lon = math.radians(p2[0] - p1[0])
-        a = math.sin(d_lat/2)**2 + math.cos(math.radians(p1[1])) * math.cos(math.radians(p2[1])) * math.sin(d_lon/2)**2
-        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
-        length_m = 6371000.0 * c
+        length_m = haversine_distance_m((p1[0], p1[1]), (p2[0], p2[1]))
+        capacity = lanes * 1000.0
+        free_flow_time = (length_m / 1000.0) / spd * 60.0
+        congested_time = bpr_travel_time(free_flow_time, pcu, capacity)
+        congestion_factor = congested_time / free_flow_time if free_flow_time > 0 else 1.0
         road_features.append({
             "type": "Feature",
             "properties": {
                 "u": u, "v": v, "highway": rtype, "maxspeed": spd, "lanes": lanes,
                 "length_m": round(length_m, 1), "pcu_per_hr": pcu,
-                "congestion_factor": round(1.0 + 0.15 * ((pcu / (lanes * 1000)) ** 4), 2)
+                "congestion_factor": round(congestion_factor, 2)
             },
             "geometry": geom.__geo_interface__
         })
     with open(raw_dir / "osm_dhaka_roads.geojson", "w") as f:
         json.dump({"type": "FeatureCollection", "name": "osm_dhaka_roads", "features": road_features}, f, indent=2)
     logger.info("Road features generated and saved.")
-
-
-def _generate_traffic_counts(city_anchors: dict, raw_dir: Path, road_edges: list):
-    traffic_rows = []
-    for idx, (u, v, rtype, spd, lanes, pcu) in enumerate(road_edges):
-        p1 = city_anchors[u]; p2 = city_anchors[v]
-        traffic_rows.append({
-            "junction_id": f"DTCA-JUNC-{idx+1:03d}",
-            "corridor_name": f"{u} to {v}",
-            "lon": round((p1[0] + p2[0])/2, 5), "lat": round((p1[1] + p2[1])/2, 5),
-            "peak_pcu_per_hr": pcu, "offpeak_pcu_per_hr": int(pcu * 0.45),
-            "commercial_pct": round(np.random.uniform(15.0, 35.0), 1),
-            "two_wheeler_pct": round(np.random.uniform(25.0, 45.0), 1),
-            "three_wheeler_pct": round(np.random.uniform(15.0, 30.0), 1),
-            "avg_speed_kmh": spd * (0.45 if pcu > 3500 else 0.70)
-        })
-    pd.DataFrame(traffic_rows).to_csv(raw_dir / "dtca_traffic_counts.csv", index=False)
-    logger.info("Traffic counts generated and saved.")
 
 
 def _generate_landuse_geojson(raw_dir: Path):
@@ -150,7 +129,6 @@ def generate_raw_datasets(output_base_dir="/home/simp/research"):
         ("Mirpur_10_Circle", "Mohakhali_Terminal", "primary", 40.0, 4, 4800),
     ]
     _generate_road_features(city_anchors, raw_dir, road_edges)
-    _generate_traffic_counts(city_anchors, raw_dir, road_edges)
     _generate_landuse_geojson(raw_dir)
     generate_pandapower_models(grid_dir, city_stations, city_anchors)
 
@@ -180,23 +158,6 @@ def generate_pandapower_models(grid_dir: Path, substations, anchors):
         pp.create_load(net_dpdc, bus=b, p_mw=base_mva * 0.95, q_mvar=base_mva * math.sqrt(1 - 0.95**2), name=f"Load_{s['sub_id']}")
     pp.to_json(net_dpdc, grid_dir / "dpdc_33kv_subnetwork.json")
     logger.info("DPDC model saved.")
-
-    net_desco = pp.create_empty_network(name="DESCO_11kV_Feeders")
-    b_desco_slack = pp.create_bus(net_desco, vn_kv=33.0, name="DESCO_33kV_Intake", geodata=(90.415, 23.790))
-    pp.create_ext_grid(net_desco, bus=b_desco_slack, vm_pu=1.02)
-    desco_subs = [s for s in substations if s["utility"] == "DESCO"]
-    for s in desco_subs:
-        b_11 = pp.create_bus(net_desco, vn_kv=11.0, name=f"{s['sub_id']}_11kV", geodata=(s["lon"], s["lat"]))
-        pp.create_transformer_from_parameters(
-            net_desco, hv_bus=b_desco_slack, lv_bus=b_11, sn_mva=s["rated_mva"],
-            vn_hv_kv=33.0, vn_lv_kv=11.0, vkr_percent=0.5, vk_percent=6.5,
-            pfe_kw=25.0, i0_percent=0.10, name=f"TX_{s['sub_id']}"
-        )
-        base_mva = min(s["base_load_mva"] * 0.35, 12.0)
-        pp.create_load(net_desco, bus=b_11, p_mw=base_mva * 0.95, q_mvar=base_mva * math.sqrt(1 - 0.95**2), name=f"Load_{s['sub_id']}")
-    pp.to_json(net_desco, grid_dir / "desco_11kv_feeders.json")
-    logger.info("DESCO model saved.")
-
 
 def _generate_demand_grid(anchors: dict, processed_dir: Path):
     demand_features, demand_points, demand_ids, demand_values = [], [], [], []
@@ -244,7 +205,7 @@ def _generate_candidate_sites(anchors: dict, substations: list, processed_dir: P
             cid = f"CS-{c_idx:02d}"
             lon, lat = a_lon + np.random.uniform(-0.005, 0.005), a_lat + np.random.uniform(-0.005, 0.005)
             nearest_sub = min(substations, key=lambda s: (s["lon"]-lon)**2 + (s["lat"]-lat)**2)
-            sub_dist_m = math.sqrt((nearest_sub["lon"]-lon)**2 + (nearest_sub["lat"]-lat)**2) * 111000.0
+            sub_dist_m = haversine_distance_m((lon, lat), (nearest_sub["lon"], nearest_sub["lat"]))
             headroom = round(float(nearest_sub["rated_mva"] - nearest_sub["base_load_mva"]), 2)
             t_score = round(float(np.random.uniform(0.80, 0.98) if atype in ["Commercial", "Transport_Hub", "Highway"] else np.random.uniform(0.50, 0.78)), 3)
             p_score = round(float(np.random.uniform(0.82, 0.99) if atype in ["Commercial", "Transport_Hub"] else np.random.uniform(0.45, 0.75)), 3)
@@ -284,12 +245,8 @@ def _generate_od_matrix(demand_points: list, candidate_points: list, demand_ids:
     dist_matrix = np.zeros((n_demand, n_candidate), dtype=np.float32)
     time_matrix = np.zeros((n_demand, n_candidate), dtype=np.float32)
     for i in range(n_demand):
-        d_lon, d_lat = demand_points[i]
         for j in range(n_candidate):
-            c_lon, c_lat = candidate_points[j]
-            d_lat_r, d_lon_r = math.radians(c_lat - d_lat), math.radians(c_lon - d_lon)
-            a = math.sin(d_lat_r/2)**2 + math.cos(math.radians(d_lat)) * math.cos(math.radians(c_lat)) * math.sin(d_lon_r/2)**2
-            dist_m = 6371000.0 * (2 * math.atan2(math.sqrt(a), math.sqrt(1-a))) * 1.25
+            dist_m = haversine_distance_m(demand_points[i], candidate_points[j]) * 1.25
             dist_matrix[i, j], time_matrix[i, j] = dist_m, (dist_m / 1000.0) / np.random.uniform(14.0, 22.0) * 60.0
 
     np.savez_compressed(processed_dir / "od_travel_time_matrix.npz", distances=dist_matrix, travel_times=time_matrix, demand_ids=np.array(demand_ids), candidate_ids=np.array(candidate_ids), demand_values=np.array(demand_values))

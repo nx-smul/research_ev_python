@@ -1,0 +1,11 @@
+candidate_id,site_name,modeled_annual_kwh_served,avoided_ice_emissions_kg_co2,added_grid_emissions_kg_co2,net_avoided_emissions_kg_co2,net_avoided_emissions_tons_co2
+CS-01,Airport_Hub_Site_1,4385840.0,0.0,2456070.4,-2456070.4,-2456.0704
+CS-05,Uttara_Sec11_Site_1,5043752.5,0.0,2824501.4,-2824501.4,-2824.5014
+CS-06,Uttara_Sec11_Site_2,4203705.0,0.0,2354074.8,-2354074.8,-2354.0748
+CS-07,Purbachal_300ft_Site_1,2474773.0,0.0,1385872.9,-1385872.9,-1385.8729
+CS-09,Baridhara_Diplomatic_Site_1,3939780.8,0.0,2206277.2,-2206277.2,-2206.2772
+CS-11,Gulshan_2_Site_1,4592473.8,0.0,2571785.3,-2571785.3,-2571.7853
+CS-12,Gulshan_2_Site_2,4333177.8,0.0,2426579.6,-2426579.6,-2426.5796
+CS-15,Banani_11_Site_1,5186949.3,0.0,2904691.6,-2904691.6,-2904.6916
+CS-22,Hatirjheel_North_Site_2,3247040.0,0.0,1818342.4,-1818342.4,-1818.3424
+CS-42,Mirpur_12_Site_2,3026521.6,0.0,1694852.1,-1694852.1,-1694.8521

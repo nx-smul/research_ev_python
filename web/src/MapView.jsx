@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import * as maplibregl from 'maplibre-gl';
 import mapLibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
+import { MAP_COLORS, SUBSTATION_HEADROOM_COLOR_EXPRESSION } from './mapStyles.js';
 
 const EMPTY_COLLECTION = { type: 'FeatureCollection', features: [] };
 const layerEventBindings = new WeakMap();
@@ -165,7 +166,7 @@ function makeTooltipContent(properties, kind) {
 
 function syncLayers(instance, state) {
   if (!instance.isStyleLoaded()) return;
-  const { data, selectedIds, visibleLayers, basemap, onSelectRef, hasFittedData } = state.current;
+  const { data, selectedIds, selectedCandidateId, visibleLayers, basemap, onSelectRef, hasFittedData } = state.current;
   const candidateSource = instance.getSource('candidate-sites');
   const candidates = {
     type: 'FeatureCollection',
@@ -173,7 +174,7 @@ function syncLayers(instance, state) {
       ...feature,
       properties: {
         ...feature.properties,
-        is_selected: selectedIds.has(feature.properties?.candidate_id),
+        is_selected: selectedIds.has(feature.properties?.candidate_id) || feature.properties?.candidate_id === selectedCandidateId,
       },
     })),
   };
@@ -190,7 +191,7 @@ function syncLayers(instance, state) {
       source: 'candidate-sites',
       paint: {
         'circle-radius': ['case', ['get', 'is_selected'], 10, 8],
-        'circle-color': ['case', ['get', 'is_selected'], '#7455f7', '#2563eb'],
+        'circle-color': ['case', ['get', 'is_selected'], MAP_COLORS.selected, MAP_COLORS.candidate],
         'circle-stroke-color': '#ffffff',
         'circle-stroke-width': 2,
       },
@@ -208,10 +209,10 @@ function syncLayers(instance, state) {
   instance.setLayoutProperty('candidate-sites', 'visibility', visibleLayers.candidates ? 'visible' : 'none');
 
   const overlays = [
-    ['demand', 'Demand points', 'circle', data?.demand, { 'circle-radius': 5, 'circle-color': '#0e7490', 'circle-stroke-color': '#fff', 'circle-stroke-width': 1, 'circle-opacity': 0.9 }],
-    ['roads', 'Road network', 'line', data?.roads, { 'line-color': '#d99a35', 'line-width': 1.5, 'line-opacity': 0.8 }],
-    ['landuse', 'Land use', 'fill', data?.landuse, { 'fill-color': ['case', ['get', 'is_exclusion_zone'], '#e66b6b', '#59a98b'], 'fill-opacity': 0.25, 'fill-outline-color': '#428771' }],
-    ['osm-facilities', 'Live OpenStreetMap facilities', 'circle', data?.live?.geojson, { 'circle-radius': 8, 'circle-color': '#087f62', 'circle-stroke-color': '#fff', 'circle-stroke-width': 2, 'circle-opacity': 1 }],
+    ['demand', 'Demand points', 'circle', data?.demand, { 'circle-radius': 5, 'circle-color': MAP_COLORS.demand, 'circle-stroke-color': '#fff', 'circle-stroke-width': 1, 'circle-opacity': 0.9 }],
+    ['roads', 'Road network', 'line', data?.roads, { 'line-color': MAP_COLORS.road, 'line-width': 1.5, 'line-opacity': 0.9 }],
+    ['landuse', 'Land use', 'fill', data?.landuse, { 'fill-color': ['case', ['get', 'is_exclusion_zone'], MAP_COLORS.landUseExcluded, MAP_COLORS.landUse], 'fill-opacity': 0.28, 'fill-outline-color': '#344054' }],
+    ['osm-facilities', 'Live OpenStreetMap facilities', 'circle', data?.live?.geojson, { 'circle-radius': 8, 'circle-color': MAP_COLORS.evCharger, 'circle-stroke-color': '#303030', 'circle-stroke-width': 2, 'circle-opacity': 1 }],
   ];
   for (const [key, title, type, collection, paint] of overlays) {
     const sourceId = `overlay-${key}`;
@@ -231,7 +232,7 @@ function syncLayers(instance, state) {
           type: 'circle',
           source: sourceId,
           filter: ['==', ['get', 'is_fuel_station'], true],
-          paint: { 'circle-radius': 8, 'circle-color': '#bd6900', 'circle-stroke-color': '#fff', 'circle-stroke-width': 2, 'circle-opacity': 1 },
+          paint: { 'circle-radius': 8, 'circle-color': MAP_COLORS.fuelStation, 'circle-stroke-color': '#fff', 'circle-stroke-width': 2, 'circle-opacity': 1 },
           metadata: { title: 'Live OpenStreetMap fuel stations' },
         });
       }
@@ -310,7 +311,12 @@ function syncLayers(instance, state) {
       id: 'overlay-substations-layer',
       type: 'circle',
       source: 'overlay-substations',
-      paint: { 'circle-radius': 6, 'circle-color': '#7759bd', 'circle-stroke-color': '#fff', 'circle-stroke-width': 1.5 },
+      paint: {
+        'circle-radius': 6,
+        'circle-color': SUBSTATION_HEADROOM_COLOR_EXPRESSION,
+        'circle-stroke-color': basemap === 'dark' ? '#f8fafc' : '#303047',
+        'circle-stroke-width': 2,
+      },
     });
   }
   bindHoverTooltip(instance, 'overlay-substations-layer', 'substation');
@@ -341,11 +347,12 @@ function bindHoverTooltip(instance, layerId, kind) {
   });
 }
 
-export default function MapView({ data, selectedIds, visibleLayers, basemap = 'light', onSelect, status, setStatus, onReady }) {
+export default function MapView({ data, selectedIds, selectedCandidateId, visibleLayers, basemap = 'light', initialViewport, onSelect, onViewportChange, status, setStatus, onReady }) {
   const node = useRef(null);
   const map = useRef(null);
   const activeStyle = useRef(null);
   const onSelectRef = useRef(onSelect);
+  const onViewportChangeRef = useRef(onViewportChange);
   const hasFittedData = useRef(false);
   const fitDataBounds = useCallback(() => {
     fitFeatureBounds(state.current.data?.candidates?.features || [], map.current, 0, 12);
@@ -353,9 +360,10 @@ export default function MapView({ data, selectedIds, visibleLayers, basemap = 'l
   const fitFacilityBounds = useCallback(() => {
     fitFeatureBounds(state.current.data?.live?.geojson?.features || [], map.current, 500, 13);
   }, []);
-  const state = useRef({ data, selectedIds, visibleLayers, basemap, onSelectRef, hasFittedData, fitDataBounds });
-  state.current = { data, selectedIds, visibleLayers, basemap, onSelectRef, hasFittedData, fitDataBounds };
+  const state = useRef({ data, selectedIds, selectedCandidateId, visibleLayers, basemap, onSelectRef, hasFittedData, fitDataBounds });
+  state.current = { data, selectedIds, selectedCandidateId, visibleLayers, basemap, onSelectRef, hasFittedData, fitDataBounds };
   onSelectRef.current = onSelect;
+  onViewportChangeRef.current = onViewportChange;
 
   useEffect(() => {
     if (!node.current || map.current) return undefined;
@@ -363,14 +371,20 @@ export default function MapView({ data, selectedIds, visibleLayers, basemap = 'l
     activeStyle.current = OPENFREEMAP_STYLE_URLS[basemap] || OPENFREEMAP_STYLE_URLS.light;
     const instance = new maplibregl.Map({
       container: node.current,
-      center: [90.4, 23.785],
-      zoom: 11.7,
+      center: initialViewport?.center || [90.4, 23.785],
+      zoom: initialViewport?.zoom || 11.7,
       pitch: 0,
       style: activeStyle.current,
+      keyboard: true,
+      preserveDrawingBuffer: true,
+      attributionControl: false,
     });
     instance.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
-    instance.addControl(new maplibregl.ScaleControl({ maxWidth: 100, unit: 'metric' }));
+    instance.addControl(new maplibregl.ScaleControl({ maxWidth: 100, unit: 'metric' }), 'bottom-left');
     instance.on('style.load', () => syncLayers(instance, state));
+    instance.on('moveend', () => {
+      onViewportChangeRef.current?.({ center: instance.getCenter().toArray(), zoom: instance.getZoom() });
+    });
     instance.on('error', event => {
       if (!event?.error) return;
       const message = event.error.message || String(event.error);
@@ -388,6 +402,14 @@ export default function MapView({ data, selectedIds, visibleLayers, basemap = 'l
     map.current = instance;
     onReady?.({
       flyTo: options => instance.flyTo(options),
+      getViewState: () => ({ center: instance.getCenter().toArray(), zoom: instance.getZoom() }),
+      setViewState: view => {
+        if (Array.isArray(view.center) && view.center.length === 2 && Number.isFinite(view.zoom)) {
+          instance.jumpTo({ center: view.center, zoom: view.zoom });
+        }
+      },
+      getCanvas: () => instance.getCanvas(),
+      exportImage: () => instance.getCanvas().toDataURL('image/png'),
       fitDataBounds,
       fitFacilityBounds,
     });
@@ -403,9 +425,9 @@ export default function MapView({ data, selectedIds, visibleLayers, basemap = 'l
 
   useEffect(() => {
     if (map.current) syncLayers(map.current, state);
-  }, [data, selectedIds, visibleLayers, basemap]);
+  }, [data, selectedIds, selectedCandidateId, visibleLayers, basemap]);
 
-  return <div className="map-shell"><div ref={node} className="map-canvas" aria-label="Interactive map of EV charging candidates and live OpenStreetMap facilities" />
+  return <div className="map-shell"><div ref={node} className="map-canvas" role="application" tabIndex={0} aria-describedby="map-keyboard-help" aria-label="Interactive map of EV charging candidates and live OpenStreetMap facilities" />
     {status && <div className="map-status" role="status">{status}</div>}
   </div>;
 }

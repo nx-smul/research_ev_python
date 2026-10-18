@@ -37,10 +37,6 @@ spatial = [
 grid = [
     "pandapower>=2.13.0"
 ]
-optimization = [
-    "deap>=1.3.3",
-    "pyomo>=6.6.0"
-]
 dev = [
     "pytest>=7.4.0",
     "pytest-cov>=4.1.0"
@@ -51,8 +47,6 @@ all = [
     "pyproj>=3.5.0",
     "networkx>=3.0",
     "pandapower>=2.13.0",
-    "deap>=1.3.3",
-    "pyomo>=6.6.0",
     "pytest>=7.4.0",
     "pytest-cov>=4.1.0"
 ]

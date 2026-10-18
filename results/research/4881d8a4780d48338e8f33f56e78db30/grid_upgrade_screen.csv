@@ -1,0 +1,10 @@
+candidate_id,site_name,station_power_kw,required_mva_at_assumed_power_factor,input_substation_headroom_mva,estimated_capacity_shortfall_mva,transformer_upgrade_cost_bdt,substation_distance_km_proxy,feeder_upgrade_cost_proxy_bdt,total_upgrade_cost_screen_bdt,classification
+CS-03,Uttara_Sec3_Site_1,732.0,0.7705263157894737,11.0,0.0,0.0,12.220600000000001,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"
+CS-09,Baridhara_Diplomatic_Site_1,526.0,0.5536842105263158,11.0,0.0,0.0,4.6307,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"
+CS-19,Badda_Pragati_Sarani_Site_1,880.0,0.9263157894736842,11.0,0.0,0.0,3.5435,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"
+CS-24,Tejgaon_Industrial_Site_2,418.0,0.44,11.0,0.0,0.0,0.8091,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"
+CS-26,Kawran_Bazar_CBD_Site_2,936.0,0.9852631578947368,7.0,0.0,0.0,0.6007,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"
+CS-30,Dhanmondi_27_Site_2,794.0,0.8357894736842105,8.0,0.0,0.0,0.7243999999999999,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"
+CS-39,Mirpur_10_Circle_Site_1,1322.0,1.391578947368421,11.0,0.0,0.0,5.6998999999999995,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"
+CS-42,Mirpur_12_Site_2,930.0,0.9789473684210527,11.0,0.0,0.0,7.426,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"
+CS-54,Old_Dhaka_Sadarghat_Site_2,280.0,0.29473684210526313,7.0,0.0,0.0,1.8662,0.0,0.0,"screening estimate; headroom and distance are input proxies, not utility validation"

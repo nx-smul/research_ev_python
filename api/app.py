@@ -53,11 +53,19 @@ def _csv_records(relative_path):
     return frame.astype(object).where(pd.notna(frame), None).to_dict(orient="records")
 
 
+def _run_csv_records(relative_path):
+    path = (ROOT / relative_path).resolve()
+    if ROOT not in path.parents:
+        raise HTTPException(status_code=400, detail="Invalid run artifact path")
+    return _csv_records(str(path.relative_to(ROOT)))
+
+
 def _research_data(manifest):
     """Load optional run-scoped analysis tables from manifest-contained paths."""
     analysis = manifest.get("analysis_outputs", {}) if isinstance(manifest, dict) else {}
     extensions = analysis.get("research_extensions", {})
     paths = extensions.get("outputs", {}) if isinstance(extensions, dict) else {}
+    paths = paths if isinstance(paths, dict) else {}
     tables = (
         "uncertainty_site_screen",
         "uncertainty_scenario_metrics",
@@ -69,11 +77,45 @@ def _research_data(manifest):
         "investment_scenarios",
     )
     results = {
-        key: _csv_records(paths[key]) if key in paths else []
+        key: _run_csv_records(paths[key]) if key in paths else []
         for key in tables
     }
     results["uncertainty_summary"] = extensions.get("uncertainty_summary", {}) if isinstance(extensions, dict) else {}
+    for key, field in (("carbon_summary", "carbon_summary"), ("utilization_summary", "utilization_summary"), ("robustness_summary", "robustness_summary")):
+        results[key] = extensions.get(field, {}) if isinstance(extensions, dict) else {}
     return results
+
+
+def _evidence_summary(manifest):
+    """Return a compact, explicit interpretation of the current run's inputs."""
+    manifest = manifest if isinstance(manifest, dict) else {}
+    evidence = manifest.get("evidence_summary")
+    if not isinstance(evidence, dict):
+        data_mode = manifest.get("data_mode")
+        evidence = {
+            "status": "synthetic_demo" if data_mode == "demo" else "unknown",
+            "modeled_results_are_observations": False,
+            "live_osm_used_in_optimization": False,
+            "limitations": [
+                "The run manifest does not include an evidence summary; verify its inputs before interpreting results."
+            ],
+            "input_counts": {},
+        }
+    inputs = manifest.get("inputs", [])
+    if not isinstance(inputs, list):
+        inputs = []
+    return {
+        **evidence,
+        "inputs": [
+            {
+                key: record.get(key)
+                for key in ("label", "path", "data_class", "source_url", "license", "retrieved_at", "coverage", "units", "transformation", "validation")
+                if record.get(key) is not None
+            }
+            for record in inputs
+            if isinstance(record, dict)
+        ],
+    }
 
 
 def _overpass_query():
@@ -203,6 +245,7 @@ def dashboard():
     manifest = _json_file("results/run_manifest.json") if manifest_path.is_file() else {}
     return {
         "run": manifest,
+        "evidence": _evidence_summary(manifest),
         "candidates": _json_file("data/processed/candidate_sites_filtered.geojson"),
         "demand": _json_file("data/processed/demand_grid_100m.geojson"),
         "roads": _json_file("data/raw/osm_dhaka_roads.geojson"),
@@ -237,3 +280,99 @@ async def live_map(response: Response, refresh: bool = False):
         payload["is_stale"] = False
         _live_map_cache.update(payload=payload, expires_at=time.monotonic() + LIVE_MAP_CACHE_SECONDS)
         return payload
+
+
+@app.get("/api/runs")
+async def list_runs():
+    """List available research runs from the results directory."""
+    results_dir = ROOT / "results" / "research"
+    runs = []
+
+    if not results_dir.exists():
+        return {"runs": []}
+
+    manifests = []
+    current_manifest = ROOT / "results" / "run_manifest.json"
+    if current_manifest.is_file():
+        manifests.append(current_manifest)
+    manifests.extend(run_dir / "manifest.json" for run_dir in results_dir.iterdir() if run_dir.is_dir())
+
+    for manifest_path in manifests:
+        try:
+            data = json.loads(manifest_path.read_text(encoding="utf-8"))
+            run_id = data.get("run_id")
+            if run_id:
+                runs.append({
+                    "run_id": run_id,
+                    "created_at": data.get("created_at", "unknown"),
+                    "data_mode": data.get("data_mode", "unknown"),
+                })
+        except (json.JSONDecodeError, OSError):
+            continue
+
+    return {"runs": sorted(runs, key=lambda run: run["created_at"], reverse=True)}
+
+
+@app.get("/api/run/{run_id}")
+def get_run(run_id: str):
+    """Get data for a specific run by ID."""
+    if not run_id or any(char not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_" for char in run_id):
+        raise HTTPException(status_code=404, detail="Run not found")
+
+    current_manifest_path = ROOT / "results" / "run_manifest.json"
+    manifest = _json_file("results/run_manifest.json") if current_manifest_path.is_file() else {}
+    is_current_run = manifest.get("run_id") == run_id
+    if not is_current_run:
+        manifest_path = ROOT / "results" / "research" / run_id / "manifest.json"
+        if not manifest_path.is_file():
+            raise HTTPException(status_code=404, detail=f"Run not found: {run_id}")
+        manifest = _json_file(str(manifest_path.relative_to(ROOT)))
+    if manifest.get("run_id") != run_id:
+        raise HTTPException(status_code=404, detail=f"Run not found: {run_id}")
+
+    dashboard_artifacts = manifest.get("dashboard_artifacts", {})
+    if not isinstance(dashboard_artifacts, dict):
+        dashboard_artifacts = {}
+    outputs = {
+        Path(record["path"]).name: record["path"]
+        for record in manifest.get("outputs", [])
+        if isinstance(record, dict) and isinstance(record.get("path"), str)
+    }
+
+    def csv_output(name, fallback=None):
+        relative_path = outputs.get(name, fallback)
+        if not relative_path:
+            return []
+        return _run_csv_records(relative_path)
+
+    def dashboard_json(name, fallback):
+        path = dashboard_artifacts.get(name)
+        if path is None and is_current_run:
+            path = fallback
+        if path is None:
+            return {"type": "FeatureCollection", "features": []}
+        resolved = (ROOT / path).resolve()
+        if ROOT not in resolved.parents:
+            raise HTTPException(status_code=400, detail="Invalid run artifact path")
+        if not resolved.is_file():
+            return {"type": "FeatureCollection", "features": []}
+        return _json_file(str(resolved.relative_to(ROOT)))
+
+    def dashboard_csv(name, fallback):
+        path = dashboard_artifacts.get(name)
+        if path is None and is_current_run:
+            path = fallback
+        return _run_csv_records(path) if path else []
+
+    return {
+        "run": manifest,
+        "evidence": _evidence_summary(manifest),
+        "candidates": dashboard_json("candidates", "data/processed/candidate_sites_filtered.geojson"),
+        "demand": dashboard_json("demand", "data/processed/demand_grid_100m.geojson"),
+        "roads": dashboard_json("roads", "data/raw/osm_dhaka_roads.geojson"),
+        "landuse": dashboard_json("landuse", "data/raw/rajuk_dap_landuse.geojson"),
+        "substations": dashboard_csv("substations", "data/raw/dpdc_desco_substations.csv"),
+        "pareto": csv_output("optimal_solutions_pareto.csv", "results/tables/optimal_solutions_pareto.csv"),
+        "ranked": csv_output("candidate_sites.csv", "results/tables/candidate_sites.csv"),
+        "research": _research_data(manifest),
+    }

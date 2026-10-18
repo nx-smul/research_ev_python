@@ -2,32 +2,34 @@
   "analysis_outputs": {
     "baseline_comparison": "results/tables/baseline_comparison.csv",
     "candidate_road_distances": "results/tables/candidate_road_distances.csv",
+    "optimizer_seed_site_stability": null,
     "research_extensions": {
       "outputs": {
-        "assumptions": "results/research/fd4867d68c584cb0ad529974fe4d6675/assumptions.json",
-        "equity_accessibility": "results/research/fd4867d68c584cb0ad529974fe4d6675/equity_accessibility.csv",
-        "field_validation_template": "results/research/fd4867d68c584cb0ad529974fe4d6675/field_validation_template.csv",
-        "grid_upgrade_screen": "results/research/fd4867d68c584cb0ad529974fe4d6675/grid_upgrade_screen.csv",
-        "investment_scenarios": "results/research/fd4867d68c584cb0ad529974fe4d6675/investment_scenarios.csv",
-        "queueing_screen": "results/research/fd4867d68c584cb0ad529974fe4d6675/queueing_screen.csv",
-        "time_of_day_load_profile": "results/research/fd4867d68c584cb0ad529974fe4d6675/time_of_day_load_profile.csv",
-        "uncertainty_scenario_metrics": "results/research/fd4867d68c584cb0ad529974fe4d6675/uncertainty_scenario_metrics.csv",
-        "uncertainty_site_screen": "results/research/fd4867d68c584cb0ad529974fe4d6675/uncertainty_site_screen.csv"
+        "assumptions": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/assumptions.json",
+        "equity_accessibility": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/equity_accessibility.csv",
+        "field_validation_template": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/field_validation_template.csv",
+        "grid_upgrade_screen": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/grid_upgrade_screen.csv",
+        "investment_scenarios": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/investment_scenarios.csv",
+        "queueing_screen": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/queueing_screen.csv",
+        "time_of_day_load_profile": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/time_of_day_load_profile.csv",
+        "uncertainty_scenario_metrics": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/uncertainty_scenario_metrics.csv",
+        "uncertainty_site_screen": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/uncertainty_site_screen.csv"
       },
       "uncertainty_summary": {
-        "distance_weighted_coverage_pct_mean": 60.89334356970726,
+        "distance_weighted_coverage_pct_mean": 60.92296273993656,
         "distance_weighted_coverage_pct_p05": 59.12192889091265,
-        "distance_weighted_coverage_pct_p95": 63.69934404589906,
+        "distance_weighted_coverage_pct_p95": 63.81319790842466,
         "reachable_demand_pct_mean": 100.0,
         "reachable_demand_pct_p05": 100.0,
         "reachable_demand_pct_p95": 100.0,
         "samples": 250
       }
     },
-    "research_report": "results/reports/run_fd4867d68c584cb0ad529974fe4d6675.md",
+    "research_report": "results/reports/run_2e94fda2bfdc49d2aa1401d745d005b2.md",
+    "sensitivity_knee_summary": null,
     "sensitivity_results": null
   },
-  "code_revision": "49ed7183d8cfb67565d80953a8948f6ef802cb74",
+  "code_revision": "6213e422295d06bb417c1fdb6c52f5a8e37219e3",
   "configuration": {
     "ahp_mcdm": {
       "criteria": {
@@ -382,18 +384,43 @@
     }
   },
   "configuration_sources": {
-    "scenario": "/home/simp/research/configs/default_config.yaml",
-    "settings": "/home/simp/research/configs/user_settings.yaml"
+    "scenario": "/home/simp/ai-projects/research/configs/default_config.yaml",
+    "settings": "/home/simp/ai-projects/research/configs/user_settings.yaml"
   },
-  "created_at": "2026-10-08T20:44:20.000352+00:00",
+  "created_at": "2026-10-18T10:33:53.304421+00:00",
+  "dashboard_artifacts": {
+    "candidates": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/dashboard_data/candidate_sites_filtered.geojson",
+    "demand": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/dashboard_data/demand_grid_100m.geojson",
+    "landuse": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/dashboard_data/rajuk_dap_landuse.geojson",
+    "pareto": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/dashboard_data/optimal_solutions_pareto.csv",
+    "ranked": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/dashboard_data/candidate_sites.csv",
+    "roads": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/dashboard_data/osm_dhaka_roads.geojson",
+    "substations": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/dashboard_data/dpdc_desco_substations.csv"
+  },
   "data_class": "synthetic_demo",
   "data_mode": "demo",
+  "evidence_summary": {
+    "input_counts": {
+      "observed_or_derived": 0,
+      "synthetic": 6,
+      "total": 9,
+      "validation_passed": 0
+    },
+    "limitations": [
+      "Siting metrics are conditional on the run inputs and model assumptions, not measured utilization or a demand forecast.",
+      "Declared source provenance and structural checks do not independently authenticate source claims.",
+      "Grid checks are simulation checks against configured limits, not validation against utility measurements."
+    ],
+    "live_osm_used_in_optimization": false,
+    "modeled_results_are_observations": false,
+    "status": "synthetic_demo"
+  },
   "grid_validation": {
     "model_vs_configured_limits_only": true,
     "thermal": {
       "is_thermal_compliant": true,
-      "max_line_loading_pct": 42.24,
-      "max_trafo_loading_pct": 47.66,
+      "max_line_loading_pct": 44.17,
+      "max_trafo_loading_pct": 47.61,
       "overloaded_line_count": 0,
       "overloaded_lines": [],
       "overloaded_trafo_count": 0,
@@ -404,12 +431,12 @@
       "is_compliant": true,
       "max_v_pu": 1.02,
       "mean_v_pu": 1.0042,
-      "min_v_pu": 0.9978,
+      "min_v_pu": 0.9974,
       "overvoltage_buses": [],
       "overvoltage_count": 0,
       "undervoltage_buses": [],
       "undervoltage_count": 0,
-      "vdi": 0.00702
+      "vdi": 0.00705
     }
   },
   "inputs": [
@@ -424,7 +451,7 @@
       "data_class": "synthetic_demo",
       "label": "authoritative candidate sites",
       "path": "data/processed/candidate_sites_filtered.geojson",
-      "sha256": "a7f4df23f55f6a95eda88cf88dce74e00de416d320bd8a5e7821ab5ebcbafb60",
+      "sha256": "5fad17e0d832441fce67a3f74a42d84b59b57c417de9b7ff9f94b3f3daae8b39",
       "validation": "demo-generated"
     },
     {
@@ -452,19 +479,19 @@
       "data_class": "synthetic_demo",
       "label": "authoritative distribution grid model",
       "path": "data/grid_models/dpdc_33kv_subnetwork.json",
-      "sha256": "f40bd231f784ba9fd46ae43ac0f4d95ec6a41f687b9972b51eedc7ae7bd0aec1",
+      "sha256": "d6a9862cbc3562e7d772236ac94c79970b35132ee9a5664f4101e9737ace9381",
       "validation": "demo-generated"
     },
     {
       "data_class": "configuration",
       "label": "scenario configuration",
-      "path": "/home/simp/research/configs/default_config.yaml",
+      "path": "/home/simp/ai-projects/research/configs/default_config.yaml",
       "sha256": "43d2f35058ea5b8132ccd9517bb08afc5d7935948f4409324969767356c3119b"
     },
     {
       "data_class": "configuration",
       "label": "user settings",
-      "path": "/home/simp/research/configs/user_settings.yaml",
+      "path": "/home/simp/ai-projects/research/configs/user_settings.yaml",
       "sha256": "74c1c4517f6e4b20c2c291cd14dbe2a2049eb1bf8399e9cb222a14765fd2ce77"
     },
     {
@@ -478,11 +505,11 @@
   "outputs": [
     {
       "path": "results/tables/candidate_sites.csv",
-      "sha256": "898aa294cda5a92cbbe8446a0cc0c5fe4d022aee00fc2771b1ba196fe8920f1f"
+      "sha256": "a432033bfe75772e8d1b1595d895f9d811ae27dff16d3d9b1b2a385627b1f44c"
     },
     {
       "path": "results/tables/optimal_solutions_pareto.csv",
-      "sha256": "ad0bb961d494cbfe26900db1a6ef71bf395d153eb636983922f8be2e14e1d6ad"
+      "sha256": "1d62de17deeb8e64c9e8870587a3a7428dae67048488a00d7f6d002da566e287"
     },
     {
       "path": "results/tables/candidate_road_distances.csv",
@@ -490,73 +517,104 @@
     },
     {
       "path": "results/tables/baseline_comparison.csv",
-      "sha256": "b7f323bcc18e0be8adc5b12940cfc5522219bcb462b9f5f7167478d7be8bec9f"
+      "sha256": "43b950f4d81d5acf1ff408e73d72b04a50efb60f945c053b738e0cdbfb966462"
     },
     {
       "path": "results/figures/voltage_profile_comparison.png",
-      "sha256": "5d7324201da079ad4d3dcd8b14faa9e7e553103c2516c55ec94ddee91089d0db"
+      "sha256": "fb0ec6528d8c4b36cbd7a0cebbef19ecc248ab774752e8e071e1e14bc5f072d0"
     },
     {
       "path": "results/figures/ahp_suitability_map.png",
-      "sha256": "e06b60acc34e57a9546f27033ba9d0a06678ef4ccca17e51dbb0e8e5f715bed3"
+      "sha256": "17516d430c51e4aadd96ca8cc835ef2cd3bbde7e4257cff48a172ed08c51f939"
     },
     {
       "path": "results/figures/optimal_cs_locations.png",
-      "sha256": "b33c186bb25021adb6431dc3d299748675d03c1cea8826d63c9aca1f2115bb62"
+      "sha256": "abf3f3bd0a9ff1c0e0a8e676b5cd7611ab25da1dafb0434f3b10a9b4c4158a3c"
     },
     {
       "path": "results/figures/pareto_frontier_tradeoff.png",
-      "sha256": "d361069db96d680b81f3f36d80455fdd92c3637d9edb4a82f3447b9b4b5e434d"
+      "sha256": "8c892764b2060d5eabb20c4939f713b60cf2642510c2c4e0e605a184d7447605"
     },
     {
-      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/uncertainty_site_screen.csv",
-      "sha256": "268ac670d52b51a0e29d2f8b0a19284dc45f44ba09d05d000da6bf097f254eaa"
+      "path": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/uncertainty_site_screen.csv",
+      "sha256": "9ffab8ea1624bfc6c3a840f643a262d7931fb97e36cac90f605d5cc0e38a1290"
     },
     {
-      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/uncertainty_scenario_metrics.csv",
-      "sha256": "167753adfd1c3ebc23fe30cf4dd3fb8e2e6b80a05019de5ea46d26ea90629d3a"
+      "path": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/uncertainty_scenario_metrics.csv",
+      "sha256": "24423f578a5285bbe974c9c8dbafdbdfc1210f112b86035bcffd273fee67435d"
     },
     {
-      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/equity_accessibility.csv",
-      "sha256": "55350ec7a86ad601f72fde6485f039b52a00a0260e30acb5fd3f0d97b3363fe3"
+      "path": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/equity_accessibility.csv",
+      "sha256": "0e760285af18882d9b6c2ea85e51b9e1e37498e3da17695f134190f9b6ec7ac9"
     },
     {
-      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/time_of_day_load_profile.csv",
-      "sha256": "bcbbda1ce0f520548e51655f6f16120d83a72bea2080001e5a1bdb311e2ffbf0"
+      "path": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/time_of_day_load_profile.csv",
+      "sha256": "d510bc43fcdc0308d2e51bcb4be8a8e5cdd4172a8f417fb9670cc99b6d223cc2"
     },
     {
-      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/queueing_screen.csv",
-      "sha256": "ab4bc1efe27afef938e80b9a3dfa80eb738145e916239613993573cab35d0f57"
+      "path": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/queueing_screen.csv",
+      "sha256": "4d84dcfcfefa26a75d164a85963a2de60a97ee847f67820819e82001a464ab14"
     },
     {
-      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/grid_upgrade_screen.csv",
-      "sha256": "96f4e0b5d2123ddf471ea3d2469b724b912cc59146adf49dbc2a1957a8dfddc0"
+      "path": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/grid_upgrade_screen.csv",
+      "sha256": "f600654fa5bb375aef1f971ea0dcbb60a169169f58292ef0d36c7cfd8ec8a6fa"
     },
     {
-      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/field_validation_template.csv",
-      "sha256": "78753b2ae9f079dea873df075a39ec905cd15ef0646b6a3ed331e1ab80f95650"
+      "path": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/field_validation_template.csv",
+      "sha256": "f90e1d4f573dc34eb7dfd1095a6f3c48b184103922a185682779bef7b0dcc358"
     },
     {
-      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/investment_scenarios.csv",
-      "sha256": "44ba074f04c5177de0f58f5152585bd095acce8211343765fad3c706f93aeccc"
+      "path": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/investment_scenarios.csv",
+      "sha256": "bdc558481c4e5f67c3d7d7e744b5fc8083929a56fbf3fe45a02bd1dd9aafe64f"
     },
     {
-      "path": "results/research/fd4867d68c584cb0ad529974fe4d6675/assumptions.json",
-      "sha256": "024915866443484ba195e24f51382dec7638d8bc9d1a88b39384d7e68125135e"
+      "path": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/assumptions.json",
+      "sha256": "846efa61f00beed9f1696ea9caa8264530c7e9dac868199225085a88e74aa3c2"
     },
     {
-      "path": "results/reports/run_fd4867d68c584cb0ad529974fe4d6675.md",
-      "sha256": "9a99171bcd50b4bd68e4899e10068087cd58f6b8f150d3b96118f36d0fff4ea7"
+      "path": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/carbon_analysis.csv",
+      "sha256": "772461b4b546c8656b8f4580f25fa7bc8b59a81cb22cf721b15069b7e1f4d119"
+    },
+    {
+      "path": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/utilization_analysis.csv",
+      "sha256": "589515384405fe25c90b823a2915b911c1a80d677bba9dc42a48688eded1acb2"
+    },
+    {
+      "path": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/unmet_demand_analysis.csv",
+      "sha256": "f3eacfa39b637b08c49266611a6f420441788b02045a45be27c6bff85600f1c8"
+    },
+    {
+      "path": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/travel_burden_analysis.csv",
+      "sha256": "43b66de41f7a8969529f0707585bddde72f23ab114f1cdefda4e1b0846e4bb8f"
+    },
+    {
+      "path": "results/research/2e94fda2bfdc49d2aa1401d745d005b2/ahp_weight_sensitivity.csv",
+      "sha256": "dff149e9dfbc8a520043e09c77c69f7e07987bb454be246495b8512c5486ee37"
+    },
+    {
+      "path": "results/reports/run_2e94fda2bfdc49d2aa1401d745d005b2.md",
+      "sha256": "2131b8efd00dfad2d3845024e2bf73c8608c4aaca8bd387936bd396b03ae5359"
     }
   ],
-  "run_id": "fd4867d68c584cb0ad529974fe4d6675",
+  "road_attribute_sources": {
+    "lanes_source": {
+      "unclassified": 30
+    },
+    "maxspeed_source": {
+      "unclassified": 30
+    },
+    "pcu_source": {
+      "unclassified": 30
+    }
+  },
+  "run_id": "2e94fda2bfdc49d2aa1401d745d005b2",
   "schema_version": 1,
   "software_versions": {
     "PyYAML": "6.0.3",
     "geopandas": "1.2.0",
     "networkx": "3.7",
     "numpy": "2.4.6",
-    "pandapower": "3.5.5",
+    "pandapower": "3.5.6",
     "pandas": "2.3.3"
   },
   "status": "success"

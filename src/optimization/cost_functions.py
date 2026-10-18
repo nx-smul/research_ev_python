@@ -1,6 +1,5 @@
 """Mathematical cost functions and multi-objective fitness evaluation for EVCS placement."""
 
-import math
 import numpy as np
 
 
@@ -40,8 +39,8 @@ def calculate_station_capex(y_j, land_cost_per_sqm, charger_specs, base_land_sqm
     inst_cost = 0.0
     for count, (c_key, spec) in zip(y_j, charger_specs.items()):
         if count > 0:
-            equip_capex += count * spec["cap_cost_bdt"]
-            inst_cost += count * spec["inst_cost_bdt"]
+            equip_capex += count * spec.get("cap_cost_bdt", 0.0)
+            inst_cost += count * spec.get("inst_cost_bdt", 0.0)
 
     total_capex = land_cost + equip_capex + inst_cost
     return total_capex, land_cost, equip_capex, inst_cost
@@ -63,7 +62,7 @@ def calculate_station_opex_pv(y_j, charger_specs, discount_rate=0.08, lifetime_y
     annual_om = 0.0
     for count, (c_key, spec) in zip(y_j, charger_specs.items()):
         if count > 0:
-            annual_om += count * spec["annual_om_bdt"]
+            annual_om += count * spec.get("annual_om_bdt", 0.0)
 
     return annual_om * pv_factor
 
@@ -132,19 +131,29 @@ def evaluate_objectives(x, Y, dist_matrix, time_matrix, demand_values, candidate
             for k_idx, (c_key, spec) in enumerate(charger_specs.items()):
                 count = Y[j, k_idx]
                 if count > 0:
-                    station_daily_kwh[j] += count * spec["daily_energy_kwh"] * spec["efficiency"]
-                    station_power_kw[j] += count * spec["power_kw"]
+                    daily_kwh = spec.get("daily_energy_kwh", spec.get("power_kw", 0.0) * 8.0)
+                    efficiency = spec.get("efficiency", 0.90)
+                    station_daily_kwh[j] += count * daily_kwh * efficiency
+                    station_power_kw[j] += count * spec.get("power_kw", 0.0)
 
     # 2. Demand Allocation z_ij (Greedy Nearest Station within Catchment R_max with capacity check)
     z_ij = np.zeros((N, M), dtype=np.float64)
     remaining_capacity = station_daily_kwh.copy()
     unserved_demand = 0.0
 
+    # Pre-sort eligible station indices per demand zone using vectorized masking
+    eligible = (x == 1) & (dist_matrix <= r_max_m)  # (N, M) boolean
+    sorted_stations_per_zone = []
+    for i in range(N):
+        idx = np.flatnonzero(eligible[i])
+        if idx.size > 0:
+            sorted_stations_per_zone.append(idx[np.argsort(dist_matrix[i, idx])])
+        else:
+            sorted_stations_per_zone.append(np.empty(0, dtype=np.intp))
+
     for i in range(N):
         d_val = demand_values[i]
-        # Find open stations within R_max sorted by distance
-        open_stations = [j for j in range(M) if x[j] == 1 and dist_matrix[i, j] <= r_max_m]
-        open_stations.sort(key=lambda j: dist_matrix[i, j])
+        open_stations = sorted_stations_per_zone[i]
 
         allocated = False
         for j in open_stations:

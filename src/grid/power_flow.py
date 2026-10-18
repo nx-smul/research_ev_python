@@ -1,15 +1,14 @@
 """Distribution Grid AC Power Flow Simulation (Newton-Raphson) using pandapower."""
 
 import argparse
-import os
-import json
 import math
-import numpy as np
-import pandas as pd
+import os
+
 import geopandas as gpd
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import pandapower as pp
-import pandapower.networks as nw
 
 from .voltage_stability import evaluate_voltage_stability, evaluate_thermal_loading
 
@@ -33,26 +32,72 @@ class GridPowerFlowSimulator:
         self.net = pp.from_json(network_json_path)
         self.base_net = pp.from_json(network_json_path)
 
-    def run_baseline_power_flow(self):
-        """Run AC power flow on baseline grid (without added EV charging loads)."""
+    def _run_power_flow(self, network, label="grid"):
+        """Run AC power flow with Newton-Raphson, falling back to BFSW on failure."""
         try:
-            pp.runpp(self.base_net, algorithm="nr", numba=False, enforce_q_lims=False)
+            pp.runpp(network, algorithm="nr", numba=False, enforce_q_lims=False)
         except Exception as nr_error:
             try:
-                pp.runpp(self.base_net, algorithm="bfsw", numba=False)
+                pp.runpp(network, algorithm="bfsw", numba=False)
             except Exception as bfsw_error:
                 raise RuntimeError(
-                    f"Grid baseline power flow failed with Newton-Raphson ({nr_error}) "
+                    f"{label} power flow failed with Newton-Raphson ({nr_error}) "
                     f"and BFSW ({bfsw_error})."
                 ) from bfsw_error
 
-        bus_res = self.base_net.res_bus.copy()
-        line_res = self.base_net.res_line.copy()
-        trafo_res = self.base_net.res_trafo.copy() if hasattr(self.base_net, "res_trafo") else None
-
+    def _collect_results(self, network):
+        """Collect bus/line/trafo results and compute stability metrics."""
+        bus_res = network.res_bus.copy()
+        line_res = network.res_line.copy()
+        trafo_res = network.res_trafo.copy() if hasattr(network, "res_trafo") else None
         metrics = evaluate_voltage_stability(bus_res)
         thermal = evaluate_thermal_loading(line_res, trafo_res)
         return bus_res, line_res, metrics, thermal
+
+    def _match_bus(self, row):
+        """Match an EV station row to a grid bus by substation ID or coordinates."""
+        # Try substation ID match first
+        if "nearest_substation_id" in row and row["nearest_substation_id"]:
+            sub_id = str(row["nearest_substation_id"])
+            for b_idx, b_name in self.net.bus["name"].items():
+                if sub_id in str(b_name):
+                    return b_idx
+
+        # Fall back to coordinate matching
+        lon = lat = None
+        if "lon" in row and "lat" in row:
+            lon, lat = float(row["lon"]), float(row["lat"])
+        elif "geometry" in row and row.geometry is not None:
+            lon, lat = float(row.geometry.x), float(row.geometry.y)
+
+        if lon is not None and lat is not None:
+            bus_geodata = getattr(self.net, "bus_geodata", None)
+            if bus_geodata is not None:
+                min_d = float("inf")
+                target_bus = None
+                for b_idx in bus_geodata.index:
+                    b_geo = bus_geodata.loc[b_idx]
+                    d = (b_geo["x"] - lon)**2 + (b_geo["y"] - lat)**2
+                    if d < min_d:
+                        min_d = d
+                        target_bus = b_idx
+                return target_bus
+
+        # No match found
+        if "nearest_substation_id" in row and row["nearest_substation_id"]:
+            raise ValueError(
+                f"Substation '{row['nearest_substation_id']}' for EV station "
+                f"'{row.get('candidate_id', 'unknown')}' is absent from the loaded grid model."
+            )
+        raise ValueError(
+            f"Cannot map EV station '{row.get('candidate_id', 'unknown')}' to a grid bus. "
+            "Provide matching substation IDs or georeferenced bus coordinates; no default bus is used."
+        )
+
+    def run_baseline_power_flow(self):
+        """Run AC power flow on baseline grid (without added EV charging loads)."""
+        self._run_power_flow(self.base_net, "Grid baseline")
+        return self._collect_results(self.base_net)
 
     def inject_ev_station_loads(self, stations_df, power_factor=0.95):
         """Map and inject EVCS charging power demands into nearest grid buses.
@@ -80,51 +125,7 @@ class GridPowerFlowSimulator:
             p_mw = power_kw / 1000.0
             q_mvar = p_mw * q_mult
 
-            # Match to bus by nearest coordinate or name
-            target_bus = None
-            if "nearest_substation_id" in row and row["nearest_substation_id"]:
-                sub_id = str(row["nearest_substation_id"])
-                # Match in bus names
-                for b_idx, b_name in self.net.bus["name"].items():
-                    if sub_id in str(b_name):
-                        target_bus = b_idx
-                        break
-
-            lon = lat = None
-            if target_bus is None and "lon" in row and "lat" in row:
-                # Coordinate matching
-                lon, lat = float(row["lon"]), float(row["lat"])
-            elif target_bus is None and "geometry" in row and row.geometry is not None:
-                # GeoDataFrame inputs commonly expose a point geometry instead of lon/lat columns.
-                lon, lat = float(row.geometry.x), float(row.geometry.y)
-
-            if target_bus is None and lon is not None and lat is not None:
-                min_d = float("inf")
-                bus_geodata = getattr(self.net, "bus_geodata", None)
-                if bus_geodata is not None:
-                    for b_idx in bus_geodata.index:
-                        b_geo = bus_geodata.loc[b_idx]
-                        d = (b_geo["x"] - lon)**2 + (b_geo["y"] - lat)**2
-                        if d < min_d:
-                            min_d = d
-                            target_bus = b_idx
-            if target_bus is None and "nearest_substation_id" in row and row["nearest_substation_id"]:
-                sub_id = str(row["nearest_substation_id"])
-                for b_idx, b_name in self.net.bus["name"].items():
-                    if sub_id in str(b_name):
-                        target_bus = b_idx
-                        break
-            if target_bus is None and "nearest_substation_id" in row and row["nearest_substation_id"]:
-                raise ValueError(
-                    f"Substation '{row['nearest_substation_id']}' for EV station "
-                    f"'{row.get('candidate_id', 'unknown')}' is absent from the loaded grid model."
-                )
-
-            if target_bus is None:
-                raise ValueError(
-                    f"Cannot map EV station '{row.get('candidate_id', 'unknown')}' to a grid bus. "
-                    "Provide matching substation IDs or georeferenced bus coordinates; no default bus is used."
-                )
+            target_bus = self._match_bus(row)
 
             # Add EV load element
             pp.create_load(
@@ -137,24 +138,8 @@ class GridPowerFlowSimulator:
 
     def run_ev_power_flow(self):
         """Run AC power flow on EV-integrated network."""
-        try:
-            pp.runpp(self.net, algorithm="nr", numba=False, enforce_q_lims=False)
-        except Exception as nr_error:
-            try:
-                pp.runpp(self.net, algorithm="bfsw", numba=False)
-            except Exception as bfsw_error:
-                raise RuntimeError(
-                    f"EV-loaded grid power flow failed with Newton-Raphson ({nr_error}) "
-                    f"and BFSW ({bfsw_error})."
-                ) from bfsw_error
-
-        bus_res = self.net.res_bus.copy()
-        line_res = self.net.res_line.copy()
-        trafo_res = self.net.res_trafo.copy() if hasattr(self.net, "res_trafo") else None
-
-        metrics = evaluate_voltage_stability(bus_res)
-        thermal = evaluate_thermal_loading(line_res, trafo_res)
-        return bus_res, line_res, metrics, thermal
+        self._run_power_flow(self.net, "EV-loaded grid")
+        return self._collect_results(self.net)
 
 
 def run_ac_power_flow(network_path, stations_df=None):
@@ -275,3 +260,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

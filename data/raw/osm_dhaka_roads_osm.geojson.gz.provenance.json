@@ -1,0 +1,13 @@
+{
+  "source_url": "https://overpass.kumi.systems/api/interpreter",
+  "license": "OpenStreetMap ODbL 1.0; attribution required",
+  "retrieved_at": "2026-10-09T05:12:25.559918+00:00",
+  "coverage": "Bounding box south=23.68, west=90.32, north=23.9, east=90.46",
+  "units": "WGS84 coordinates; segment length meters; speed km/h; traffic PCU/hour",
+  "transformation": "OSM highway ways split at OSM node IDs; oneway direction retained. Missing speed and lanes use tagged road-class assumptions; missing traffic flow uses a road-class/lane proxy, never observed traffic. Archived as gzip-compressed GeoJSON to preserve the full extract in a compact repository-friendly file.",
+  "data_class": "derived_from_observed",
+  "feature_count": "159217",
+  "skipped_way_count": "0",
+  "archive_sha256": "7228e36e67eabe354abe52a387c4b9567bd6d5d2ac2d004a9d56c706ef185b07",
+  "archive_size_bytes": "5248895"
+}

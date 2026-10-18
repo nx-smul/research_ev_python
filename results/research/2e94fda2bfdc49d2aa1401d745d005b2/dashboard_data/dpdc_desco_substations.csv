@@ -1,0 +1,19 @@
+sub_id,name,utility,lon,lat,rated_mva,base_load_mva,voltage_kv,zone,headroom_mva,headroom_pct
+DPDC-SS-01,Motijheel 33/11kV,DPDC,90.419,23.734,50.0,41.5,33.0,Motijheel_Dilkusha,8.5,17.0
+DPDC-SS-02,Dhanmondi 33/11kV,DPDC,90.373,23.748,40.0,32.0,33.0,Dhanmondi,8.0,20.0
+DPDC-SS-03,Tejgaon 33/11kV,DPDC,90.397,23.762,50.0,39.0,33.0,Kawran_Bazar_Tejgaon,11.0,22.0
+DPDC-SS-04,Lalbagh 33/11kV,DPDC,90.387,23.717,30.0,26.5,33.0,Old_Dhaka,3.5,11.67
+DPDC-SS-05,Jatrabari 33/11kV,DPDC,90.432,23.712,40.0,31.0,33.0,Jatrabari_Sayedabad,9.0,22.5
+DPDC-SS-06,Sayedabad 33/11kV,DPDC,90.426,23.72,35.0,28.0,33.0,Jatrabari_Sayedabad,7.0,20.0
+DPDC-SS-07,Kamalapur 33/11kV,DPDC,90.423,23.731,35.0,27.5,33.0,Motijheel_Dilkusha,7.5,21.43
+DPDC-SS-08,Kawran Bazar 33/11kV,DPDC,90.391,23.7515,45.0,38.0,33.0,Kawran_Bazar_Tejgaon,7.0,15.56
+DESCO-SS-01,Gulshan-1 33/11kV,DESCO,90.416,23.781,50.0,38.5,33.0,Gulshan_Banani,11.5,23.0
+DESCO-SS-02,Gulshan-2 33/11kV,DESCO,90.414,23.794,50.0,39.0,33.0,Gulshan_Banani,11.0,22.0
+DESCO-SS-03,Banani 33/11kV,DESCO,90.403,23.795,40.0,31.0,33.0,Gulshan_Banani,9.0,22.5
+DESCO-SS-04,Uttara-1 33/11kV,DESCO,90.397,23.865,45.0,33.0,33.0,Uttara,12.0,26.67
+DESCO-SS-05,Uttara-2 33/11kV,DESCO,90.386,23.876,40.0,29.5,33.0,Uttara,10.5,26.25
+DESCO-SS-06,Mirpur-10 33/11kV,DESCO,90.367,23.808,45.0,36.0,33.0,Mirpur,9.0,20.0
+DESCO-SS-07,Mirpur-1 33/11kV,DESCO,90.353,23.796,35.0,27.0,33.0,Mirpur,8.0,22.86
+DESCO-SS-08,Mohakhali 33/11kV,DESCO,90.402,23.779,50.0,40.0,33.0,Badda_Mohakhali,10.0,20.0
+DESCO-SS-09,Baridhara 33/11kV,DESCO,90.422,23.801,35.0,24.0,33.0,Gulshan_Banani,11.0,31.43
+DESCO-SS-10,Purbachal 33/11kV,DESCO,90.452,23.824,40.0,18.0,33.0,Purbachal_Suburbs,22.0,55.0

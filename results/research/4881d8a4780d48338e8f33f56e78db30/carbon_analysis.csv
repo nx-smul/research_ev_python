@@ -1,0 +1,10 @@
+candidate_id,site_name,modeled_annual_kwh_served,avoided_ice_emissions_kg_co2,added_grid_emissions_kg_co2,net_avoided_emissions_kg_co2,net_avoided_emissions_tons_co2
+CS-03,Uttara_Sec3_Site_1,1904540.8,0.0,1066542.8,-1066542.8,-1066.5428
+CS-09,Baridhara_Diplomatic_Site_1,1371582.4,0.0,768086.1,-768086.1,-768.0861
+CS-19,Badda_Pragati_Sarani_Site_1,2494687.4,0.0,1397024.9,-1397024.9,-1397.0249
+CS-24,Tejgaon_Industrial_Site_2,1094883.2,0.0,613134.6,-613134.6,-613.1346
+CS-26,Kawran_Bazar_CBD_Site_2,2458983.1,0.0,1377030.5,-1377030.5,-1377.0305
+CS-30,Dhanmondi_27_Site_2,2097961.6,0.0,1174858.5,-1174858.5,-1174.8585
+CS-39,Mirpur_10_Circle_Site_1,3939941.4,0.0,2206367.2,-2206367.2,-2206.3672
+CS-42,Mirpur_12_Site_2,2426520.0,0.0,1358851.2,-1358851.2,-1358.8512
+CS-54,Old_Dhaka_Sadarghat_Site_2,748688.0,0.0,419265.3,-419265.3,-419.2653

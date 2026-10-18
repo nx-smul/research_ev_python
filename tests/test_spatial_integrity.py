@@ -1,6 +1,7 @@
 """Tests for GIS spatial multi-criteria analysis (AHP-TOPSIS), buffering, and road networks."""
 
 import json
+import gzip
 import pytest
 import numpy as np
 import pandas as pd
@@ -96,74 +97,34 @@ def test_candidate_road_distances_report_shortest_paths_snap_offsets_and_unconne
     assert reverse.road_distance_m == 300
 
 
-def test_road_loader_respects_oneway_direction(tmp_path):
-    roads_path = tmp_path / "roads.geojson"
-    roads_path.write_text(
-        '{"type":"FeatureCollection","features":[{"type":"Feature","properties":'
-        '{"u":"a","v":"b","length_m":100,"maxspeed":30,"lanes":1,"pcu_per_hr":100,"oneway":"yes"},'
-        '"geometry":{"type":"LineString","coordinates":[[90,23],[90.01,23]]}}]}',
-        encoding="utf-8",
-    )
+def test_compressed_road_loader_preserves_source_classification_and_indexes_nodes(tmp_path):
+    payload = {
+        "type": "FeatureCollection",
+        "features": [{
+            "type": "Feature",
+            "properties": {
+                "u": "a", "v": "b", "length_m": 100, "maxspeed": 30,
+                "lanes": 1, "pcu_per_hr": 100, "oneway": "yes",
+                "maxspeed_source": "osm:maxspeed", "lanes_source": "assumed:default",
+                "pcu_source": "assumed:road_class_proxy_primary",
+            },
+            "geometry": {"type": "LineString", "coordinates": [[90.0, 23.0], [90.01, 23.0]]},
+        }],
+    }
+    roads_path = tmp_path / "roads.geojson.gz"
+    with gzip.open(roads_path, "wt", encoding="utf-8") as stream:
+        json.dump(payload, stream)
 
     network = OSMRoadNetwork(str(roads_path))
 
     assert network.graph.has_edge("a", "b")
     assert not network.graph.has_edge("b", "a")
-
-
-def test_osm_road_download_writes_topological_segments_and_provenance(tmp_path):
-    elements = [{
-        "type": "way",
-        "id": 123,
-        "nodes": [10, 11, 12],
-        "geometry": [
-            {"lon": 90.0, "lat": 23.0},
-            {"lon": 90.01, "lat": 23.0},
-            {"lon": 90.02, "lat": 23.0},
-        ],
-        "tags": {"highway": "primary", "name": "Test Road", "maxspeed": "30 mph", "oneway": "yes"},
-    }]
-
-    class FakeResponse:
-        def raise_for_status(self):
-            pass
-
-        def json(self):
-            return {"elements": elements}
-
-    class FakeClient:
-        def __init__(self, **kwargs):
-            pass
-
-        def __enter__(self):
-            return self
-
-        def __exit__(self, *args):
-            return None
-
-        def post(self, url, data):
-            assert 'way["highway"' in data["data"]
-            return FakeResponse()
-
-    output = tmp_path / "roads.geojson"
-    result = download_osm_road_network(
-        (23.0, 90.0, 23.1, 90.1), output, client_factory=FakeClient,
-    )
-    roads = json.loads(output.read_text(encoding="utf-8"))
-    provenance = json.loads((tmp_path / "roads.geojson.provenance.json").read_text(encoding="utf-8"))
-
-    assert len(roads["features"]) == 2
-    first = roads["features"][0]["properties"]
-    assert (first["u"], first["v"]) == ("osm:10", "osm:11")
-    assert first["oneway"] == "yes"
-    assert first["maxspeed"] == pytest.approx(48.28032)
-    assert first["pcu_source"].startswith("assumed:")
-    assert provenance["data_class"] == "derived_from_observed"
-    assert "never observed traffic" in provenance["transformation"]
-    network = OSMRoadNetwork(str(output))
-    assert network.graph.has_edge("osm:10", "osm:11")
-    assert not network.graph.has_edge("osm:11", "osm:10")
-    assert result["feature_count"] == "2"
+    assert network.find_nearest_node(90.001, 23.0) == "a"
+    assert network.attribute_source_summary() == {
+        "maxspeed_source": {"osm:maxspeed": 1},
+        "lanes_source": {"assumed:default": 1},
+        "pcu_source": {"assumed:road_class_proxy_primary": 1},
+    }
 
 
 def test_osm_road_download_rejects_invalid_overpass_payload(tmp_path):

@@ -53,7 +53,7 @@ def main():
     parser.add_argument(
         "--sensitivity",
         action="store_true",
-        help="Run additional demand, budget, and service-radius sensitivity scenarios.",
+        help="Run demand, budget, service-radius, and optimizer-seed sensitivity scenarios.",
     )
 
     args = parser.parse_args()

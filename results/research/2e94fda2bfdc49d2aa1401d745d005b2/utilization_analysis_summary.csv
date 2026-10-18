@@ -1,0 +1,6 @@
+metric,value,unit
+total_stations,10.0,stations
+total_chargers,115.0,chargers
+total_power_capacity_kw,13886.0,kW
+total_daily_energy_kwh,110778.1,kWh
+system_capacity_factor_pct,33.2,%

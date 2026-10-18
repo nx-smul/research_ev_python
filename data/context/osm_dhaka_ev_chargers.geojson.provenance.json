@@ -1,0 +1,12 @@
+{
+  "source_url": "https://www.openstreetmap.org/copyright",
+  "query_endpoint": "https://overpass-api.de/api/interpreter",
+  "license": "OpenStreetMap ODbL 1.0; attribution required",
+  "retrieved_at": "2026-10-09T05:13:08.709382+00:00",
+  "osm_data_timestamp": "2026-10-09T05:11:47Z",
+  "coverage": "Bounding box south=23.68, west=90.32, north=23.90, east=90.46",
+  "units": "WGS84 point coordinates; OSM tags preserved as strings",
+  "transformation": "Overpass query for amenities and tags identifying EV charging; nodes kept as points and ways/relations represented by center coordinates. Deduplicated by OSM type and ID. Community mapping is incomplete and does not verify operational status, accessibility, or charging capacity.",
+  "data_class": "derived_from_observed",
+  "feature_count": "2"
+}

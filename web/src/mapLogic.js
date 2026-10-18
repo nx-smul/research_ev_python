@@ -18,7 +18,7 @@ export function paretoRoles(rows) {
   return { indexes, roles: rows.map((row, i) => Object.entries(indexes).filter(([, index]) => index === i).map(([label]) => label)) };
 }
 
-export function filterCandidates(features, rankMap, selectedZone, minAhp, search = '') {
+export function filterCandidates(features, rankMap, selectedZone, minAhp, search = '', maxAhp = 1) {
   const groups = {
     'Gulshan / Banani / Baridhara': ['Gulshan_Banani'],
     'Motijheel Commercial Zone (CBD)': ['Motijheel_Dilkusha'],
@@ -37,8 +37,9 @@ export function filterCandidates(features, rankMap, selectedZone, minAhp, search
     const score = Number(rank.ahp_suitability_score ?? properties.ahp_suitability_score);
     const zone = properties.zone_name || rank.zone_name || '';
     const name = properties.site_name || '';
-    return Number.isFinite(score) && score >= minAhp &&
+    const id = properties.candidate_id || '';
+    return Number.isFinite(score) && score >= minAhp && score <= maxAhp &&
       (!zones || zones.includes(zone)) &&
-      (!q || `${name} ${zone}`.toLowerCase().includes(q));
+      (!q || `${id} ${name} ${zone}`.toLowerCase().includes(q));
   });
 }

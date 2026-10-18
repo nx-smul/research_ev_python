@@ -40,6 +40,29 @@ class NSGA2Solver:
         self.candidate_metadata = candidate_metadata
         self.config = config
 
+        if self.dist_matrix.ndim != 2 or self.time_matrix.ndim != 2:
+            raise ValueError("Distance and travel-time inputs must be two-dimensional matrices.")
+        if self.dist_matrix.shape != self.time_matrix.shape:
+            raise ValueError("Distance and travel-time matrices must have identical shapes.")
+        if self.demand_values.ndim != 1 or self.dist_matrix.shape[0] != self.demand_values.size:
+            raise ValueError("OD matrix rows must match the one-dimensional demand vector.")
+        if self.dist_matrix.shape[1] != len(self.candidate_metadata):
+            raise ValueError("OD matrix columns must match the candidate-site metadata.")
+        for name, values in (
+            ("distance", self.dist_matrix),
+            ("travel-time", self.time_matrix),
+            ("demand", self.demand_values),
+        ):
+            if not np.isfinite(values).all():
+                raise ValueError(f"{name.capitalize()} inputs must contain only finite values.")
+            if (values < 0).any():
+                raise ValueError(f"{name.capitalize()} inputs cannot contain negative values.")
+        if self.demand_values.sum() <= 0:
+            raise ValueError("Demand inputs must have a positive total.")
+        candidate_ids = [str(candidate.get("candidate_id", "")).strip() for candidate in candidate_metadata]
+        if any(not candidate_id for candidate_id in candidate_ids) or len(set(candidate_ids)) != len(candidate_ids):
+            raise ValueError("Candidate metadata must contain non-empty, unique candidate_id values.")
+
         self.N = len(demand_values)
         self.M = len(candidate_metadata)
         self.charger_specs = config["chargers"]
@@ -141,20 +164,27 @@ class NSGA2Solver:
         return total
 
     def fast_non_dominated_sort(self, population):
-        """Partition population into non-dominated Pareto fronts F_1, F_2, ..."""
-        fronts = [[]]
-        for p in population:
-            p.domination_count = 0
-            p.dominated_solutions = []
-            for q in population:
-                if self.dominates(p, q):
-                    p.dominated_solutions.append(q)
-                elif self.dominates(q, p):
-                    p.domination_count += 1
+        """Partition population into non-dominated Pareto fronts F_1, F_2, ... (vectorized)."""
+        if not population:
+            return [[]]
 
-            if p.domination_count == 0:
-                p.rank = 0
-                fronts[0].append(p)
+        # Vectorized domination: extract objectives, broadcast pairwise comparisons
+        n = len(population)
+        obj = np.array([ind.objectives for ind in population], dtype=np.float64)
+        # dominates[i,j] = True iff individual i dominates individual j
+        leq = (obj[:, None, :] <= obj[None, :, :]).all(axis=2)
+        less = (obj[:, None, :] < obj[None, :, :]).any(axis=2)
+        dom = leq & less
+
+        for i in range(n):
+            population[i].domination_count = int(dom[:, i].sum())
+            population[i].dominated_solutions = [population[j] for j in np.flatnonzero(dom[i])]
+
+        fronts = [[]]
+        for i in range(n):
+            if population[i].domination_count == 0:
+                population[i].rank = 0
+                fronts[0].append(population[i])
 
         i = 0
         while len(fronts[i]) > 0:
@@ -184,28 +214,39 @@ class NSGA2Solver:
         return better_in_any
 
     def calculate_crowding_distance(self, front):
-        """Assign crowding distance to solutions within a Pareto front."""
+        """Assign crowding distance to solutions within a Pareto front (vectorized)."""
         l = len(front)
         if l == 0:
             return
         for ind in front:
             ind.crowding_distance = 0.0
 
+        if l <= 2:
+            for ind in front:
+                ind.crowding_distance = float("inf")
+            return
+
         num_objectives = len(front[0].objectives)
+        obj = np.array([ind.objectives for ind in front], dtype=np.float64)
+        distances = np.zeros(l, dtype=np.float64)
 
         for m in range(num_objectives):
-            front.sort(key=lambda ind: ind.objectives[m])
-            front[0].crowding_distance = float("inf")
-            front[-1].crowding_distance = float("inf")
+            order = np.argsort(obj[:, m])
+            sorted_obj = obj[order, m]
+            distances[order[0]] = float("inf")
+            distances[order[-1]] = float("inf")
 
-            f_min = front[0].objectives[m]
-            f_max = front[-1].objectives[m]
-            denom = f_max - f_min
+            denom = sorted_obj[-1] - sorted_obj[0]
             if denom == 0:
                 continue
 
-            for i in range(1, l - 1):
-                front[i].crowding_distance += (front[i + 1].objectives[m] - front[i - 1].objectives[m]) / denom
+            # Vectorized: interior distances = (f[i+1] - f[i-1]) / denom
+            interior = (sorted_obj[2:] - sorted_obj[:-2]) / denom
+            for k in range(l - 2):
+                distances[order[k + 1]] += interior[k]
+
+        for i, ind in enumerate(front):
+            ind.crowding_distance = float(distances[i])
 
     def binary_tournament_selection(self, population):
         """Select best candidate using crowded comparison operator (rank first, crowding distance second)."""

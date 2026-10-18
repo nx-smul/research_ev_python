@@ -1,0 +1,9 @@
+{
+  "source_url": "https://github.com/nx-smul/research_ev_python/blob/main/src/data_generator.py",
+  "license": "MIT (project-generated synthetic demo data; not an official RAJUK dataset)",
+  "generated_at": "not recorded",
+  "coverage": "Hand-authored illustrative polygons in selected Dhaka-area demo locations; incomplete and not official zoning coverage",
+  "units": "land_price_bdt_sqm in BDT per square metre; exclusion and hazard flags are Boolean-like indicators",
+  "transformation": "Example polygons and attributes are defined in src/data_generator.py; not downloaded from RAJUK or derived from an authoritative DAP layer",
+  "data_class": "synthetic_demo"
+}

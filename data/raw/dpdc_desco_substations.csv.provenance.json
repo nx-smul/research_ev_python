@@ -1,0 +1,9 @@
+{
+  "source_url": "https://github.com/nx-smul/research_ev_python/blob/main/src/data_generator.py",
+  "license": "MIT (project-generated synthetic demo data; not utility-provided data)",
+  "generated_at": "not recorded",
+  "coverage": "Illustrative demo substation records for selected Dhaka-area locations; not a complete DPDC or DESCO asset inventory",
+  "units": "lon and lat in decimal degrees; rated_mva, base_load_mva, and headroom_mva in MVA; headroom_pct in percent",
+  "transformation": "Demo records originate in project auxiliary fixtures and headroom fields are calculated in src/data_generator.py; no utility measurements or authorization",
+  "data_class": "synthetic_demo"
+}

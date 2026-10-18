@@ -1,4 +1,4 @@
-"""Tests for multi-objective optimization (NSGA-II & MILP) and cost models."""
+"""Tests for NSGA-II optimization and cost models."""
 
 import pytest
 import numpy as np
@@ -12,7 +12,6 @@ from src.optimization.cost_functions import (
     evaluate_objectives
 )
 from src.optimization.nsga2_solver import NSGA2Solver, SolutionCandidate
-from src.optimization.milp_model import CMO_EVCS_MILP
 
 
 def test_pv_factor_calculation():
@@ -147,6 +146,24 @@ def test_nsga2_solver_components(mock_candidate_gdf, mock_od_matrices, sample_co
     assert fronts[0][0].crowding_distance >= 0
 
 
+@pytest.mark.parametrize(
+    ("dist_matrix", "time_matrix", "demand_values", "candidate_metadata", "message"),
+    [
+        ([[1.0]], [[1.0, 2.0]], [1.0], [{"candidate_id": "c1"}], "identical shapes"),
+        ([[1.0]], [[1.0]], [1.0, 2.0], [{"candidate_id": "c1"}], "demand vector"),
+        ([[float("inf")]], [[1.0]], [1.0], [{"candidate_id": "c1"}], "finite values"),
+        ([[-1.0]], [[1.0]], [1.0], [{"candidate_id": "c1"}], "negative values"),
+        ([[1.0, 2.0]], [[1.0, 2.0]], [1.0], [{"candidate_id": "c1"}], "candidate-site metadata"),
+        ([[1.0, 2.0]], [[1.0, 2.0]], [1.0], [{"candidate_id": "c1"}, {"candidate_id": "c1"}], "unique candidate_id"),
+    ],
+)
+def test_nsga2_rejects_incompatible_or_invalid_inputs(
+    dist_matrix, time_matrix, demand_values, candidate_metadata, message, sample_config
+):
+    with pytest.raises(ValueError, match=message):
+        NSGA2Solver(dist_matrix, time_matrix, demand_values, candidate_metadata, sample_config)
+
+
 def test_nsga2_solver_run(mock_candidate_gdf, mock_od_matrices, sample_config):
     dist_mat, time_mat, demand_values = mock_od_matrices
     candidate_metadata = mock_candidate_gdf.to_dict("records")
@@ -190,29 +207,3 @@ def test_station_count_limits_and_capex_budget(mock_candidate_gdf, mock_od_matri
     assert all(ind.objectives[0] >= 1e30 for ind in population)
     with pytest.raises(ValueError, match="No budget-feasible"):
         solver.solve(generations=1, show_progress=False)
-
-
-def test_milp_solver(mock_candidate_gdf, mock_od_matrices, sample_config):
-    dist_mat, time_mat, demand_values = mock_od_matrices
-    candidate_metadata = mock_candidate_gdf.to_dict("records")
-
-    milp_builder = CMO_EVCS_MILP(
-        dist_matrix=dist_mat,
-        time_matrix=time_mat,
-        demand_values=demand_values,
-        candidate_metadata=candidate_metadata,
-        config=sample_config
-    )
-
-    # 1. Test Pyomo Model Construction
-    pyomo_model = milp_builder.build_pyomo_model(p_stations=3)
-    assert pyomo_model is not None
-    assert hasattr(pyomo_model, "x")
-    assert hasattr(pyomo_model, "y")
-    assert hasattr(pyomo_model, "z")
-
-    # 2. Test SciPy MILP Fallback solver
-    scipy_res = milp_builder.solve_scipy_milp_fallback(p_stations=3)
-    assert "x" in scipy_res
-    assert scipy_res["selected_station_count"] <= 3
-    assert len(scipy_res["selected_indices"]) <= 3

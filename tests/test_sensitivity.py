@@ -24,6 +24,7 @@ def test_sensitivity_writes_labeled_scenarios_without_mutating_config(tmp_path, 
     scenarios = {
         "baseline": {},
         "radius_case": {"service_radius_rmax_m": 200.0, "demand_multiplier": 1.2},
+        "seed_case": {"random_seed": 29},
     }
 
     results = run_sensitivity(
@@ -31,12 +32,20 @@ def test_sensitivity_writes_labeled_scenarios_without_mutating_config(tmp_path, 
         population=4, generations=2, seed=17,
     )
 
-    assert set(results["scenario"]) == {"baseline", "radius_case"}
+    assert set(results["scenario"]) == {"baseline", "radius_case", "seed_case"}
     assert results["scenario_class"].str.contains("not an observation").all()
     assert json.dumps(config, sort_keys=True) == original
     manifest = json.loads((tmp_path / "sensitivity" / "sensitivity_manifest.json").read_text())
-    assert len(manifest["scenarios"]) == 2
+    assert len(manifest["scenarios"]) == 3
+    seed_case = next(case for case in manifest["scenarios"] if case["scenario"] == "seed_case")
+    assert seed_case["effective_config"]["optimization"]["nsga2"]["random_seed"] == 29
     assert (tmp_path / "sensitivity" / "radius_case" / "scenario.json").is_file()
+    knee_summary = __import__("pandas").read_csv(tmp_path / "sensitivity" / "sensitivity_knee_summary.csv")
+    assert set(knee_summary["scenario"]) == {"baseline", "radius_case", "seed_case"}
+    stability = __import__("pandas").read_csv(tmp_path / "sensitivity" / "optimizer_seed_site_stability.csv")
+    assert not stability.empty
+    assert stability["seed_run_count"].eq(1).all()
+    assert stability["classification"].str.contains("not empirical validation").all()
 
 
 def test_sensitivity_rejects_path_traversal_names(tmp_path, base_dir, mock_candidate_gdf):

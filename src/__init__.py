@@ -1,4 +1,3 @@
-"""Dhaka Electric Vehicle Charging Station (EVCS) Optimal Placement & Grid Impact Framework."""
+"""Dhaka EVCS spatial placement and grid optimization framework."""
 
-__version__ = "0.1.0"
-__author__ = "Chowdhury, S. M., Khan, N., Rahman, M. T., Ahmed, F."
+__version__ = "0.2.0"

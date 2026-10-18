@@ -1,0 +1,50 @@
+{
+  "type": "FeatureCollection",
+  "name": "Dhaka OSM-mapped EV charging facilities",
+  "source": "OpenStreetMap",
+  "source_url": "https://www.openstreetmap.org/copyright",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "node/4388864058",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.428259,
+          23.7636901
+        ]
+      },
+      "properties": {
+        "addr:city": "Rampra, Dhaka",
+        "addr:housenumber": "House - 31",
+        "addr:postcode": "1219",
+        "addr:street": "Road 3",
+        "amenity": "charging_station",
+        "name": "National Ideal School and College",
+        "osm_type": "node",
+        "osm_id": 4388864058,
+        "osm_url": "https://www.openstreetmap.org/node/4388864058",
+        "is_ev_charger": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/4583633894",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.3575039,
+          23.8030901
+        ]
+      },
+      "properties": {
+        "amenity": "charging_station",
+        "operator": "Quantum Foundation",
+        "osm_type": "node",
+        "osm_id": 4583633894,
+        "osm_url": "https://www.openstreetmap.org/node/4583633894",
+        "is_ev_charger": true
+      }
+    }
+  ]
+}

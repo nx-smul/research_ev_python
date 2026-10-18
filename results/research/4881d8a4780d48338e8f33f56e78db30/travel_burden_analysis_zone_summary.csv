@@ -1,0 +1,6 @@
+zone_name,distance_to_station_m_mean,distance_to_station_m_median,distance_to_station_m_min,distance_to_station_m_max,travel_time_minutes_mean,travel_time_minutes_median,travel_time_minutes_min,travel_time_minutes_max,total_zone_demand_kwh
+Badda_Mohakhali,4598.6,4598.6,4571.1,4626.0,7.4,7.4,6.8,8.0,37654.399999999994
+Gulshan_Banani,2332.7,3304.0,0.0,4822.0,3.5,4.5,0.0,6.9,50308.8
+Mirpur,3937.9,3937.9,3937.9,3937.9,5.6,5.6,5.6,5.6,63015.200000000004
+Motijheel_Dilkusha,3236.8,3236.8,3236.8,3236.8,11.0,11.0,11.0,11.0,30711.199999999997
+Uttara,2793.7,2793.7,2793.7,2793.7,3.0,3.0,3.0,3.0,37279.9

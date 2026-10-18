@@ -1,0 +1,1978 @@
+{
+  "type": "FeatureCollection",
+  "name": "demand_grid_100m",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-001",
+        "anchor_zone": "Airport_Hub",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Uttara",
+        "daily_demand_kwh": 3742.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39799264190157,
+          23.850511428902557
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-002",
+        "anchor_zone": "Airport_Hub",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Uttara",
+        "daily_demand_kwh": 4567.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.4058588183324,
+          23.84491784018789
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-003",
+        "anchor_zone": "Airport_Hub",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Uttara",
+        "daily_demand_kwh": 4533.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39490919947532,
+          23.838234472157655
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-004",
+        "anchor_zone": "Airport_Hub",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Uttara",
+        "daily_demand_kwh": 4534.3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39423190177044,
+          23.839974314376562
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-005",
+        "anchor_zone": "Uttara_Sec3",
+        "zone_type": "Commercial",
+        "zone_name": "Uttara",
+        "daily_demand_kwh": 3017.7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.3970786331018,
+          23.86084320660352
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-006",
+        "anchor_zone": "Uttara_Sec3",
+        "zone_type": "Commercial",
+        "zone_name": "Uttara",
+        "daily_demand_kwh": 2770.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.4030501125292,
+          23.87303435756986
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-007",
+        "anchor_zone": "Uttara_Sec3",
+        "zone_type": "Commercial",
+        "zone_name": "Uttara",
+        "daily_demand_kwh": 3321.4
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.38955261175752,
+          23.868022830561777
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-008",
+        "anchor_zone": "Uttara_Sec3",
+        "zone_type": "Commercial",
+        "zone_name": "Uttara",
+        "daily_demand_kwh": 3493.9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39258737721744,
+          23.86842108833884
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-009",
+        "anchor_zone": "Uttara_Sec11",
+        "zone_type": "Residential",
+        "zone_name": "Uttara",
+        "daily_demand_kwh": 1719.8
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39423198306504,
+          23.880717237606845
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-010",
+        "anchor_zone": "Uttara_Sec11",
+        "zone_type": "Residential",
+        "zone_name": "Uttara",
+        "daily_demand_kwh": 1675.7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.37992363662258,
+          23.871605285292215
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-011",
+        "anchor_zone": "Uttara_Sec11",
+        "zone_type": "Residential",
+        "zone_name": "Uttara",
+        "daily_demand_kwh": 1906.7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.38369495215501,
+          23.875083137330535
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-012",
+        "anchor_zone": "Uttara_Sec11",
+        "zone_type": "Residential",
+        "zone_name": "Uttara",
+        "daily_demand_kwh": 1997.4
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39155591630875,
+          23.86957945090455
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-013",
+        "anchor_zone": "Purbachal_300ft",
+        "zone_type": "Highway",
+        "zone_name": "Purbachal_Suburbs",
+        "daily_demand_kwh": 1728.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.45934032554698,
+          23.815184714427744
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-014",
+        "anchor_zone": "Purbachal_300ft",
+        "zone_type": "Highway",
+        "zone_name": "Purbachal_Suburbs",
+        "daily_demand_kwh": 1782.8
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.45229436839765,
+          23.815016933604575
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-015",
+        "anchor_zone": "Purbachal_300ft",
+        "zone_type": "Highway",
+        "zone_name": "Purbachal_Suburbs",
+        "daily_demand_kwh": 1913.1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.46119540388122,
+          23.82155543880259
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-016",
+        "anchor_zone": "Purbachal_300ft",
+        "zone_type": "Highway",
+        "zone_name": "Purbachal_Suburbs",
+        "daily_demand_kwh": 1356.1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.45933547487927,
+          23.82190072954183
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-017",
+        "anchor_zone": "Baridhara_Diplomatic",
+        "zone_type": "Commercial",
+        "zone_name": "Gulshan_Banani",
+        "daily_demand_kwh": 3171.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.413502866971,
+          23.80118256658022
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-018",
+        "anchor_zone": "Baridhara_Diplomatic",
+        "zone_type": "Commercial",
+        "zone_name": "Gulshan_Banani",
+        "daily_demand_kwh": 2173.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41956612676857,
+          23.80308881821669
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-019",
+        "anchor_zone": "Baridhara_Diplomatic",
+        "zone_type": "Commercial",
+        "zone_name": "Gulshan_Banani",
+        "daily_demand_kwh": 3571.3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42787516243749,
+          23.80392992607303
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-020",
+        "anchor_zone": "Baridhara_Diplomatic",
+        "zone_type": "Commercial",
+        "zone_name": "Gulshan_Banani",
+        "daily_demand_kwh": 3271.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42728094397584,
+          23.79962947587065
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-021",
+        "anchor_zone": "Gulshan_2",
+        "zone_type": "Commercial",
+        "zone_name": "Gulshan_Banani",
+        "daily_demand_kwh": 3378.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41064696260068,
+          23.79133372461802
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-022",
+        "anchor_zone": "Gulshan_2",
+        "zone_type": "Commercial",
+        "zone_name": "Gulshan_Banani",
+        "daily_demand_kwh": 2988.7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41367857605039,
+          23.788053724967533
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-023",
+        "anchor_zone": "Gulshan_2",
+        "zone_type": "Commercial",
+        "zone_name": "Gulshan_Banani",
+        "daily_demand_kwh": 3698.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.4153006499479,
+          23.79574830334232
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-024",
+        "anchor_zone": "Gulshan_2",
+        "zone_type": "Commercial",
+        "zone_name": "Gulshan_Banani",
+        "daily_demand_kwh": 2701.6
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41495597609429,
+          23.789314052957067
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-025",
+        "anchor_zone": "Gulshan_1",
+        "zone_type": "Commercial",
+        "zone_name": "Gulshan_Banani",
+        "daily_demand_kwh": 2892.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40952366002,
+          23.776458343427787
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-026",
+        "anchor_zone": "Gulshan_1",
+        "zone_type": "Commercial",
+        "zone_name": "Gulshan_Banani",
+        "daily_demand_kwh": 3563.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42447040726577,
+          23.775872884344185
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-027",
+        "anchor_zone": "Gulshan_1",
+        "zone_type": "Commercial",
+        "zone_name": "Gulshan_Banani",
+        "daily_demand_kwh": 3309.3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41458453012352,
+          23.782116893289498
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-028",
+        "anchor_zone": "Gulshan_1",
+        "zone_type": "Commercial",
+        "zone_name": "Gulshan_Banani",
+        "daily_demand_kwh": 2729.8
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41383248103955,
+          23.774984296166398
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-029",
+        "anchor_zone": "Banani_11",
+        "zone_type": "Commercial",
+        "zone_name": "Gulshan_Banani",
+        "daily_demand_kwh": 2986.6
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.4043934889328,
+          23.789223932403168
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-030",
+        "anchor_zone": "Banani_11",
+        "zone_type": "Commercial",
+        "zone_name": "Gulshan_Banani",
+        "daily_demand_kwh": 3371.9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41118767981979,
+          23.787800335106336
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-031",
+        "anchor_zone": "Banani_11",
+        "zone_type": "Commercial",
+        "zone_name": "Gulshan_Banani",
+        "daily_demand_kwh": 3210.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40032706604345,
+          23.79615974473655
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-032",
+        "anchor_zone": "Banani_11",
+        "zone_type": "Commercial",
+        "zone_name": "Gulshan_Banani",
+        "daily_demand_kwh": 3291.4
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.3976896442849,
+          23.799955452127254
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-033",
+        "anchor_zone": "Mohakhali_Terminal",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Badda_Mohakhali",
+        "daily_demand_kwh": 4435.4
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40481529086193,
+          23.784453764159238
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-034",
+        "anchor_zone": "Mohakhali_Terminal",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Badda_Mohakhali",
+        "daily_demand_kwh": 3232.8
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40757686701643,
+          23.77980286495455
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-035",
+        "anchor_zone": "Mohakhali_Terminal",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Badda_Mohakhali",
+        "daily_demand_kwh": 4175.9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40197974062987,
+          23.78117032316308
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-036",
+        "anchor_zone": "Mohakhali_Terminal",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Badda_Mohakhali",
+        "daily_demand_kwh": 4537.9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40514386248189,
+          23.780494126384752
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-037",
+        "anchor_zone": "Badda_Pragati_Sarani",
+        "zone_type": "Mixed",
+        "zone_name": "Badda_Mohakhali",
+        "daily_demand_kwh": 2080.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.4212432378829,
+          23.770903834294064
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-038",
+        "anchor_zone": "Badda_Pragati_Sarani",
+        "zone_type": "Mixed",
+        "zone_name": "Badda_Mohakhali",
+        "daily_demand_kwh": 1783.3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42971698085667,
+          23.775042193489682
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-039",
+        "anchor_zone": "Badda_Pragati_Sarani",
+        "zone_type": "Mixed",
+        "zone_name": "Badda_Mohakhali",
+        "daily_demand_kwh": 2044.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42149235779905,
+          23.767389055462903
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-040",
+        "anchor_zone": "Badda_Pragati_Sarani",
+        "zone_type": "Mixed",
+        "zone_name": "Badda_Mohakhali",
+        "daily_demand_kwh": 2069.8
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.43163783024353,
+          23.772922539204085
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-041",
+        "anchor_zone": "Hatirjheel_North",
+        "zone_type": "Commercial",
+        "zone_name": "Badda_Mohakhali",
+        "daily_demand_kwh": 3058.3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41541791963343,
+          23.775648151287477
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-042",
+        "anchor_zone": "Hatirjheel_North",
+        "zone_type": "Commercial",
+        "zone_name": "Badda_Mohakhali",
+        "daily_demand_kwh": 3312.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40271188394698,
+          23.770908820199335
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-043",
+        "anchor_zone": "Hatirjheel_North",
+        "zone_type": "Commercial",
+        "zone_name": "Badda_Mohakhali",
+        "daily_demand_kwh": 3507.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40984011562719,
+          23.777840861601668
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-044",
+        "anchor_zone": "Hatirjheel_North",
+        "zone_type": "Commercial",
+        "zone_name": "Badda_Mohakhali",
+        "daily_demand_kwh": 3416.6
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41115225185592,
+          23.773239745343794
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-045",
+        "anchor_zone": "Tejgaon_Industrial",
+        "zone_type": "Industrial",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "daily_demand_kwh": 1973.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40417315709729,
+          23.766611848840906
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-046",
+        "anchor_zone": "Tejgaon_Industrial",
+        "zone_type": "Industrial",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "daily_demand_kwh": 1550.1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40153147003613,
+          23.764732682710978
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-047",
+        "anchor_zone": "Tejgaon_Industrial",
+        "zone_type": "Industrial",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "daily_demand_kwh": 1748.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39955248225594,
+          23.75257507638075
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-048",
+        "anchor_zone": "Tejgaon_Industrial",
+        "zone_type": "Industrial",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "daily_demand_kwh": 1656.8
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39078800399903,
+          23.75259757101999
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-049",
+        "anchor_zone": "Kawran_Bazar_CBD",
+        "zone_type": "Commercial",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "daily_demand_kwh": 2556.3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39651989684958,
+          23.74625313643995
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-050",
+        "anchor_zone": "Kawran_Bazar_CBD",
+        "zone_type": "Commercial",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "daily_demand_kwh": 3640.6
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.39285016194576,
+          23.752998878423973
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-051",
+        "anchor_zone": "Kawran_Bazar_CBD",
+        "zone_type": "Commercial",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "daily_demand_kwh": 2819.4
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.3969229791163,
+          23.747133316020197
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-052",
+        "anchor_zone": "Kawran_Bazar_CBD",
+        "zone_type": "Commercial",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "daily_demand_kwh": 2350.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.3975756819282,
+          23.7539355872975
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-053",
+        "anchor_zone": "Farmgate_Hub",
+        "zone_type": "Commercial",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "daily_demand_kwh": 3605.3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.3888876266353,
+          23.7606335347632
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-054",
+        "anchor_zone": "Farmgate_Hub",
+        "zone_type": "Commercial",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "daily_demand_kwh": 3030.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.38896966484018,
+          23.758987531939752
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-055",
+        "anchor_zone": "Farmgate_Hub",
+        "zone_type": "Commercial",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "daily_demand_kwh": 2934.4
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.38033029581807,
+          23.751057162248113
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-056",
+        "anchor_zone": "Farmgate_Hub",
+        "zone_type": "Commercial",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "daily_demand_kwh": 2869.4
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.38768678126539,
+          23.750765346570418
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-057",
+        "anchor_zone": "Dhanmondi_27",
+        "zone_type": "Commercial",
+        "zone_name": "Dhanmondi",
+        "daily_demand_kwh": 2840.8
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.37337607575036,
+          23.753853601568835
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-058",
+        "anchor_zone": "Dhanmondi_27",
+        "zone_type": "Commercial",
+        "zone_name": "Dhanmondi",
+        "daily_demand_kwh": 2766.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.37505018013728,
+          23.75770383745901
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-059",
+        "anchor_zone": "Dhanmondi_27",
+        "zone_type": "Commercial",
+        "zone_name": "Dhanmondi",
+        "daily_demand_kwh": 3555.9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.36742418096867,
+          23.753372409300376
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-060",
+        "anchor_zone": "Dhanmondi_27",
+        "zone_type": "Commercial",
+        "zone_name": "Dhanmondi",
+        "daily_demand_kwh": 4017.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.37433204624786,
+          23.752729868629054
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-061",
+        "anchor_zone": "Dhanmondi_8A",
+        "zone_type": "Mixed",
+        "zone_name": "Dhanmondi",
+        "daily_demand_kwh": 1319.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.37013265815663,
+          23.739209780814
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-062",
+        "anchor_zone": "Dhanmondi_8A",
+        "zone_type": "Mixed",
+        "zone_name": "Dhanmondi",
+        "daily_demand_kwh": 1633.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.36813901837536,
+          23.7432036100847
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-063",
+        "anchor_zone": "Dhanmondi_8A",
+        "zone_type": "Mixed",
+        "zone_name": "Dhanmondi",
+        "daily_demand_kwh": 2267.1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.36889063724195,
+          23.749247794645825
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-064",
+        "anchor_zone": "Dhanmondi_8A",
+        "zone_type": "Mixed",
+        "zone_name": "Dhanmondi",
+        "daily_demand_kwh": 2171.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.37151255316114,
+          23.740939032700474
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-065",
+        "anchor_zone": "Shyamoli_Square",
+        "zone_type": "Mixed",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 2072.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.35995228937269,
+          23.77642260737187
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-066",
+        "anchor_zone": "Shyamoli_Square",
+        "zone_type": "Mixed",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 2042.7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.36601393708466,
+          23.776072685985355
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-067",
+        "anchor_zone": "Shyamoli_Square",
+        "zone_type": "Mixed",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 1430.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.35912079361648,
+          23.778328371655938
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-068",
+        "anchor_zone": "Shyamoli_Square",
+        "zone_type": "Mixed",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 1977.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.35910901820144,
+          23.779200991472813
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-069",
+        "anchor_zone": "Mohammadpur_Townhall",
+        "zone_type": "Mixed",
+        "zone_name": "Dhanmondi",
+        "daily_demand_kwh": 2227.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.35769137234718,
+          23.75525863272592
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-070",
+        "anchor_zone": "Mohammadpur_Townhall",
+        "zone_type": "Mixed",
+        "zone_name": "Dhanmondi",
+        "daily_demand_kwh": 1840.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.35445929764879,
+          23.75791072487524
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-071",
+        "anchor_zone": "Mohammadpur_Townhall",
+        "zone_type": "Mixed",
+        "zone_name": "Dhanmondi",
+        "daily_demand_kwh": 1659.6
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.35861464020084,
+          23.75187307226284
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-072",
+        "anchor_zone": "Mohammadpur_Townhall",
+        "zone_type": "Mixed",
+        "zone_name": "Dhanmondi",
+        "daily_demand_kwh": 1697.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.35434570889784,
+          23.761215506103344
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-073",
+        "anchor_zone": "Mirpur_1",
+        "zone_type": "Commercial",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 3626.8
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.34755740342537,
+          23.802786233256022
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-074",
+        "anchor_zone": "Mirpur_1",
+        "zone_type": "Commercial",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 2968.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.36197601702118,
+          23.799054050964145
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-075",
+        "anchor_zone": "Mirpur_1",
+        "zone_type": "Commercial",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 2597.7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.35298755214795,
+          23.801501670161517
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-076",
+        "anchor_zone": "Mirpur_1",
+        "zone_type": "Commercial",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 3388.4
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.34710085241092,
+          23.788901086660292
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-077",
+        "anchor_zone": "Mirpur_10_Circle",
+        "zone_type": "Commercial",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 3662.1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.3759947607756,
+          23.805097929272378
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-078",
+        "anchor_zone": "Mirpur_10_Circle",
+        "zone_type": "Commercial",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 3799.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.36079447159504,
+          23.81461806122732
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-079",
+        "anchor_zone": "Mirpur_10_Circle",
+        "zone_type": "Commercial",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 3740.6
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.36178074503577,
+          23.80796166855042
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-080",
+        "anchor_zone": "Mirpur_10_Circle",
+        "zone_type": "Commercial",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 3113.3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.36787265703629,
+          23.809140929281345
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-081",
+        "anchor_zone": "Mirpur_12",
+        "zone_type": "Mixed",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 1582.8
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.37160658374523,
+          23.830444220542255
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-082",
+        "anchor_zone": "Mirpur_12",
+        "zone_type": "Mixed",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 2000.7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.36381917447905,
+          23.821853635648417
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-083",
+        "anchor_zone": "Mirpur_12",
+        "zone_type": "Mixed",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 1795.6
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.36757058742432,
+          23.824777541861508
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-084",
+        "anchor_zone": "Mirpur_12",
+        "zone_type": "Mixed",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 2038.6
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.37097483495191,
+          23.829360595886772
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-085",
+        "anchor_zone": "Gabtoli_Terminal",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 4853.3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.35192365573366,
+          23.790857022232007
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-086",
+        "anchor_zone": "Gabtoli_Terminal",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 5602.9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.33940667025766,
+          23.786506091445634
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-087",
+        "anchor_zone": "Gabtoli_Terminal",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 6186.8
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.3436371120374,
+          23.78137451315089
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-088",
+        "anchor_zone": "Gabtoli_Terminal",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Mirpur",
+        "daily_demand_kwh": 4535.7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.34588690728964,
+          23.789303798642887
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-089",
+        "anchor_zone": "Shahbagh_Square",
+        "zone_type": "Commercial",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "daily_demand_kwh": 3175.8
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40336481643614,
+          23.740298794151215
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-090",
+        "anchor_zone": "Shahbagh_Square",
+        "zone_type": "Commercial",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "daily_demand_kwh": 3807.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.3899169214752,
+          23.741345171129485
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-091",
+        "anchor_zone": "Shahbagh_Square",
+        "zone_type": "Commercial",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "daily_demand_kwh": 2615.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.3969305094204,
+          23.739575007544566
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-092",
+        "anchor_zone": "Shahbagh_Square",
+        "zone_type": "Commercial",
+        "zone_name": "Kawran_Bazar_Tejgaon",
+        "daily_demand_kwh": 2322.3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40018219609078,
+          23.74052495282166
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-093",
+        "anchor_zone": "Motijheel_CBD",
+        "zone_type": "Commercial",
+        "zone_name": "Motijheel_Dilkusha",
+        "daily_demand_kwh": 3229.3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.4159094009409,
+          23.734538682989676
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-094",
+        "anchor_zone": "Motijheel_CBD",
+        "zone_type": "Commercial",
+        "zone_name": "Motijheel_Dilkusha",
+        "daily_demand_kwh": 3925.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41852383182656,
+          23.73763844820386
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-095",
+        "anchor_zone": "Motijheel_CBD",
+        "zone_type": "Commercial",
+        "zone_name": "Motijheel_Dilkusha",
+        "daily_demand_kwh": 3354.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41265317569487,
+          23.739925402002584
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-096",
+        "anchor_zone": "Motijheel_CBD",
+        "zone_type": "Commercial",
+        "zone_name": "Motijheel_Dilkusha",
+        "daily_demand_kwh": 2370.4
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41818188950388,
+          23.7303600257646
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-097",
+        "anchor_zone": "Kamalapur_Railway",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Motijheel_Dilkusha",
+        "daily_demand_kwh": 4827.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41904873342332,
+          23.726430443096195
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-098",
+        "anchor_zone": "Kamalapur_Railway",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Motijheel_Dilkusha",
+        "daily_demand_kwh": 3274.9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42458338624421,
+          23.734680923816335
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-099",
+        "anchor_zone": "Kamalapur_Railway",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Motijheel_Dilkusha",
+        "daily_demand_kwh": 4122.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41983216774842,
+          23.725419240540113
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-100",
+        "anchor_zone": "Kamalapur_Railway",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Motijheel_Dilkusha",
+        "daily_demand_kwh": 5607.6
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42804631725807,
+          23.724628994237456
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-101",
+        "anchor_zone": "Old_Dhaka_Lalbagh",
+        "zone_type": "Heritage",
+        "zone_name": "Old_Dhaka",
+        "daily_demand_kwh": 1731.9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.38097724735768,
+          23.715430042370357
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-102",
+        "anchor_zone": "Old_Dhaka_Lalbagh",
+        "zone_type": "Heritage",
+        "zone_name": "Old_Dhaka",
+        "daily_demand_kwh": 1847.1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.38592755364466,
+          23.718752367763056
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-103",
+        "anchor_zone": "Old_Dhaka_Lalbagh",
+        "zone_type": "Heritage",
+        "zone_name": "Old_Dhaka",
+        "daily_demand_kwh": 2077.1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.38058693124626,
+          23.715038991109505
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-104",
+        "anchor_zone": "Old_Dhaka_Lalbagh",
+        "zone_type": "Heritage",
+        "zone_name": "Old_Dhaka",
+        "daily_demand_kwh": 1489.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.38171475218144,
+          23.718158597869177
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-105",
+        "anchor_zone": "Old_Dhaka_Sadarghat",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Old_Dhaka",
+        "daily_demand_kwh": 4577.1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40232113916444,
+          23.70215326664933
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-106",
+        "anchor_zone": "Old_Dhaka_Sadarghat",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Old_Dhaka",
+        "daily_demand_kwh": 4733.7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41286563710631,
+          23.709626739817715
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-107",
+        "anchor_zone": "Old_Dhaka_Sadarghat",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Old_Dhaka",
+        "daily_demand_kwh": 4410.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.40890655273967,
+          23.69904128484473
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-108",
+        "anchor_zone": "Old_Dhaka_Sadarghat",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Old_Dhaka",
+        "daily_demand_kwh": 3205.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.41778424398069,
+          23.70669239710971
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-109",
+        "anchor_zone": "Sayedabad_Terminal",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Jatrabari_Sayedabad",
+        "daily_demand_kwh": 4505.8
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42308507238482,
+          23.7151615226991
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-110",
+        "anchor_zone": "Sayedabad_Terminal",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Jatrabari_Sayedabad",
+        "daily_demand_kwh": 5314.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.43581805787053,
+          23.712392622434688
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-111",
+        "anchor_zone": "Sayedabad_Terminal",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Jatrabari_Sayedabad",
+        "daily_demand_kwh": 5213.9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42283420139825,
+          23.72129829151879
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-112",
+        "anchor_zone": "Sayedabad_Terminal",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Jatrabari_Sayedabad",
+        "daily_demand_kwh": 4285.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42309269997692,
+          23.715778867782465
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-113",
+        "anchor_zone": "Jatrabari_Flyover_Hub",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Jatrabari_Sayedabad",
+        "daily_demand_kwh": 3881.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.43161808885185,
+          23.71239981154276
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-114",
+        "anchor_zone": "Jatrabari_Flyover_Hub",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Jatrabari_Sayedabad",
+        "daily_demand_kwh": 5040.1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.42915063483103,
+          23.704113999527564
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-115",
+        "anchor_zone": "Jatrabari_Flyover_Hub",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Jatrabari_Sayedabad",
+        "daily_demand_kwh": 5333.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.43916364575824,
+          23.712630219849725
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "demand_id": "DEMAND-116",
+        "anchor_zone": "Jatrabari_Flyover_Hub",
+        "zone_type": "Transport_Hub",
+        "zone_name": "Jatrabari_Sayedabad",
+        "daily_demand_kwh": 4971.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.44244043057067,
+          23.705088755575765
+        ]
+      }
+    }
+  ]
+}

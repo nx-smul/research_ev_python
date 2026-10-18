@@ -3,23 +3,20 @@
 from .ahp_mcdm import (
     calculate_ahp_weights,
     compute_consistency_ratio,
-    topsis_ranking,
+    run_ahp_spatial_pipeline,
     standardize_criteria_fuzzy,
-    compute_spatial_suitability,
-    AHPInconsistencyError
 )
+from .osm_network import OSMRoadNetwork, compute_od_matrices, download_osm_road_network
 from .spatial_filter import SpatialFilter, filter_candidate_sites
-from .osm_network import OSMRoadNetwork, compute_od_matrices
 
 __all__ = [
     "calculate_ahp_weights",
     "compute_consistency_ratio",
-    "topsis_ranking",
+    "run_ahp_spatial_pipeline",
     "standardize_criteria_fuzzy",
-    "compute_spatial_suitability",
-    "AHPInconsistencyError",
+    "OSMRoadNetwork",
+    "compute_od_matrices",
+    "download_osm_road_network",
     "SpatialFilter",
     "filter_candidate_sites",
-    "OSMRoadNetwork",
-    "compute_od_matrices"
 ]

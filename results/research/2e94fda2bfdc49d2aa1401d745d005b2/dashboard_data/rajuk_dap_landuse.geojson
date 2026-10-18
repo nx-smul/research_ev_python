@@ -1,0 +1,366 @@
+{
+  "type": "FeatureCollection",
+  "name": "rajuk_dap_landuse",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_type": "Commercial",
+        "land_price_bdt_sqm": 250000.0,
+        "is_exclusion_zone": 0,
+        "is_flood_hazard": 0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              90.4,
+              23.775
+            ],
+            [
+              90.425,
+              23.775
+            ],
+            [
+              90.425,
+              23.805
+            ],
+            [
+              90.4,
+              23.805
+            ],
+            [
+              90.4,
+              23.775
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_type": "Commercial",
+        "land_price_bdt_sqm": 220000.0,
+        "is_exclusion_zone": 0,
+        "is_flood_hazard": 0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              90.41,
+              23.725
+            ],
+            [
+              90.43,
+              23.725
+            ],
+            [
+              90.43,
+              23.742
+            ],
+            [
+              90.41,
+              23.742
+            ],
+            [
+              90.41,
+              23.725
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_type": "Industrial",
+        "land_price_bdt_sqm": 150000.0,
+        "is_exclusion_zone": 0,
+        "is_flood_hazard": 0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              90.39,
+              23.755
+            ],
+            [
+              90.408,
+              23.755
+            ],
+            [
+              90.408,
+              23.77
+            ],
+            [
+              90.39,
+              23.77
+            ],
+            [
+              90.39,
+              23.755
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_type": "Mixed",
+        "land_price_bdt_sqm": 180000.0,
+        "is_exclusion_zone": 0,
+        "is_flood_hazard": 0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              90.365,
+              23.74
+            ],
+            [
+              90.385,
+              23.74
+            ],
+            [
+              90.385,
+              23.76
+            ],
+            [
+              90.365,
+              23.76
+            ],
+            [
+              90.365,
+              23.74
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_type": "Mixed",
+        "land_price_bdt_sqm": 95000.0,
+        "is_exclusion_zone": 0,
+        "is_flood_hazard": 0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              90.345,
+              23.785
+            ],
+            [
+              90.375,
+              23.785
+            ],
+            [
+              90.375,
+              23.83
+            ],
+            [
+              90.345,
+              23.83
+            ],
+            [
+              90.345,
+              23.785
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_type": "Residential",
+        "land_price_bdt_sqm": 110000.0,
+        "is_exclusion_zone": 0,
+        "is_flood_hazard": 0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              90.38,
+              23.85
+            ],
+            [
+              90.405,
+              23.85
+            ],
+            [
+              90.405,
+              23.885
+            ],
+            [
+              90.38,
+              23.885
+            ],
+            [
+              90.38,
+              23.85
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_type": "Mixed",
+        "land_price_bdt_sqm": 130000.0,
+        "is_exclusion_zone": 0,
+        "is_flood_hazard": 0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              90.38,
+              23.7
+            ],
+            [
+              90.42,
+              23.7
+            ],
+            [
+              90.42,
+              23.725
+            ],
+            [
+              90.38,
+              23.725
+            ],
+            [
+              90.38,
+              23.7
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_type": "Waterbody",
+        "land_price_bdt_sqm": 0.0,
+        "is_exclusion_zone": 1,
+        "is_flood_hazard": 1
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              90.37,
+              23.695
+            ],
+            [
+              90.435,
+              23.695
+            ],
+            [
+              90.435,
+              23.705
+            ],
+            [
+              90.37,
+              23.705
+            ],
+            [
+              90.37,
+              23.695
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_type": "Waterbody",
+        "land_price_bdt_sqm": 0.0,
+        "is_exclusion_zone": 1,
+        "is_flood_hazard": 0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              90.4,
+              23.768
+            ],
+            [
+              90.418,
+              23.768
+            ],
+            [
+              90.418,
+              23.774
+            ],
+            [
+              90.4,
+              23.774
+            ],
+            [
+              90.4,
+              23.768
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_type": "Flood_Hazard",
+        "land_price_bdt_sqm": 40000.0,
+        "is_exclusion_zone": 1,
+        "is_flood_hazard": 1
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              90.445,
+              23.75
+            ],
+            [
+              90.465,
+              23.75
+            ],
+            [
+              90.465,
+              23.83
+            ],
+            [
+              90.445,
+              23.83
+            ],
+            [
+              90.445,
+              23.75
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

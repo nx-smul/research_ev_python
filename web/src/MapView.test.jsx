@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, render } from '@testing-library/react';
 
-const mapMocks = vi.hoisted(() => ({ instance: null, options: null, popups: [], setWorkerUrl: vi.fn() }));
+const mapMocks = vi.hoisted(() => ({ instance: null, options: null, controls: [], popups: [], setWorkerUrl: vi.fn() }));
 
 vi.mock('maplibre-gl', () => {
   class MockMap {
@@ -13,11 +13,13 @@ vi.mock('maplibre-gl', () => {
         this.layers.set(layer.id, { ...layer, layout: { ...layer.layout } });
       }
       this.listeners = new Map();
-      this.canvas = { style: {} };
+      this.canvas = { style: {}, width: 800, height: 600, toDataURL: vi.fn(() => 'data:image/png;base64,dGVzdA==') };
+      this.center = options.center;
+      this.zoom = options.zoom;
       mapMocks.instance = this;
     }
 
-    addControl() {}
+    addControl(control, position = 'bottom-right') { mapMocks.controls.push({ control, position }); }
     isStyleLoaded() { return true; }
     getSource(id) { return this.sources.get(id); }
     getLayer(id) { return this.layers.get(id); }
@@ -37,6 +39,9 @@ vi.mock('maplibre-gl', () => {
       for (const callback of this.listeners.get('style.load') || []) callback();
     }
     getCanvas() { return this.canvas; }
+    getCenter() { return { toArray: () => this.center }; }
+    getZoom() { return this.zoom; }
+    jumpTo({ center, zoom }) { this.center = center; this.zoom = zoom; }
     flyTo() {}
     fitBounds(bounds, options) { this.fit = { bounds, options }; }
     remove() {}
@@ -80,16 +85,22 @@ vi.mock('maplibre-gl', () => {
 });
 
 import MapView from './MapView.jsx';
+import { MAP_COLORS, SUBSTATION_HEADROOM_COLOR_EXPRESSION } from './mapStyles.js';
 
 afterEach(() => {
   cleanup();
   mapMocks.instance = null;
   mapMocks.options = null;
+  mapMocks.controls = [];
   mapMocks.popups = [];
   mapMocks.setWorkerUrl.mockClear();
 });
 
 describe('MapView', () => {
+  it('uses distinct colors for every map feature category', () => {
+    expect(new Set(Object.values(MAP_COLORS)).size).toBe(Object.values(MAP_COLORS).length);
+  });
+
   it('configures MapLibre to use the bundled worker asset', () => {
     render(<MapView
       data={{ candidates: { features: [] } }}
@@ -100,6 +111,8 @@ describe('MapView', () => {
     />);
 
     expect(mapMocks.setWorkerUrl).toHaveBeenCalledWith(expect.stringMatching(/maplibre-gl-worker/));
+    expect(mapMocks.options.attributionControl).toBe(false);
+    expect(mapMocks.controls.map(control => control.position)).toEqual(['top-right', 'bottom-left']);
   });
 
   it('renders the candidate overlay and fits the view to available sites', () => {
@@ -152,7 +165,7 @@ describe('MapView', () => {
     const map = mapMocks.instance;
     expect(map.getLayer('candidate-sites')).toBeTruthy();
     expect(map.getLayer('candidate-sites').paint['circle-color']).toEqual([
-      'case', ['get', 'is_selected'], '#7455f7', '#2563eb',
+      'case', ['get', 'is_selected'], MAP_COLORS.selected, MAP_COLORS.candidate,
     ]);
     expect(map.getLayer('overlay-osm-facilities-layer')).toBeTruthy();
     expect(map.getLayer('overlay-osm-fuel-layer')).toBeTruthy();
@@ -162,6 +175,7 @@ describe('MapView', () => {
     expect(map.getLayer('overlay-osm-fuel-layer').filter).toEqual([
       '==', ['get', 'is_fuel_station'], true,
     ]);
+    expect(map.getLayer('overlay-substations-layer').paint['circle-color']).toEqual(SUBSTATION_HEADROOM_COLOR_EXPRESSION);
     expect(map.getLayer('overlay-osm-facilities-layer').layout.visibility).toBe('visible');
     expect(map.getLayer('overlay-osm-fuel-layer').layout.visibility).toBe('visible');
     expect(map.getSource('overlay-osm-facilities').data.features).toHaveLength(2);
@@ -342,12 +356,42 @@ describe('MapView', () => {
     expect(mapMocks.options.style).toBe('https://tiles.openfreemap.org/styles/positron');
   });
 
+  it('exposes shareable viewport state and exports the rendered map canvas', () => {
+    const onReady = vi.fn();
+    const onViewportChange = vi.fn();
+    render(<MapView
+      data={{ candidates: { features: [] } }}
+      selectedIds={new Set()}
+      visibleLayers={{ candidates: true }}
+      initialViewport={{ center: [90.5, 23.9], zoom: 12 }}
+      onSelect={vi.fn()}
+      onViewportChange={onViewportChange}
+      onReady={onReady}
+      setStatus={vi.fn()}
+    />);
+
+    const mapApi = onReady.mock.calls[0][0];
+    expect(mapMocks.options.center).toEqual([90.5, 23.9]);
+    expect(mapMocks.options.zoom).toBe(12);
+    expect(mapMocks.options.preserveDrawingBuffer).toBe(true);
+    expect(mapApi.getViewState()).toEqual({ center: [90.5, 23.9], zoom: 12 });
+    expect(mapApi.exportImage()).toMatch(/^data:image\/png/);
+    mapMocks.instance.center = [90.6, 24];
+    mapMocks.instance.listeners.get('moveend')[0]();
+    expect(onViewportChange).toHaveBeenCalledWith({ center: [90.6, 24], zoom: 12 });
+  });
+
   it('switches to the no-key OpenFreeMap dark style with the app appearance', () => {
+    const onSelect = vi.fn();
     const props = {
-      data: { candidates: { features: [] } },
+      data: { candidates: { features: [{
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [90.4, 23.8] },
+        properties: { candidate_id: 'CS-17', site_name: 'Test charging site' },
+      }] } },
       selectedIds: new Set(),
       visibleLayers: { candidates: true },
-      onSelect: vi.fn(),
+      onSelect,
       setStatus: vi.fn(),
     };
     const view = render(<MapView {...props} />);
@@ -357,6 +401,11 @@ describe('MapView', () => {
     expect(mapMocks.instance.getLayer('candidate-sites')).toBeTruthy();
     expect(mapMocks.instance.getLayer('overlay-demand-layer')).toBeTruthy();
     expect(mapMocks.instance.listeners.get('click:candidate-sites')).toHaveLength(1);
+    expect(mapMocks.instance.getSource('candidate-sites').data.features[0].properties.candidate_id).toBe('CS-17');
+    mapMocks.instance.listeners.get('click:candidate-sites')[0]({
+      features: [{ properties: { candidate_id: 'CS-17' }, geometry: props.data.candidates.features[0].geometry }],
+    });
+    expect(onSelect).toHaveBeenCalledWith(expect.objectContaining({ candidate_id: 'CS-17' }));
   });
 
   it('reports tile and data-layer failures with useful, distinct diagnostics', () => {

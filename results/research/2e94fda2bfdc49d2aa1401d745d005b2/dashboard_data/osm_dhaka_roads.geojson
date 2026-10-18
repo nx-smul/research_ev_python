@@ -1,0 +1,786 @@
+{
+  "type": "FeatureCollection",
+  "name": "osm_dhaka_roads",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Airport_Hub",
+        "v": "Uttara_Sec3",
+        "highway": "trunk",
+        "maxspeed": 60.0,
+        "lanes": 4,
+        "length_m": 2793.7,
+        "pcu_per_hr": 3800,
+        "congestion_factor": 1.12
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.4,
+            23.8433
+          ],
+          [
+            90.3956,
+            23.8681
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Uttara_Sec3",
+        "v": "Uttara_Sec11",
+        "highway": "primary",
+        "maxspeed": 50.0,
+        "lanes": 3,
+        "length_m": 1104.7,
+        "pcu_per_hr": 2400,
+        "congestion_factor": 1.06
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.3956,
+            23.8681
+          ],
+          [
+            90.3872,
+            23.8744
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Airport_Hub",
+        "v": "Mohakhali_Terminal",
+        "highway": "motorway",
+        "maxspeed": 70.0,
+        "lanes": 6,
+        "length_m": 7250.9,
+        "pcu_per_hr": 5200,
+        "congestion_factor": 1.08
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.4,
+            23.8433
+          ],
+          [
+            90.4012,
+            23.7781
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Airport_Hub",
+        "v": "Purbachal_300ft",
+        "highway": "trunk",
+        "maxspeed": 80.0,
+        "lanes": 6,
+        "length_m": 6074.9,
+        "pcu_per_hr": 4500,
+        "congestion_factor": 1.05
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.4,
+            23.8433
+          ],
+          [
+            90.455,
+            23.822
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Mohakhali_Terminal",
+        "v": "Gulshan_1",
+        "highway": "primary",
+        "maxspeed": 45.0,
+        "lanes": 4,
+        "length_m": 1591.3,
+        "pcu_per_hr": 3200,
+        "congestion_factor": 1.06
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.4012,
+            23.7781
+          ],
+          [
+            90.4167,
+            23.78
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Gulshan_1",
+        "v": "Gulshan_2",
+        "highway": "primary",
+        "maxspeed": 40.0,
+        "lanes": 4,
+        "length_m": 1400.7,
+        "pcu_per_hr": 2800,
+        "congestion_factor": 1.04
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.4167,
+            23.78
+          ],
+          [
+            90.415,
+            23.7925
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Gulshan_2",
+        "v": "Baridhara_Diplomatic",
+        "highway": "secondary",
+        "maxspeed": 35.0,
+        "lanes": 2,
+        "length_m": 946.1,
+        "pcu_per_hr": 1900,
+        "congestion_factor": 1.12
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.415,
+            23.7925
+          ],
+          [
+            90.421,
+            23.799
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Gulshan_2",
+        "v": "Banani_11",
+        "highway": "secondary",
+        "maxspeed": 35.0,
+        "lanes": 2,
+        "length_m": 1105.6,
+        "pcu_per_hr": 2200,
+        "congestion_factor": 1.22
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.415,
+            23.7925
+          ],
+          [
+            90.4042,
+            23.7936
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Gulshan_1",
+        "v": "Badda_Pragati_Sarani",
+        "highway": "primary",
+        "maxspeed": 40.0,
+        "lanes": 4,
+        "length_m": 1011.1,
+        "pcu_per_hr": 3500,
+        "congestion_factor": 1.09
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.4167,
+            23.78
+          ],
+          [
+            90.425,
+            23.775
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Badda_Pragati_Sarani",
+        "v": "Hatirjheel_North",
+        "highway": "primary",
+        "maxspeed": 45.0,
+        "lanes": 4,
+        "length_m": 1817.1,
+        "pcu_per_hr": 3000,
+        "congestion_factor": 1.05
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.425,
+            23.775
+          ],
+          [
+            90.408,
+            23.77
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Hatirjheel_North",
+        "v": "Tejgaon_Industrial",
+        "highway": "primary",
+        "maxspeed": 45.0,
+        "lanes": 4,
+        "length_m": 1486.9,
+        "pcu_per_hr": 2600,
+        "congestion_factor": 1.03
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.408,
+            23.77
+          ],
+          [
+            90.3983,
+            23.76
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Mohakhali_Terminal",
+        "v": "Tejgaon_Industrial",
+        "highway": "primary",
+        "maxspeed": 45.0,
+        "lanes": 4,
+        "length_m": 2034.1,
+        "pcu_per_hr": 3400,
+        "congestion_factor": 1.08
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.4012,
+            23.7781
+          ],
+          [
+            90.3983,
+            23.76
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Tejgaon_Industrial",
+        "v": "Kawran_Bazar_CBD",
+        "highway": "primary",
+        "maxspeed": 40.0,
+        "lanes": 4,
+        "length_m": 1196.6,
+        "pcu_per_hr": 3800,
+        "congestion_factor": 1.12
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.3983,
+            23.76
+          ],
+          [
+            90.3922,
+            23.7508
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Tejgaon_Industrial",
+        "v": "Farmgate_Hub",
+        "highway": "primary",
+        "maxspeed": 40.0,
+        "lanes": 4,
+        "length_m": 1083.8,
+        "pcu_per_hr": 4200,
+        "congestion_factor": 1.18
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.3983,
+            23.76
+          ],
+          [
+            90.3881,
+            23.7572
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Farmgate_Hub",
+        "v": "Shahbagh_Square",
+        "highway": "primary",
+        "maxspeed": 40.0,
+        "lanes": 4,
+        "length_m": 2222.7,
+        "pcu_per_hr": 3900,
+        "congestion_factor": 1.14
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.3881,
+            23.7572
+          ],
+          [
+            90.3961,
+            23.7386
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Shahbagh_Square",
+        "v": "Motijheel_CBD",
+        "highway": "primary",
+        "maxspeed": 40.0,
+        "lanes": 4,
+        "length_m": 2341.0,
+        "pcu_per_hr": 4600,
+        "congestion_factor": 1.26
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.3961,
+            23.7386
+          ],
+          [
+            90.4183,
+            23.7331
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Motijheel_CBD",
+        "v": "Kamalapur_Railway",
+        "highway": "secondary",
+        "maxspeed": 30.0,
+        "lanes": 3,
+        "length_m": 692.9,
+        "pcu_per_hr": 2500,
+        "congestion_factor": 1.07
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.4183,
+            23.7331
+          ],
+          [
+            90.425,
+            23.732
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Motijheel_CBD",
+        "v": "Old_Dhaka_Sadarghat",
+        "highway": "secondary",
+        "maxspeed": 25.0,
+        "lanes": 2,
+        "length_m": 3236.8,
+        "pcu_per_hr": 3100,
+        "congestion_factor": 1.87
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.4183,
+            23.7331
+          ],
+          [
+            90.41,
+            23.705
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Old_Dhaka_Sadarghat",
+        "v": "Old_Dhaka_Lalbagh",
+        "highway": "secondary",
+        "maxspeed": 25.0,
+        "lanes": 2,
+        "length_m": 2727.6,
+        "pcu_per_hr": 2200,
+        "congestion_factor": 1.22
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.41,
+            23.705
+          ],
+          [
+            90.388,
+            23.719
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Motijheel_CBD",
+        "v": "Sayedabad_Terminal",
+        "highway": "primary",
+        "maxspeed": 35.0,
+        "lanes": 4,
+        "length_m": 1896.0,
+        "pcu_per_hr": 4100,
+        "congestion_factor": 1.17
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.4183,
+            23.7331
+          ],
+          [
+            90.4281,
+            23.7186
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Sayedabad_Terminal",
+        "v": "Jatrabari_Flyover_Hub",
+        "highway": "motorway",
+        "maxspeed": 60.0,
+        "lanes": 6,
+        "length_m": 1090.4,
+        "pcu_per_hr": 4900,
+        "congestion_factor": 1.07
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.4281,
+            23.7186
+          ],
+          [
+            90.435,
+            23.7111
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Farmgate_Hub",
+        "v": "Dhanmondi_27",
+        "highway": "primary",
+        "maxspeed": 40.0,
+        "lanes": 4,
+        "length_m": 1453.2,
+        "pcu_per_hr": 3300,
+        "congestion_factor": 1.07
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.3881,
+            23.7572
+          ],
+          [
+            90.375,
+            23.752
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Dhanmondi_27",
+        "v": "Dhanmondi_8A",
+        "highway": "secondary",
+        "maxspeed": 35.0,
+        "lanes": 3,
+        "length_m": 656.1,
+        "pcu_per_hr": 2100,
+        "congestion_factor": 1.04
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.375,
+            23.752
+          ],
+          [
+            90.375,
+            23.7461
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Dhanmondi_27",
+        "v": "Shyamoli_Square",
+        "highway": "primary",
+        "maxspeed": 45.0,
+        "lanes": 4,
+        "length_m": 2587.7,
+        "pcu_per_hr": 3600,
+        "congestion_factor": 1.1
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.375,
+            23.752
+          ],
+          [
+            90.362,
+            23.772
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Dhanmondi_8A",
+        "v": "Mohammadpur_Townhall",
+        "highway": "secondary",
+        "maxspeed": 30.0,
+        "lanes": 2,
+        "length_m": 1944.5,
+        "pcu_per_hr": 2300,
+        "congestion_factor": 1.26
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.375,
+            23.7461
+          ],
+          [
+            90.361,
+            23.758
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Shyamoli_Square",
+        "v": "Gabtoli_Terminal",
+        "highway": "primary",
+        "maxspeed": 50.0,
+        "lanes": 4,
+        "length_m": 2254.3,
+        "pcu_per_hr": 4200,
+        "congestion_factor": 1.18
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.362,
+            23.772
+          ],
+          [
+            90.345,
+            23.785
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Shyamoli_Square",
+        "v": "Mirpur_1",
+        "highway": "primary",
+        "maxspeed": 45.0,
+        "lanes": 4,
+        "length_m": 2677.8,
+        "pcu_per_hr": 3900,
+        "congestion_factor": 1.14
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.362,
+            23.772
+          ],
+          [
+            90.3542,
+            23.795
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Mirpur_1",
+        "v": "Mirpur_10_Circle",
+        "highway": "primary",
+        "maxspeed": 45.0,
+        "lanes": 4,
+        "length_m": 1989.1,
+        "pcu_per_hr": 4300,
+        "congestion_factor": 1.2
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.3542,
+            23.795
+          ],
+          [
+            90.3686,
+            23.8071
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Mirpur_10_Circle",
+        "v": "Mirpur_12",
+        "highway": "primary",
+        "maxspeed": 45.0,
+        "lanes": 4,
+        "length_m": 1948.8,
+        "pcu_per_hr": 3100,
+        "congestion_factor": 1.05
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.3686,
+            23.8071
+          ],
+          [
+            90.3644,
+            23.8242
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "u": "Mirpur_10_Circle",
+        "v": "Mohakhali_Terminal",
+        "highway": "primary",
+        "maxspeed": 40.0,
+        "lanes": 4,
+        "length_m": 4626.0,
+        "pcu_per_hr": 4800,
+        "congestion_factor": 1.31
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            90.3686,
+            23.8071
+          ],
+          [
+            90.4012,
+            23.7781
+          ]
+        ]
+      }
+    }
+  ]
+}

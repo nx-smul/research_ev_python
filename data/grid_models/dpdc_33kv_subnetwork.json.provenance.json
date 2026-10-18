@@ -1,0 +1,9 @@
+{
+  "source_url": "https://github.com/nx-smul/research_ev_python/blob/main/src/data_generator.py",
+  "license": "MIT (project-generated synthetic demo model; not utility-provided grid data)",
+  "generated_at": "not recorded",
+  "coverage": "Small illustrative DPDC-format demo network; not an authoritative or complete 33 kV distribution subnetwork",
+  "units": "Pandapower model units as specified in the model tables and project configuration",
+  "transformation": "Constructed by src/data_generator.py using synthetic buses, lines, loads, and grid assumptions; not validated against utility topology or operating measurements",
+  "data_class": "synthetic_demo"
+}

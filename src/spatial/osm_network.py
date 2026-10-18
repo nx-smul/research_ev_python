@@ -5,6 +5,7 @@ import os
 import math
 import json
 import re
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 import numpy as np
@@ -12,53 +13,70 @@ import pandas as pd
 import geopandas as gpd
 import networkx as nx
 import httpx
+from scipy.spatial import cKDTree
 from shapely.geometry import Point
+
+from src.core.geo_utils import haversine_distance_m, bpr_travel_time
 
 
 class OSMRoadNetwork:
     """Represents the Dhaka metropolitan road graph with congestion travel time modeling."""
 
+    @staticmethod
+    def _haversine_distance_m(p1, p2):
+        return haversine_distance_m(p1, p2)
+
     def __init__(self, roads_geojson_path=None):
         self.graph = nx.DiGraph()
         self.roads_gdf = None
+        self._node_ids = []
+        self._node_tree = None
         if roads_geojson_path and os.path.exists(roads_geojson_path):
             self.load_from_geojson(roads_geojson_path)
 
     def load_from_geojson(self, geojson_path):
         """Build NetworkX graph from road network GeoJSON."""
-        self.roads_gdf = gpd.read_file(geojson_path)
+        source_path = Path(geojson_path)
+        read_path = (
+            f"/vsigzip/{source_path.resolve()}"
+            if source_path.suffix.lower() == ".gz"
+            else str(source_path)
+        )
+        self.roads_gdf = gpd.read_file(read_path)
         if self.roads_gdf.empty:
             raise ValueError("Road network input is empty.")
         if self.roads_gdf.crs is None or self.roads_gdf.crs.to_epsg() != 4326:
             raise ValueError("Road network geometry must declare CRS EPSG:4326 (longitude/latitude).")
 
-        for idx, row in self.roads_gdf.iterrows():
-            u = row.get("u", f"node_{idx}_u")
-            v = row.get("v", f"node_{idx}_v")
+        for row in self.roads_gdf.itertuples(index=True):
+            values = row._asdict()
+            idx = values["Index"]
+            u = values.get("u", f"node_{idx}_u")
+            v = values.get("v", f"node_{idx}_v")
             required = ("length_m", "maxspeed", "lanes", "pcu_per_hr")
-            missing = [field for field in required if field not in self.roads_gdf.columns or pd.isna(row.get(field))]
+            missing = [field for field in required if field not in values or pd.isna(values.get(field))]
             if missing:
                 raise ValueError(
-                    f"Road feature {idx} is missing required sourced attributes: {', '.join(missing)}."
+                    f"Road feature {idx} is missing required routing attributes: {', '.join(missing)}."
                 )
-            length_m = float(row["length_m"])
-            speed_kmh = float(row["maxspeed"])
-            lanes = int(row["lanes"])
-            pcu = float(row["pcu_per_hr"])
+            length_m = float(values["length_m"])
+            speed_kmh = float(values["maxspeed"])
+            lanes = int(values["lanes"])
+            pcu = float(values["pcu_per_hr"])
             if length_m <= 0 or speed_kmh <= 0 or lanes <= 0 or pcu < 0:
                 raise ValueError(f"Road feature {idx} contains invalid routing attributes.")
 
-            # Bureau of Public Roads (BPR) congestion formula: t = t0 * (1 + alpha * (V/C)^beta)
+# Bureau of Public Roads (BPR) congestion formula: t = t0 * (1 + alpha * (V/C)^beta)
             capacity = lanes * 1200.0  # PCU/hr per lane
             t0_minutes = (length_m / 1000.0) / speed_kmh * 60.0
-            vc_ratio = pcu / capacity
-            congestion_mult = 1.0 + 0.15 * (vc_ratio ** 4.0)
-            t_congested_minutes = t0_minutes * congestion_mult
+            t_congested_minutes = bpr_travel_time(t0_minutes, pcu, capacity)
+            congestion_mult = t_congested_minutes / t0_minutes if t0_minutes > 0 else 1.0
 
             # Extract coordinates from LineString geometry
-            if row.geometry is None or row.geometry.is_empty or not hasattr(row.geometry, "coords"):
+            geometry = values["geometry"]
+            if geometry is None or geometry.is_empty or not hasattr(geometry, "coords"):
                 raise ValueError(f"Road feature {idx} must have a non-empty LineString geometry.")
-            coords = list(row.geometry.coords)
+            coords = list(geometry.coords)
             u_coord = coords[0]
             v_coord = coords[-1]
 
@@ -75,7 +93,7 @@ class OSMRoadNetwork:
                 pcu=pcu,
                 congestion_mult=congestion_mult
             )
-            oneway = str(row.get("oneway", "")).strip().lower()
+            oneway = str(values.get("oneway", "")).strip().lower()
             if oneway in {"-1", "reverse"}:
                 self.graph.add_edge(v, u, **edge_data)
             else:
@@ -83,20 +101,40 @@ class OSMRoadNetwork:
                 if oneway not in {"yes", "true", "1"}:
                     self.graph.add_edge(v, u, **edge_data)
 
+        self._node_ids = list(self.graph.nodes)
+        coordinates = [
+            (self.graph.nodes[node]["lon"], self.graph.nodes[node]["lat"])
+            for node in self._node_ids
+        ]
+        self._node_tree = cKDTree(coordinates) if coordinates else None
+
+    def attribute_source_summary(self):
+        """Count tagged versus assumed source labels for routing attributes."""
+        if self.roads_gdf is None:
+            return {}
+        summary = {}
+        for field in ("maxspeed_source", "lanes_source", "pcu_source"):
+            if field not in self.roads_gdf.columns:
+                summary[field] = {"unclassified": len(self.roads_gdf)}
+                continue
+            values = self.roads_gdf[field].fillna("unclassified").astype(str)
+            summary[field] = dict(sorted(Counter(values).items()))
+        return summary
+
     def find_nearest_node(self, lon, lat):
         """Find the closest road graph node to given coordinate."""
-        best_node = None
-        min_dist_sq = float("inf")
-
-        for node, data in self.graph.nodes(data=True):
-            n_lon = data.get("lon", 90.40)
-            n_lat = data.get("lat", 23.75)
-            dist_sq = (n_lon - lon)**2 + (n_lat - lat)**2
-            if dist_sq < min_dist_sq:
-                min_dist_sq = dist_sq
-                best_node = node
-
-        return best_node
+        if self._node_tree is not None:
+            _, index = self._node_tree.query((lon, lat))
+            return self._node_ids[int(index)]
+        if not self.graph:
+            return None
+        return min(
+            self.graph.nodes,
+            key=lambda node: (
+                (self.graph.nodes[node].get("lon", 90.40) - lon) ** 2
+                + (self.graph.nodes[node].get("lat", 23.75) - lat) ** 2
+            ),
+        )
 
     def calculate_candidate_road_distances(self, candidate_gdf):
         """Return one shortest directed road-distance record per ordered site pair."""
@@ -116,7 +154,7 @@ class OSMRoadNetwork:
             if node is None:
                 raise ValueError("Cannot calculate candidate road distances because the road graph has no nodes.")
             node_data = self.graph.nodes[node]
-            snap_distance = self._haversine_distance_m(
+            snap_distance = haversine_distance_m(
                 (geometry.x, geometry.y), (node_data["lon"], node_data["lat"])
             )
             candidates.append({
@@ -204,17 +242,9 @@ class OSMRoadNetwork:
 
     def _euclidean_fallback(self, p1, p2):
         """Haversine distance and travel time approximation."""
-        dist_m = self._haversine_distance_m(p1, p2) * 1.30  # Network circuity multiplier
+        dist_m = haversine_distance_m(p1, p2) * 1.30  # Network circuity multiplier
         time_min = (dist_m / 1000.0) / 18.0 * 60.0  # 18 km/h urban speed in Dhaka
         return time_min, dist_m
-
-    @staticmethod
-    def _haversine_distance_m(p1, p2):
-        d_lat = math.radians(p2[1] - p1[1])
-        d_lon = math.radians(p2[0] - p1[0])
-        a = math.sin(d_lat/2)**2 + math.cos(math.radians(p1[1])) * math.cos(math.radians(p2[1])) * math.sin(d_lon/2)**2
-        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
-        return 6371000.0 * c
 
 
 def _parse_osm_speed(tags, road_class):
@@ -330,7 +360,7 @@ def download_osm_road_network(
             oneway = "no"
 
         for segment_index, (start, end) in enumerate(zip(points, points[1:])):
-            segment_length = OSMRoadNetwork._haversine_distance_m(start, end)
+            segment_length = haversine_distance_m(start, end)
             if segment_length <= 0:
                 continue
             start_node = f"osm:{node_ids[segment_index]}"

@@ -30,5 +30,6 @@ describe('candidate filters', () => {
     expect(filterCandidates(features, {}, 'Mohakhali & Tejgaon Industrial', 0.5)).toHaveLength(1);
     expect(filterCandidates(features, {}, 'Purbachal 300ft Corridor', 0.85)).toHaveLength(1);
     expect(filterCandidates(features, {}, 'ALL', 0.75, 's1')).toHaveLength(1);
+    expect(filterCandidates(features, {}, 'ALL', 0.75, '', 0.85).map(feature => feature.properties.candidate_id)).toEqual(['a']);
   });
 });

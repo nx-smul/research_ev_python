@@ -1,0 +1,10 @@
+candidate_id,site_name,longitude,latitude,visit_date,observer,public_access_confirmed,parking_bays_observed,landowner_permission_status,utility_connection_contact,transformer_rating_mva_observed,existing_chargers_observed,peak_queue_observed,photos_or_evidence_reference,field_notes,record_status
+CS-03,Uttara_Sec3_Site_1,90.39418830484124,23.87187200540813,,,,,,,,,,,,not_visited
+CS-09,Baridhara_Diplomatic_Site_1,90.41633532434736,23.799698896848714,,,,,,,,,,,,not_visited
+CS-19,Badda_Pragati_Sarani_Site_1,90.42869896362062,23.775188380571258,,,,,,,,,,,,not_visited
+CS-24,Tejgaon_Industrial_Site_2,90.39962264287921,23.755130944565884,,,,,,,,,,,,not_visited
+CS-26,Kawran_Bazar_CBD_Site_2,90.3931538501732,23.746470764773886,,,,,,,,,,,,not_visited
+CS-30,Dhanmondi_27_Site_2,90.37946115462134,23.750733093162797,,,,,,,,,,,,not_visited
+CS-39,Mirpur_10_Circle_Site_1,90.36912047180851,23.80646126529135,,,,,,,,,,,,not_visited
+CS-42,Mirpur_12_Site_2,90.36197887685434,23.82059356074073,,,,,,,,,,,,not_visited
+CS-54,Old_Dhaka_Sadarghat_Site_2,90.41319102317674,23.70799415878969,,,,,,,,,,,,not_visited

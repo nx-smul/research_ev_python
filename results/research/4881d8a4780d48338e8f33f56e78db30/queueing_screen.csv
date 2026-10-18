@@ -1,0 +1,10 @@
+candidate_id,site_name,modeled_demand_kwh_day,assumed_session_kwh,servers,peak_arrivals_per_hour,mean_service_minutes,peak_utilization_pct,estimated_peak_wait_minutes,queue_status,classification
+CS-03,Uttara_Sec3_Site_1,5217.92,15.0,7,31.176251572327043,23.12987012987013,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times
+CS-09,Baridhara_Diplomatic_Site_1,3757.76,15.0,7,22.452025157232704,32.675324675324674,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times
+CS-19,Badda_Pragati_Sarani_Site_1,6834.76,15.0,8,40.836616352201254,19.75,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times
+CS-24,Tejgaon_Industrial_Site_2,2999.6800000000003,15.0,8,17.92261635220126,36.82954545454545,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times
+CS-26,Kawran_Bazar_CBD_Site_2,6736.9400000000005,15.0,10,40.252157232704405,28.272727272727273,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times
+CS-30,Dhanmondi_27_Site_2,5747.84,15.0,9,34.34244025157233,25.757575757575758,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times
+CS-39,Mirpur_10_Circle_Site_1,10794.36,15.0,12,64.4946037735849,20.65909090909091,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times
+CS-42,Mirpur_12_Site_2,6648.0,15.0,9,39.720754716981126,20.0,100.0,,unstable_at_assumed_peak,M/M/c queueing estimate under assumed arrivals and service times
+CS-54,Old_Dhaka_Sadarghat_Site_2,2051.2,15.0,11,12.255597484276727,48.55371900826446,90.15982371666136,29.55385310415378,stable_mm_c_estimate,M/M/c queueing estimate under assumed arrivals and service times

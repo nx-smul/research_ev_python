@@ -39,6 +39,8 @@ def test_full_pipeline_execution(base_dir, tmp_path):
         data_mode="demo",
     )
 
+    assert not (tmp_path / "data" / "raw" / "dtca_traffic_counts.csv").exists()
+    assert not (tmp_path / "data" / "grid_models" / "desco_11kv_feeders.json").exists()
     assert results is not None
     assert "pareto_solutions_count" in results
     assert "knee_solution" in results
@@ -51,6 +53,7 @@ def test_full_pipeline_execution(base_dir, tmp_path):
         os.path.join(tmp_path, "results", "tables", "candidate_road_distances.csv"),
         os.path.join(tmp_path, "results", "tables", "baseline_comparison.csv"),
         os.path.join(tmp_path, "results", "run_manifest.json"),
+        os.path.join(tmp_path, "results", "research", results["run_id"], "manifest.json"),
         os.path.join(tmp_path, "results", "reports", f"run_{results['run_id']}.md"),
         os.path.join(tmp_path, "results", "figures", "pareto_frontier_tradeoff.png"),
         os.path.join(tmp_path, "results", "figures", "optimal_cs_locations.png"),
@@ -88,7 +91,9 @@ def test_full_pipeline_execution(base_dir, tmp_path):
     assert manifest["od_routing_method"] == "directed_road_network_dijkstra"
     assert "research_extensions" in manifest["analysis_outputs"]
     assert manifest["analysis_outputs"]["research_extensions"]["uncertainty_summary"]["samples"] == 250
-    report = open(expected_files[5], encoding="utf-8").read()
+    assert manifest["road_attribute_sources"]["pcu_source"] == {"unclassified": 30}
+    report = open(expected_files[6], encoding="utf-8").read()
     assert "ordered pairs" in report
+    assert "Road attribute provenance counts" in report
     assert "not against utility observations" in report
     assert "not socioeconomic equity" in report

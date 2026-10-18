@@ -1,0 +1,6 @@
+metric,value,unit
+total_demand_kwh,359015.4,kWh/day
+total_served_kwh,98354.0,kWh/day
+total_unserved_kwh,260661.4,kWh/day
+overall_coverage_pct,27.4,%
+unserved_demand_count,83.0,demand points
